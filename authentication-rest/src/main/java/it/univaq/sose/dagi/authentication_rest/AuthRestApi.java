@@ -2,6 +2,7 @@ package it.univaq.sose.dagi.authentication_rest;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,8 +23,7 @@ public interface AuthRestApi {
 					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Integer.class)) }) })
 	@POST
 	@Path("/customer/signup")
-	// @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML,
-	// MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_JSON})
 	public Long signUpCustomer(
 			@RequestBody(description = "Data of the Customer that is signing up", required = true, content = {
 					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Customer.class)), }) Customer customer);
@@ -31,11 +31,10 @@ public interface AuthRestApi {
 	//====================
 	@Operation(description = "Sign up a organizer", responses = {
 			@ApiResponse(description = "The response for a sign up of a organizer", content = {
-					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Integer.class)) }) })
+					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Long.class)) }) })
 	@POST
 	@Path("/organizer/signup")
-	// @Produces({MediaType.TEXT_XML, MediaType.APPLICATION_XML,
-	// MediaType.APPLICATION_JSON})
+	@Produces({MediaType.APPLICATION_JSON})
 	public Long signUpOrganizer(
 			@RequestBody(description = "Data of the Organizer that is signing up", required = true, content = {
 					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Organizer.class)), }) Organizer organizer);
@@ -45,12 +44,14 @@ public interface AuthRestApi {
 			@ApiResponse(description = "The response for a sign in of a customer", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Organizer.class))) })
 	@POST
 	@Path("/customer/signin")
+	@Produces({MediaType.APPLICATION_JSON})
 	public Long signInCustomer(@RequestBody(description = "Data of the Customer that is signing in", required = true, content = {
 			@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Credentials.class)), }) Credentials credentials);
 	
 	//====================
 	@POST
 	@Path("/organizer/signin")
+	@Produces({MediaType.APPLICATION_JSON})
 	public Long signInOrganizer(@RequestBody(description = "Data of the Organizer that is signing in", required = true, content = {
 			@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Credentials.class)), }) Credentials credentials);
 

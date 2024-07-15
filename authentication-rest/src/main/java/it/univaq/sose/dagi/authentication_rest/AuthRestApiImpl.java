@@ -4,17 +4,18 @@ import it.univaq.sose.dagi.authentication_rest.model.Credentials;
 import it.univaq.sose.dagi.authentication_rest.model.Customer;
 import it.univaq.sose.dagi.authentication_rest.model.Organizer;
 import it.univaq.sose.dagi.authentication_rest.service.CustomerService;
+import it.univaq.sose.dagi.authentication_rest.service.CustomerServiceDummyImpl;
 import it.univaq.sose.dagi.authentication_rest.service.OrganizerService;
+import it.univaq.sose.dagi.authentication_rest.service.OrganizerServiceDummyImpl;
 
 public class AuthRestApiImpl implements AuthRestApi{
 
 	private CustomerService customerService;
 	private OrganizerService organizerService;
 	
-	public AuthRestApiImpl(CustomerService customerService, OrganizerService organizerService) {
-		super();
-		this.customerService = customerService;
-		this.organizerService = organizerService;
+	public AuthRestApiImpl() {
+		this.customerService = new CustomerServiceDummyImpl();
+		this.organizerService = new OrganizerServiceDummyImpl();
 	}
 
 	@Override

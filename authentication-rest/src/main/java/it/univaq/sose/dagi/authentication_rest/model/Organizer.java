@@ -1,5 +1,8 @@
 package it.univaq.sose.dagi.authentication_rest.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="organizer")
 public class Organizer {
 	private Long id;
 	private String username;
