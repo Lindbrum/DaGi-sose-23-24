@@ -64,6 +64,6 @@
 				</executions>
 			</plugin>
 		</plugins>
-		<finalName>FlightBookingSOAPServiceMaven</finalName>
+		<finalName>event-management-soap</finalName>
 	</build>
 </project>

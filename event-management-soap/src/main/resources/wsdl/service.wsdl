@@ -284,7 +284,7 @@
 		<wsdl:port binding="tns:EventManagementImplServiceSoapBinding"
 			name="EventManagementImplPort">
 			<soap:address
-				location="http://localhost:8080/service" />
+				location="http://localhost:8081/event-management-soap/" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
