@@ -2,15 +2,15 @@
 <wsdl:definitions
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:tns="http://univaq.it/sose/dagi/wsdltypes"
+	xmlns:tns="http://wsdltypes.dagi.sose.univaq.it/"
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 	xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="EventManagementImplService"
-	targetNamespace="http://univaq.it/sose/dagi/wsdltypes">
+	targetNamespace="http://wsdltypes.dagi.sose.univaq.it/">
 	<wsdl:types>
 		<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-			xmlns:tns="http://univaq.it/sose/dagi/wsdltypes"
+			xmlns:tns="http://wsdltypes.dagi.sose.univaq.it/"
 			attributeFormDefault="unqualified" elementFormDefault="unqualified"
-			targetNamespace="http://univaq.it/sose/dagi/wsdltypes">
+			targetNamespace="http://wsdltypes.dagi.sose.univaq.it/">
 			<!--Complex type for event data-->		
 			<xs:complexType name="eventData">
 				<xs:sequence>

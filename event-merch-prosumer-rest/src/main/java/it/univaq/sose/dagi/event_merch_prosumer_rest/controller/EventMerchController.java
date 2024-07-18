@@ -67,7 +67,7 @@ public class EventMerchController {
 				  }) 
 	})
 	@GetMapping("/event/{eventId}")
-	public ResponseEntity<EventWithMerch> applytoJob(@PathVariable Long eventId) throws ServiceException_Exception {
+	public ResponseEntity<EventWithMerch> getEventInfo(@PathVariable Long eventId) throws ServiceException_Exception {
 
 		JsonNode jsonMerchandise;
 		try {

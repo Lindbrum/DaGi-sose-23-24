@@ -1,8 +1,9 @@
-package it.univaq.sose.dagi.event_management_soap;
+package it.univaq.sose.dagi.wsdltypes;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import it.univaq.sose.dagi.event_management_soap.Utility;
 import it.univaq.sose.dagi.event_management_soap.model.Event;
 import it.univaq.sose.dagi.event_management_soap.model.Feedback;
 import it.univaq.sose.dagi.event_management_soap.model.SoldTicket;
@@ -23,6 +24,8 @@ import it.univaq.sose.dagi.wsdltypes.PurchaseMenuRequest;
 import it.univaq.sose.dagi.wsdltypes.PurchaseMenuResponse;
 import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
 import it.univaq.sose.dagi.wsdltypes.TicketAvailability;
+import jakarta.jws.WebMethod;
+import jakarta.jws.WebResult;
 
 public class EventManagementImpl implements EventManagementPort {
 
@@ -47,6 +50,8 @@ public class EventManagementImpl implements EventManagementPort {
 		factory = new ObjectFactory();
 	}
 	
+//	@WebMethod(action="tns:createEvent")
+//	@WebResult(name = "createEventResponse", targetNamespace = "http://univaq.it/sose/dagi/wsdltypes", partName = "parameters")
 	@Override
 	public CreateEventResponse createEvent(CreateEventRequest parameters) throws ServiceException_Exception {
 		// TODO Add persistence
@@ -59,6 +64,8 @@ public class EventManagementImpl implements EventManagementPort {
 		return response;
 	}
 
+//	@WebMethod(action="tns:purchaseMenu")
+//    @WebResult(name = "purchaseMenuResponse", targetNamespace = "http://univaq.it/sose/dagi/wsdltypes", partName = "parameters")
 	@Override
 	public PurchaseMenuResponse purchaseMenu(PurchaseMenuRequest parameters) throws ServiceException_Exception {
 		// TODO Add persistence
@@ -79,6 +86,8 @@ public class EventManagementImpl implements EventManagementPort {
 		return response;
 	}
 
+//	@WebMethod(action="tns:createFeedback")
+//    @WebResult(name = "createFeedbackResponse", targetNamespace = "http://univaq.it/sose/dagi/wsdltypes", partName = "parameters")
 	@Override
 	public CreateFeedbackResponse createFeedback(CreateFeedbackRequest parameters) throws ServiceException_Exception {
 		// TODO Add persistence
@@ -90,6 +99,8 @@ public class EventManagementImpl implements EventManagementPort {
 		return response;
 	}
 
+//	@WebMethod(action="tns:fetchEventInfo")
+//	@WebResult(name = "fetchEventInfoResponse", targetNamespace = "http://univaq.it/sose/dagi/wsdltypes", partName = "parameters")
 	@Override
 	public FetchEventInfoResponse fetchEventInfo(FetchEventInfoRequest parameters) throws ServiceException_Exception {
 		// TODO Add persistence
@@ -110,6 +121,8 @@ public class EventManagementImpl implements EventManagementPort {
 	}
 
 
+//	@WebMethod(action="tns:eventCatalogue")
+//    @WebResult(name = "eventCatalogueResponse", targetNamespace = "http://univaq.it/sose/dagi/wsdltypes", partName = "parameters")
 	@Override
 	public EventCatalogueResponse eventCatalogue(EventCatalogueRequest parameters) throws ServiceException_Exception {
 		// TODO Add persistence

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import it.univaq.sose.dagi.event_management_soap.EventManagementImpl;
+import it.univaq.sose.dagi.wsdltypes.EventManagementImpl;
 
 @Configuration
 public class WebServiceConfig {

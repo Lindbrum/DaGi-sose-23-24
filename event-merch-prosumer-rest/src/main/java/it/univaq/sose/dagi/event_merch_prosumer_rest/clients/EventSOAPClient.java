@@ -25,11 +25,11 @@ public class EventSOAPClient {
 	public Event requestEventInfo(Long eventId) throws ServiceException_Exception {
 		try {
 			URL url = new URL("http://localhost:8081/event-management-soap/event-management-soap?wsdl");
-			QName qname = new QName("http://event_management_soap.dagi.sose.univaq.it/", "EventManagementImplService");
-			Service service = Service.create(url, qname);
-			EventManagementPort port = service.getPort(EventManagementPort.class);
-			//EventManagementImplService service = new EventManagementImplService(url);
-			//EventManagementPort port = service.getEventManagementImplPort();
+//			QName qname = new QName("http://event_management_soap.dagi.sose.univaq.it/", "EventManagementImplService");
+//			Service service = Service.create(url, qname);
+//			EventManagementPort port = service.getPort(EventManagementPort.class);
+			EventManagementImplService service = new EventManagementImplService(url);
+			EventManagementPort port = service.getEventManagementImplPort();
 			FetchEventInfoRequest requestParams = factory.createFetchEventInfoRequest();
 			requestParams.setEventId(eventId);
 			FetchEventInfoResponse response = port.fetchEventInfo(requestParams);
