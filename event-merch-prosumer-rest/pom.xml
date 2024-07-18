@@ -19,7 +19,7 @@
 		<java.version>17</java.version>
 		<maven-compiler-plugin.version>3.3</maven-compiler-plugin.version>
 		<springdoc-openapi-starter-webmvc-ui.version>2.1.0</springdoc-openapi-starter-webmvc-ui.version>
-		<cxf.version>3.3.7</cxf.version>
+		<cxf.version>4.0.0</cxf.version>
 		<spring-cloud.version>2022.0.2</spring-cloud.version>
 		<xml-api-version>4.0.2</xml-api-version>
 	</properties>
@@ -87,8 +87,8 @@
 			<scope>test</scope>
 		</dependency>
 		<!--<dependency>
-    		<groupId>jakarta.xml.ws</groupId>
-    		<artifactId>jakarta.xml.ws-api</artifactId>
+    		<groupId>javax.xml.ws</groupId>
+    		<artifactId>javax.xml.ws-api</artifactId>
     		<version>${xml-api-version}</version>
 		</dependency>-->
 		<dependency>
