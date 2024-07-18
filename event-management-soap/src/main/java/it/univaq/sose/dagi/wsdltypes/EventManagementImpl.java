@@ -1,6 +1,7 @@
 package it.univaq.sose.dagi.wsdltypes;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import it.univaq.sose.dagi.event_management_soap.Utility;
@@ -8,24 +9,10 @@ import it.univaq.sose.dagi.event_management_soap.model.Event;
 import it.univaq.sose.dagi.event_management_soap.model.Feedback;
 import it.univaq.sose.dagi.event_management_soap.model.SoldTicket;
 import it.univaq.sose.dagi.event_management_soap.model.TicketInfo;
-import it.univaq.sose.dagi.wsdltypes.CreateEventRequest;
-import it.univaq.sose.dagi.wsdltypes.CreateEventResponse;
-import it.univaq.sose.dagi.wsdltypes.CreateFeedbackRequest;
-import it.univaq.sose.dagi.wsdltypes.CreateFeedbackResponse;
-import it.univaq.sose.dagi.wsdltypes.EventCatalogueRequest;
-import it.univaq.sose.dagi.wsdltypes.EventCatalogueResponse;
 import it.univaq.sose.dagi.wsdltypes.EventCatalogueResponse.EventList;
-import it.univaq.sose.dagi.wsdltypes.EventData;
-import it.univaq.sose.dagi.wsdltypes.EventManagementPort;
-import it.univaq.sose.dagi.wsdltypes.FetchEventInfoRequest;
-import it.univaq.sose.dagi.wsdltypes.FetchEventInfoResponse;
-import it.univaq.sose.dagi.wsdltypes.ObjectFactory;
-import it.univaq.sose.dagi.wsdltypes.PurchaseMenuRequest;
-import it.univaq.sose.dagi.wsdltypes.PurchaseMenuResponse;
-import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
-import it.univaq.sose.dagi.wsdltypes.TicketAvailability;
-import jakarta.jws.WebMethod;
-import jakarta.jws.WebResult;
+import it.univaq.sose.dagi.wsdltypes.FetchEventFeedbackResponse.FeedbackList;
+import it.univaq.sose.dagi.wsdltypes.FetchEventSoldTicketsResponse.SoldTicketsList;
+import it.univaq.sose.dagi.wsdltypes.PurchaseMenuResponse.AvailabilitiesList;
 
 public class EventManagementImpl implements EventManagementPort {
 
@@ -50,68 +37,67 @@ public class EventManagementImpl implements EventManagementPort {
 		factory = new ObjectFactory();
 	}
 	
-//	@WebMethod(action="tns:createEvent")
-//	@WebResult(name = "createEventResponse", targetNamespace = "http://univaq.it/sose/dagi/wsdltypes", partName = "parameters")
+	/*************************************
+	 * Event endpoints
+	 *************************************/
 	@Override
 	public CreateEventResponse createEvent(CreateEventRequest parameters) throws ServiceException_Exception {
 		// TODO Add persistence
 		CreateEventResponse response = factory.createCreateEventResponse();
 		Long eventId = eventIdCount++;
-		events.add(new Event(eventId, parameters.getName(), parameters.getDescription()
-				, parameters.getLocation(), Utility.toLocalDateTime(parameters.getStartDate())
-				, Utility.toLocalDateTime(parameters.getEndDate()), parameters.getNrTickets()));
+		EventData newEvent = parameters.getEventData();
+		events.add(new Event(eventId, newEvent.getName(), newEvent.getDescription()
+				, newEvent.getLocation(), Utility.toLocalDateTime(newEvent.getStartDate())
+				, Utility.toLocalDateTime(newEvent.getEndDate()), newEvent.getNrTickets()));
 		response.setEventId(eventId);
 		return response;
 	}
-
-//	@WebMethod(action="tns:purchaseMenu")
-//    @WebResult(name = "purchaseMenuResponse", targetNamespace = "http://univaq.it/sose/dagi/wsdltypes", partName = "parameters")
+	
 	@Override
-	public PurchaseMenuResponse purchaseMenu(PurchaseMenuRequest parameters) throws ServiceException_Exception {
-		// TODO Add persistence
-		List<TicketInfo> result = new ArrayList<>();
-		for(TicketInfo t : ticketInfos) {
-			if(t.getEventId() == parameters.getEventId()) {
-				result.add(t);
+	public UpdateEventResponse updateEvent(UpdateEventRequest parameters) throws ServiceException_Exception {
+		EventData xmlEvent = parameters.getEventData();
+		for (int i = 0; i < soldTickets.size(); i++) {
+			Event e = events.get(i);
+			if (e.getId() == xmlEvent.getEventId()) {
+				e.setName(xmlEvent.getName());
+				e.setDescription(xmlEvent.getDescription());
+				e.setLocation(xmlEvent.getLocation());
+				e.setStartDate(Utility.toLocalDateTime(xmlEvent.getStartDate()));
+				e.setEndDate(Utility.toLocalDateTime(xmlEvent.getEndDate()));
+				e.setNrTickets(xmlEvent.getNrTickets());
+				break;
 			}
 		}
-		PurchaseMenuResponse response = factory.createPurchaseMenuResponse();
-		List<TicketAvailability> availabilities = response.getTicketAvailability();
-		for(TicketInfo ticket : result) {
-			TicketAvailability xmlTicket = factory.createTicketAvailability();
-			xmlTicket.setReferenceDate(Utility.toXMLCalendar(ticket.getReferenceDate()));
-			xmlTicket.setRemainingTickets(ticket.getAvailableTickets());
-			availabilities.add(xmlTicket);
-		}
+		UpdateEventResponse response = factory.createUpdateEventResponse();
+		response.setEventId(xmlEvent.getEventId());
 		return response;
 	}
-
-//	@WebMethod(action="tns:createFeedback")
-//    @WebResult(name = "createFeedbackResponse", targetNamespace = "http://univaq.it/sose/dagi/wsdltypes", partName = "parameters")
+	
 	@Override
-	public CreateFeedbackResponse createFeedback(CreateFeedbackRequest parameters) throws ServiceException_Exception {
-		// TODO Add persistence
-		
-		Feedback feedback = new Feedback(feedbackIdCount++, parameters.getUserId(), parameters.getEventId(), parameters.getRating(), parameters.getBody());
-		feedbacks.add(feedback);
-		CreateFeedbackResponse response = factory.createCreateFeedbackResponse();
-		response.setMessage("We received your feedback, thank you!");
+	public DeleteEventResponse deleteEvent(DeleteEventRequest parameters) throws ServiceException_Exception {
+		for (Iterator<Event> iterator = events.listIterator(); iterator.hasNext();) {
+			Event e = iterator.next();
+			if (parameters.getEventId() == e.getId()) {
+				iterator.remove();
+				break;
+			}
+		}
+		DeleteEventResponse response = factory.createDeleteEventResponse();
+		response.setMessage("Event info deleted successfully!");
 		return response;
 	}
-
-//	@WebMethod(action="tns:fetchEventInfo")
-//	@WebResult(name = "fetchEventInfoResponse", targetNamespace = "http://univaq.it/sose/dagi/wsdltypes", partName = "parameters")
+	
 	@Override
 	public FetchEventInfoResponse fetchEventInfo(FetchEventInfoRequest parameters) throws ServiceException_Exception {
 		// TODO Add persistence
 		Event selectedEvent = null;
-		for(Event e : events) {
-			if(e.getId() == parameters.getEventId()) {
+		for (Event e : events) {
+			if (e.getId() == parameters.getEventId()) {
 				selectedEvent = e;
 				break;
 			}
 		}
-		if(selectedEvent == null) {
+		if (selectedEvent == null) {
 			throw new ServiceException_Exception("Event not found.");
 		}
 		FetchEventInfoResponse response = factory.createFetchEventInfoResponse();
@@ -120,34 +106,28 @@ public class EventManagementImpl implements EventManagementPort {
 		return response;
 	}
 
-
-//	@WebMethod(action="tns:eventCatalogue")
-//    @WebResult(name = "eventCatalogueResponse", targetNamespace = "http://univaq.it/sose/dagi/wsdltypes", partName = "parameters")
 	@Override
 	public EventCatalogueResponse eventCatalogue(EventCatalogueRequest parameters) throws ServiceException_Exception {
 		// TODO Add persistence
-		if(parameters.getSortBy().equals(SortingMode.ID_DESC.name())) {
+		if (parameters.getSortBy().equals(SortingMode.ID_DESC.name())) {
 			events.sort(Event.getIdDescComparator());
-		}
-		else if (parameters.getSortBy().equals(SortingMode.ID_ASC.name())) {
+		} else if (parameters.getSortBy().equals(SortingMode.ID_ASC.name())) {
 			events.sort(null);
-		}
-		else if (parameters.getSortBy().equals(SortingMode.ALPHABETICAL_DESC.name())) {
+		} else if (parameters.getSortBy().equals(SortingMode.ALPHABETICAL_DESC.name())) {
 			events.sort(Event.getNameDescComparator());
-		}
-		else {
+		} else {
 			events.sort(Event.getNameAscComparator());
 		}
-		
+
 		List<Event> result = new ArrayList<>();
 		int firstIndex = (parameters.getPage() - 1) * EVENTS_PER_PAGE;
 		int lastIndex = Math.min(EVENTS_PER_PAGE * parameters.getPage(), events.size());
 		result = events.subList(firstIndex, lastIndex);
-		
+
 		EventCatalogueResponse response = factory.createEventCatalogueResponse();
 		EventList eventList = factory.createEventCatalogueResponseEventList();
 		List<EventData> data = eventList.getEventData();
-		for(Event e : result) {
+		for (Event e : result) {
 			data.add(createEventData(e));
 		}
 		response.setEventList(eventList);
@@ -164,5 +144,228 @@ public class EventManagementImpl implements EventManagementPort {
 		data.setNrTickets(selectedEvent.getNrTickets());
 		return data;
 	}
-}
 
+	/*************************************
+	 * Ticket info endpoints
+	 *************************************/
+	
+	@Override
+	public CreateTicketInfoResponse createTicketInfo(CreateTicketInfoRequest parameters)
+			throws ServiceException_Exception {
+		TicketInfo newTicketInfo = new TicketInfo();
+		Long id = ticketInfoIdCount++;
+		newTicketInfo.setId(id);
+		newTicketInfo.setEventId(parameters.getEventId());
+		newTicketInfo.setReferenceDate(Utility.toLocalDateTime(parameters.getReferenceDate()));
+		newTicketInfo.setAvailableTickets(parameters.getAvailableTickets());
+		ticketInfos.add(newTicketInfo);
+		CreateTicketInfoResponse response = factory.createCreateTicketInfoResponse();
+		response.setTicketInfoId(id);
+		return response;
+	}
+
+	@Override
+	public UpdateTicketInfoResponse updateTicketInfo(UpdateTicketInfoRequest parameters)
+			throws ServiceException_Exception {
+
+		for (int i = 0; i < ticketInfos.size(); i++) {
+			TicketInfo ti = ticketInfos.get(i);
+			if (ti.getId() == parameters.getTicketInfoId()) {
+				ti.setEventId(parameters.getEventId());
+				ti.setReferenceDate(Utility.toLocalDateTime(parameters.getReferenceDate()));
+				ti.setAvailableTickets(parameters.getAvailableTickets());
+				break;
+			}
+		}
+		UpdateTicketInfoResponse response = factory.createUpdateTicketInfoResponse();
+		response.setTicketInfoId(parameters.getTicketInfoId());
+		return response;
+	}
+	
+	@Override
+	public DeleteTicketInfoResponse deleteTicketInfo(DeleteTicketInfoRequest parameters)
+			throws ServiceException_Exception {
+		for (Iterator<TicketInfo> iterator = ticketInfos.listIterator(); iterator.hasNext();) {
+			TicketInfo ti = iterator.next();
+			if (parameters.getTicketInfoId() == ti.getId()) {
+				iterator.remove();
+				break;
+			}
+		}
+		DeleteTicketInfoResponse response = factory.createDeleteTicketInfoResponse();
+		response.setMessage("Ticket info deleted successfully!");
+		return response;
+	}
+	
+	@Override
+	public PurchaseMenuResponse purchaseMenu(PurchaseMenuRequest parameters) throws ServiceException_Exception {
+		// TODO Add persistence
+		List<TicketInfo> result = new ArrayList<>();
+		for (TicketInfo t : ticketInfos) {
+			if (t.getEventId() == parameters.getEventId()) {
+				result.add(t);
+			}
+		}
+		PurchaseMenuResponse response = factory.createPurchaseMenuResponse();
+		AvailabilitiesList availabilitiesWrapper = factory.createPurchaseMenuResponseAvailabilitiesList();
+		List<TicketAvailability> availabilities = availabilitiesWrapper.getTicketAvailability();
+		for (TicketInfo ticket : result) {
+			TicketAvailability xmlTicket = factory.createTicketAvailability();
+			xmlTicket.setReferenceDate(Utility.toXMLCalendar(ticket.getReferenceDate()));
+			xmlTicket.setRemainingTickets(ticket.getAvailableTickets());
+			availabilities.add(xmlTicket);
+		}
+		response.setAvailabilitiesList(availabilitiesWrapper);
+		return response;
+	}
+	
+	/*************************************
+	 * Sold ticket endpoints
+	 *************************************/
+	
+	@Override
+	public CreateSoldTicketResponse createSoldTicket(CreateSoldTicketRequest parameters)
+			throws ServiceException_Exception {
+		SoldTicketData xmlTicket = parameters.getSoldTicketData();
+		SoldTicket newSoldTicket = new SoldTicket();
+		Long id = soldTicketIdCount++;
+		newSoldTicket.setId(id);
+		newSoldTicket.setUserId(xmlTicket.getUserId());
+		newSoldTicket.setEventId(xmlTicket.getEventId());
+		newSoldTicket.setReferenceDate(Utility.toLocalDateTime(xmlTicket.getReferenceDate()));
+		soldTickets.add(newSoldTicket);
+		CreateSoldTicketResponse response = factory.createCreateSoldTicketResponse();
+		response.setSoldTicketId(id);
+		return response;
+	}
+
+	@Override
+	public UpdateSoldTicketResponse updateSoldTicket(UpdateSoldTicketRequest parameters)
+			throws ServiceException_Exception {
+
+		SoldTicketData xmlTicket = parameters.getSoldTicketData();
+		for (int i = 0; i < soldTickets.size(); i++) {
+			SoldTicket st = soldTickets.get(i);
+			if (st.getId() == xmlTicket.getSoldTicketId()) {
+				st.setUserId(xmlTicket.getUserId());
+				st.setEventId(xmlTicket.getEventId());
+				st.setReferenceDate(Utility.toLocalDateTime(xmlTicket.getReferenceDate()));
+				break;
+			}
+		}
+		UpdateSoldTicketResponse response = factory.createUpdateSoldTicketResponse();
+		response.setSoldTicketId(xmlTicket.getSoldTicketId());
+		return response;
+	}
+
+	@Override
+	public DeleteSoldTicketResponse deleteSoldTicket(DeleteSoldTicketRequest parameters)
+			throws ServiceException_Exception {
+		
+		for (Iterator<SoldTicket> iterator = soldTickets.listIterator(); iterator.hasNext();) {
+			SoldTicket st = iterator.next();
+			if (parameters.getSoldTicketId() == st.getId()) {
+				iterator.remove();
+				break;
+			}
+		}
+		DeleteSoldTicketResponse response = factory.createDeleteSoldTicketResponse();
+		response.setMessage("Ticket sale info deleted successfully!");
+		return response;
+	}
+	
+	@Override
+	public FetchEventSoldTicketsResponse fetchEventSoldTickets(FetchEventSoldTicketsRequest parameters)
+			throws ServiceException_Exception {
+		FetchEventSoldTicketsResponse response = factory.createFetchEventSoldTicketsResponse();
+		SoldTicketsList ticketsList = response.getSoldTicketsList();
+		ticketsList = factory.createFetchEventSoldTicketsResponseSoldTicketsList();
+		List<SoldTicketData> eventSoldTickets = ticketsList.getSoldTicketData();;
+		for(SoldTicket st : soldTickets) {
+			if(st.getEventId() == parameters.getEventId()) {
+				SoldTicketData ticketData = factory.createSoldTicketData();
+				ticketData.setSoldTicketId(st.getId());
+				ticketData.setUserId(st.getUserId());
+				ticketData.setEventId(st.getEventId());
+				ticketData.setReferenceDate(Utility.toXMLCalendar(st.getReferenceDate()));
+				eventSoldTickets.add(ticketData);
+			}
+		}
+		response.setSoldTicketsList(ticketsList);
+		return response;
+	}
+
+	/*************************************
+	 * Feedback endpoints
+	 *************************************/
+	
+	@Override
+	public CreateFeedbackResponse createFeedback(CreateFeedbackRequest parameters) throws ServiceException_Exception {
+		// TODO Add persistence
+		FeedbackData newFeedback = parameters.getFeedbackData();
+		Feedback feedback = new Feedback(feedbackIdCount++, newFeedback.getUserId(), newFeedback.getEventId(),
+				newFeedback.getRating(), newFeedback.getBody());
+		feedbacks.add(feedback);
+		CreateFeedbackResponse response = factory.createCreateFeedbackResponse();
+		response.setMessage("We received your feedback, thank you!");
+		return response;
+	}
+
+	@Override
+	public UpdateFeedbackResponse updateFeedback(UpdateFeedbackRequest parameters) throws ServiceException_Exception {
+		FeedbackData xmlFeedback = parameters.getFeedbackData();
+		for (int i = 0; i < feedbacks.size(); i++) {
+			Feedback f = feedbacks.get(i);
+			if (f.getId() == xmlFeedback.getFeedbackId()) {
+				f.setUserId(xmlFeedback.getUserId());
+				f.setEventId(xmlFeedback.getEventId());
+				f.setRating(xmlFeedback.getRating());
+				f.setBody(xmlFeedback.getBody());
+				break;
+			}
+		}
+		UpdateFeedbackResponse response = factory.createUpdateFeedbackResponse();
+		response.setMessage("Feedback updated successfully!");
+		return response;
+	}
+
+	@Override
+	public DeleteFeedbackResponse deleteFeedback(DeleteFeedbackRequest parameters) throws ServiceException_Exception {
+		for (Iterator<Feedback> iterator = feedbacks.listIterator(); iterator.hasNext();) {
+			Feedback f = iterator.next();
+			if (parameters.getFeedbackId() == f.getId()) {
+				iterator.remove();
+				break;
+			}
+		}
+		DeleteFeedbackResponse response = factory.createDeleteFeedbackResponse();
+		response.setMessage("Feedback deleted successfully!");
+		return response;
+	}
+	
+
+
+
+	@Override
+	public FetchEventFeedbackResponse fetchEventFeedback(FetchEventFeedbackRequest parameters)
+			throws ServiceException_Exception {
+		FetchEventFeedbackResponse response = factory.createFetchEventFeedbackResponse();
+		FeedbackList feedbackList = response.getFeedbackList();
+		feedbackList = factory.createFetchEventFeedbackResponseFeedbackList();
+		List<FeedbackData> eventFeedback = feedbackList.getFeedbackData();
+		for(Feedback f : feedbacks) {
+			if(f.getEventId() == parameters.getEventId()) {
+				System.out.println("SI, SONO ENTRATO.");
+				FeedbackData feedback = factory.createFeedbackData();
+				feedback.setFeedbackId(f.getId());
+				feedback.setUserId(f.getUserId());
+				feedback.setEventId(f.getEventId());
+				feedback.setRating(f.getRating());
+				feedback.setBody(f.getBody());
+				eventFeedback.add(feedback);
+			}
+		}
+		response.setFeedbackList(feedbackList);
+		return response;
+	}
+}
