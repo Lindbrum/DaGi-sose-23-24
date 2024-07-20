@@ -355,7 +355,6 @@ public class EventManagementImpl implements EventManagementPort {
 		List<FeedbackData> eventFeedback = feedbackList.getFeedbackData();
 		for(Feedback f : feedbacks) {
 			if(f.getEventId() == parameters.getEventId()) {
-				System.out.println("SI, SONO ENTRATO.");
 				FeedbackData feedback = factory.createFeedbackData();
 				feedback.setFeedbackId(f.getId());
 				feedback.setUserId(f.getUserId());
