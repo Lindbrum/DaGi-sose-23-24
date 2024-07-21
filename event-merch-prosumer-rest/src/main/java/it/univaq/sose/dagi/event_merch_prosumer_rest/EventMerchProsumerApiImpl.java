@@ -1,4 +1,4 @@
-package it.univaq.sose.dagi.event_merch_prosumer_rest.controller;
+package it.univaq.sose.dagi.event_merch_prosumer_rest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,18 +6,10 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.EventSOAPClient;
 import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.MerchandiseRESTClient;
 import it.univaq.sose.dagi.event_merch_prosumer_rest.model.Event;
@@ -25,50 +17,20 @@ import it.univaq.sose.dagi.event_merch_prosumer_rest.model.EventWithMerch;
 import it.univaq.sose.dagi.event_merch_prosumer_rest.model.Merchandise;
 import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
 
-@RestController
-@RequestMapping("/eventmerchprosumer")
-public class EventMerchController {
-	
+@Service
+public class EventMerchProsumerApiImpl implements EventMerchProsumerApi {
+
 	private MerchandiseRESTClient merchClient;
 	private EventSOAPClient eventClient;
 	//@Autowired is inferred by Spring Boot when there is a single public constructor
 	//@Autowired
-	public EventMerchController(MerchandiseRESTClient merchClient, EventSOAPClient eventClient) {
+	public EventMerchProsumerApiImpl(MerchandiseRESTClient merchClient, EventSOAPClient eventClient) {
 		this.merchClient=merchClient;
 		this.eventClient=eventClient;
 	}
-
-	@Operation(summary = "Show the aggregation for the Event with its own Merchandise.")
-	@ApiResponses(value = { 
-		  @ApiResponse(
-				  responseCode = "200", 
-				  description = "The sum was calculated and the message template found.", 
-				  content = { 
-						  @Content(
-								  mediaType = "application/json", 
-								  schema = @Schema(implementation = EventWithMerch.class)
-								  ) 
-				  }),
-		  @ApiResponse(
-				  responseCode = "400",
-				  description = "Invalid addendum(s) provided", 
-				  content = {
-						  @Content(
-								  mediaType = "application/json"
-								  )
-				  }), 
-		  @ApiResponse(
-				  responseCode = "500",
-				  description = "Message template not found", 
-				  content = {
-						  @Content(
-								  mediaType = "application/json"
-								  )
-				  }) 
-	})
-	@GetMapping("/event/{eventId}")
-	public ResponseEntity<EventWithMerch> getEventInfo(@PathVariable Long eventId) throws ServiceException_Exception {
-
+	
+	@Override
+	public ResponseEntity<EventWithMerch> getEventInfo(Long eventId) throws ServiceException_Exception {
 		JsonNode jsonMerchandise;
 		try {
 			jsonMerchandise = merchClient.findEventMerch(eventId);
@@ -102,4 +64,5 @@ public class EventMerchController {
 		
 		return new ResponseEntity<EventWithMerch>(eventWithMerch, HttpStatus.OK);
 	}
+
 }

@@ -20,7 +20,7 @@ public class MerchandiseRESTClient {
 	public static final String FIELD_NAME = "name";
 	public static final String FIELD_DESCRIPTION = "description";
 
-	@Value("${microservice.event.info.uri}")
+	@Value("${client.merchandise.uri}")
 	private String baseUri;
 
 	public JsonNode findEventMerch(Long eventId){

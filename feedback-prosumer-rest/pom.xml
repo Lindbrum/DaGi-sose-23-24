@@ -84,17 +84,6 @@
 		    <artifactId>swagger-annotations</artifactId>
 		    <version>${swagger-annotations.version}</version>
 		</dependency>
-		<!--OpenAPI 3.0 generation-->
-		<!--<dependency>
-			<groupId>org.springdoc</groupId>
-			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-			<version>${springdoc-openapi-starter-webmvc-ui.version}</version>
-		</dependency>-->
-		<!--Hibernate Validator (required by Springdoc as it enables jakarta validation API to produce additional Swagger documentation via the constraint annotations)-->
-		<dependency>
-			<groupId>org.hibernate.validator</groupId>
-			<artifactId>hibernate-validator</artifactId>
-		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
