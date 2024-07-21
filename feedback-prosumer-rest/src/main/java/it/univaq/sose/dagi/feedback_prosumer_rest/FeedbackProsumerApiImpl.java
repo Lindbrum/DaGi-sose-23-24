@@ -1,8 +1,10 @@
 package it.univaq.sose.dagi.feedback_prosumer_rest;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
+import it.univaq.sose.dagi.feedback_prosumer_rest.client.CustomerRESTClient;
 import it.univaq.sose.dagi.feedback_prosumer_rest.client.FeedbackSOAPClient;
 import it.univaq.sose.dagi.feedback_prosumer_rest.model.EventFeedbackReport;
 import it.univaq.sose.dagi.feedback_prosumer_rest.model.Feedback;
@@ -20,12 +25,14 @@ import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
 public class FeedbackProsumerApiImpl implements FeedbackProsumerApi {
 
 	private FeedbackSOAPClient feedbackClient;
+	private CustomerRESTClient customerClient;
 	private ObjectFactory factory;
 	
 	
-	public FeedbackProsumerApiImpl(FeedbackSOAPClient feedbackClient) {
+	public FeedbackProsumerApiImpl(FeedbackSOAPClient feedbackClient, CustomerRESTClient customerClient) {
 		super();
 		this.feedbackClient = feedbackClient;
+		this.customerClient = customerClient;
 		this.factory = new ObjectFactory();
 	}
 
@@ -34,14 +41,28 @@ public class FeedbackProsumerApiImpl implements FeedbackProsumerApi {
 	@Override
 	public ResponseEntity<EventFeedbackReport> getEventFeedbackReport(long eventId, String keywords) throws ServiceException_Exception {
 		try {
+			//Fetch the list of feedbacks
 			List<Feedback> feedbacks = feedbackClient.requestEventFeedbacks(eventId);
-			//TODO fetch ages of users that left feedbacks
-			//(userId, age)
-			Map<Long, Integer> buyersAges = new HashMap<>();
+			
+			//Fetch the ages of customers that left the feedbacks
+			Set<Long> userIdsSet = new HashSet<>();
+			feedbacks.forEach(feedback -> {userIdsSet.add(feedback.getUserId());});
+			Long[] userIds = new Long[userIdsSet.size()];
+			JsonNode userInfos = customerClient.fetchUsersInfo(userIdsSet.toArray(userIds)).findValue("body"); //access the body of ResponseEntity
+
 			EventFeedbackReport report = new EventFeedbackReport();
 			float averageRating = 0.0f;
 			float averageAge = 0.0f;
 			Map<String, Integer> keywordCounts = null;
+			
+			//Compute the average age of feedback users
+			if(userInfos.isArray()) {
+				for(JsonNode user : userInfos) {
+					averageAge += user.findValue(CustomerRESTClient.FIELD_AGE).asInt();
+				}
+				
+				averageAge /= userIds.length;
+			}
 			
 			//If keywords are provided, initialize the map
 			if(keywords != null && !keywords.isBlank()) {
@@ -52,8 +73,9 @@ public class FeedbackProsumerApiImpl implements FeedbackProsumerApi {
 			}
 			
 			for(Feedback feedback : feedbacks) {
+				//Average feedback rating
 				averageRating += feedback.getRating();
-				//averageAge += buyersAges.get(feedback.getUserId());
+				//Count keywords if any was provided in the request
 				if(keywordCounts != null) {
 					for(String keyword : keywordCounts.keySet()) {
 						Pattern pattern = Pattern.compile(keyword, Pattern.CASE_INSENSITIVE);
@@ -68,7 +90,6 @@ public class FeedbackProsumerApiImpl implements FeedbackProsumerApi {
 					}
 				}
 			}
-			averageAge /= feedbacks.size();
 			averageRating /= feedbacks.size();
 			report.setAverageCustomerAge(averageAge);
 			report.setAverageRating(averageRating);

@@ -21,6 +21,7 @@ import org.springframework.context.event.EventListener;
 
 import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 
+import it.univaq.sose.dagi.feedback_prosumer_rest.client.CustomerRESTClient;
 import it.univaq.sose.dagi.feedback_prosumer_rest.client.FeedbackSOAPClient;
 
 @SpringBootApplication
@@ -31,6 +32,9 @@ public class FeedbackProsumerRestApplication {
 	
 	@Autowired
 	private FeedbackSOAPClient feedbackClient;
+	
+	@Autowired
+	private CustomerRESTClient customerClient;
 
 	public static void main(String[] args) {
 		SpringApplication.run(FeedbackProsumerRestApplication.class, args);
@@ -40,7 +44,7 @@ public class FeedbackProsumerRestApplication {
 	public Server rsServer(@Value("${swagger.definition.version}") String apiVersion) {
 		JAXRSServerFactoryBean endpoint = new JAXRSServerFactoryBean();
 		endpoint.setBus(bus);
-		endpoint.setServiceBeans(Arrays.<Object>asList(new FeedbackProsumerApiImpl(feedbackClient)));
+		endpoint.setServiceBeans(Arrays.<Object>asList(new FeedbackProsumerApiImpl(feedbackClient, customerClient)));
 		endpoint.setAddress("/");
 		endpoint.setProvider(new JacksonJsonProvider());
 		endpoint.setFeatures(Arrays.asList(createOpenApiFeature(apiVersion)));
