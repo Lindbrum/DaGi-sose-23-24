@@ -17,6 +17,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+@Path("/")
 public interface EventMerchProsumerApi {
 
 	@Operation(summary = "Show the aggregation for the Event with its own Merchandise.")
@@ -48,7 +49,7 @@ public interface EventMerchProsumerApi {
 				  }) 
 	})
 	@GET
-	@Path("/event/{eventId}")
+	@Path("event/{eventId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public ResponseEntity<EventWithMerch> getEventInfo(@Parameter(description = "The ID of the event to fetch the merchandise for.") @PathParam("eventId") Long eventId) throws ServiceException_Exception;
 }
