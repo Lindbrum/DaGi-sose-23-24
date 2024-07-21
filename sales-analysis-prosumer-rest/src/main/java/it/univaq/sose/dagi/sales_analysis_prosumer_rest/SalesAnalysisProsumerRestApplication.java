@@ -1,4 +1,4 @@
-package it.univaq.sose.dagi.event_merch_prosumer_rest;
+package it.univaq.sose.dagi.sales_analysis_prosumer_rest;
 
 import java.awt.Desktop;
 import java.io.IOException;
@@ -21,20 +21,21 @@ import org.springframework.context.event.EventListener;
 
 import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 
-import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.EventSOAPClient;
-import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.MerchandiseRESTClient;
+import it.univaq.sose.dagi.sales_analysis_prosumer_rest.client.CustomerRESTClient;
+import it.univaq.sose.dagi.sales_analysis_prosumer_rest.client.SoldTicketsSOAPClient;
 
 @SpringBootApplication
-public class RESTServiceApplication {
+public class SalesAnalysisProsumerRestApplication {
 
+	
 	@Autowired
 	private Bus bus;
 	
 	@Autowired
-	private EventSOAPClient eventClient;
+	private SoldTicketsSOAPClient ticketsClient;
 	
 	@Autowired
-	private MerchandiseRESTClient merchClient;
+	private CustomerRESTClient customerClient;
 	
 	@Value("${server.port}")
 	private String port;
@@ -43,16 +44,16 @@ public class RESTServiceApplication {
 	private String cxfPath;
 
 	public static void main(String[] args) {
-		SpringApplication.run(RESTServiceApplication.class, args);
+		SpringApplication.run(SalesAnalysisProsumerRestApplication.class, args);
 	}
 
 	@Bean
 	public Server rsServer(@Value("${swagger.definition.version}") String apiVersion) {
 		JAXRSServerFactoryBean endpoint = new JAXRSServerFactoryBean();
 		endpoint.setBus(bus);
-		endpoint.setServiceBeans(Arrays.<Object>asList(new EventMerchProsumerApiImpl(merchClient, eventClient)));
+		endpoint.setServiceBeans(Arrays.<Object>asList(new SalesAnalysisProsumerApiImpl(ticketsClient, customerClient)));
 		endpoint.setAddress("/");
-		endpoint.setProvider(new JacksonJsonProvider());
+		endpoint.setProvider(new DateCompatibleJacksonJsonProvider());
 		endpoint.setFeatures(Arrays.asList(createOpenApiFeature(apiVersion)));
 		return endpoint.create();
 	}
@@ -61,15 +62,15 @@ public class RESTServiceApplication {
 	public OpenApiFeature createOpenApiFeature(String apiVersion) {
 		final OpenApiFeature openApiFeature = new OpenApiFeature();
 		openApiFeature.setPrettyPrint(true);
-		openApiFeature.setTitle("Event-Merchandise aggregator prosumer");
+		openApiFeature.setTitle("Feedback report Prosumer");
 		openApiFeature.setContactName("DaGi team");
-		openApiFeature.setDescription("This is a RESTful API that fetch and aggregates info on an event with the list of merchandise.");
+		openApiFeature.setDescription("This is a RESTful API that collects the feedbacks left for an event and generates a report.");
 		openApiFeature.setVersion(apiVersion);
 		openApiFeature.setContactEmail("dario.dercole@student.univaq.it");
 		openApiFeature.setLicense("Apache 2.0");
 		openApiFeature.setLicenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html");
 		openApiFeature.setSupportSwaggerUi(true);
-		openApiFeature.setSwaggerUiConfig(new SwaggerUiConfig().url("/event-merch-prosumer-rest/openapi.json").queryConfigEnabled(true));
+		openApiFeature.setSwaggerUiConfig(new SwaggerUiConfig().url("/feedback-prosumer/openapi.json").queryConfigEnabled(true));
 		return openApiFeature;
 	}
 	
@@ -96,4 +97,6 @@ public class RESTServiceApplication {
 	        }
 	    }
 	}
+	
+
 }

@@ -35,6 +35,12 @@ public class FeedbackProsumerRestApplication {
 	
 	@Autowired
 	private CustomerRESTClient customerClient;
+	
+	@Value("${server.port}")
+	private String port;
+	
+	@Value("${cxf.path}")
+	private String cxfPath;
 
 	public static void main(String[] args) {
 		SpringApplication.run(FeedbackProsumerRestApplication.class, args);
@@ -70,7 +76,7 @@ public class FeedbackProsumerRestApplication {
 	@EventListener({ApplicationReadyEvent.class})
 	void applicationReadyEvent() {
 	    System.out.println("Application started ... launching browser now");
-	    browse("http://localhost:8082/api/feedback-prosumer/services");
+	    browse(String.format("http://localhost:%s%s/services", port, cxfPath));
 	}
 
 	public static void browse(String url) {
