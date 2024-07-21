@@ -1,16 +1,9 @@
-package it.univaq.sose.dagi.merchandising_rest.controller;
+package it.univaq.sose.dagi.merchandising_rest;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,23 +11,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import it.univaq.sose.dagi.merchandising_rest.model.Merchandise;
-import it.univaq.sose.dagi.merchandising_rest.service.MerchandiseService;
-import it.univaq.sose.dagi.merchandising_rest.service.MerchandiseServiceDummyImpl;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.PUT;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
 
-@RestController
-@RequestMapping("/merch")
-public class MerchController {
-	
-	//Service (injected)
-	private final MerchandiseService merchandiseService;
-
-	
-	//@Autowired is inferred by Spring Boot when there is a single public constructor
-	//@Autowired
-	public MerchController(MerchandiseServiceDummyImpl merchandiseServiceImpl) {
-		this.merchandiseService = merchandiseServiceImpl;
-	}
-
+@Path("/merch")
+public interface MerchandiseApi {
 	@Operation(summary = "Return the entire list of merchandise.")
 	@ApiResponses(value = { 
 		  @ApiResponse(
@@ -63,11 +50,10 @@ public class MerchController {
 //								  )
 //				  }) 
 	})
-	@GetMapping("/all")
-	public ResponseEntity<List<Merchandise>> getAll() {
-		List<Merchandise> merchList = merchandiseService.getAll();
-		return new ResponseEntity<List<Merchandise>>(merchList, HttpStatus.OK);
-	}
+	@GET
+	@Path("/all")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResponseEntity<List<Merchandise>> getAll();
 	
 	@Operation(summary = "Return the list of merchandise for an event.")
 	@ApiResponses(value = { 
@@ -97,11 +83,10 @@ public class MerchController {
 								  )
 				  }) 
 	})
-	@GetMapping("/event/{id}")
-	public ResponseEntity<List<Merchandise>> getEventMerchandise(@PathVariable Long id) {
-		List<Merchandise> merchList = merchandiseService.getByEvent(id);
-		return new ResponseEntity<List<Merchandise>>(merchList, HttpStatus.OK);
-	}
+	@GET
+	@Path("/event/{eventId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResponseEntity<List<Merchandise>> getEventMerchandise(@PathParam("eventId") Long eventId);
 	
 	@Operation(summary = "Add a new merchandise article to the database.")
 	@ApiResponses(value = { 
@@ -131,19 +116,17 @@ public class MerchController {
 								  )
 				  }) 
 	})
-	@PostMapping("/create")
-	public ResponseEntity<Merchandise> create(@RequestBody Merchandise newMerch) {
-		System.out.println(newMerch);
-		Merchandise merchWithId = merchandiseService.save(newMerch);
-		System.out.println(merchWithId.getId());
-		return new ResponseEntity<Merchandise>(merchWithId, HttpStatus.OK);
-	}
+	@POST
+	@Path("/create")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResponseEntity<Merchandise> create(@RequestBody Merchandise newMerch);
 	
-	@Operation(summary = "Add a new merchandise article to the database.")
+	@Operation(summary = "Register this merchandise to an event in database.")
 	@ApiResponses(value = { 
 		  @ApiResponse(
 				  responseCode = "200", 
-				  description = "Return the merchandise object with the newly generated id.", 
+				  description = "Return the merchandise object with the new event id.", 
 				  content = { 
 						  @Content(
 								  mediaType = "application/json", 
@@ -167,9 +150,9 @@ public class MerchController {
 								  )
 				  }) 
 	})
-	@PutMapping("/addevent/{eventId}/to/{merchId}")
-	public ResponseEntity<Merchandise> addToEvent(@PathVariable Long eventId, @PathVariable Long merchId) {
-		Merchandise updatedMerch = merchandiseService.addEventToMerch(eventId, merchId);
-		return new ResponseEntity<Merchandise>(updatedMerch, HttpStatus.OK);
-	}
+	@PUT
+	@Path("/addevent/{eventId}/to/{merchId}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public ResponseEntity<Merchandise> addToEvent(@PathParam("eventId") Long eventId, @PathParam("merchId") Long merchId);
 }
