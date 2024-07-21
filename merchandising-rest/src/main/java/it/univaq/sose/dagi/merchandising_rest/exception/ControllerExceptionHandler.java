@@ -1,5 +1,7 @@
 package it.univaq.sose.dagi.merchandising_rest.exception;
 
+import java.util.NoSuchElementException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,7 +11,7 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 
-	//Exception thrown when ID doesn't match anything in the datasource
+	
 		//Exception thrown when a PathVariable can't be parsed
 	
 		@ExceptionHandler(MethodArgumentTypeMismatchException.class)
@@ -23,11 +25,18 @@ public class ControllerExceptionHandler {
 			}
 	    }
 		
+		
 		//ID parsing exception handler (usually called by the handler above)
 		@ExceptionHandler(ParsingException.class)
 		public ResponseEntity<ExceptionData>  handleParsingException(ParsingException ex) {
 			return new ResponseEntity<>(new ExceptionData(HttpStatus.BAD_REQUEST, HttpStatus.BAD_REQUEST.value(), ex.getLocalizedMessage()), HttpStatus.BAD_REQUEST);
 	    }
+		
+		//Exception thrown when ID doesn't match anything in the datasource
+		@ExceptionHandler(NoSuchElementException.class)
+		public ResponseEntity<ExceptionData>  handleNoSuchElementException(NoSuchElementException ex) {
+			return new ResponseEntity<>(new ExceptionData(HttpStatus.OK, HttpStatus.OK.value(), ex.getLocalizedMessage()), HttpStatus.OK);
+		}
 		
 		//Generic, catch-all handler.
 		@ExceptionHandler(Throwable.class)
