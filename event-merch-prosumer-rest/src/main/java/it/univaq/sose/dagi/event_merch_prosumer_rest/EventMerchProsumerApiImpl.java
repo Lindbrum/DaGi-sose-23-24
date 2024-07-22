@@ -30,13 +30,14 @@ public class EventMerchProsumerApiImpl implements EventMerchProsumerApi {
 	}
 	
 	@Override
-	public ResponseEntity<EventWithMerch> getEventInfo(Long eventId) throws ServiceException_Exception {
+	public EventWithMerch getEventInfo(Long eventId) throws ServiceException_Exception {
 		JsonNode jsonMerchandise;
 		try {
 			jsonMerchandise = merchClient.findEventMerch(eventId);
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new ServiceException_Exception("Internal server error.");
+			//throw new ServiceException_Exception("Internal server error.");
+			jsonMerchandise = null;
 		}
 		Optional.ofNullable(jsonMerchandise).orElseThrow();
 		EventWithMerch eventWithMerch = new EventWithMerch();
@@ -62,7 +63,8 @@ public class EventMerchProsumerApiImpl implements EventMerchProsumerApi {
 			throw new ServiceException_Exception("Internal server error.");
 		}
 		
-		return new ResponseEntity<EventWithMerch>(eventWithMerch, HttpStatus.OK);
+		//return new ResponseEntity<EventWithMerch>(eventWithMerch, HttpStatus.OK);
+		return eventWithMerch;
 	}
 
 }
