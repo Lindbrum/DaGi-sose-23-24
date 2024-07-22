@@ -51,5 +51,5 @@ public interface EventMerchProsumerApi {
 	@GET
 	@Path("event/{eventId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseEntity<EventWithMerch> getEventInfo(@Parameter(description = "The ID of the event to fetch the merchandise for.") @PathParam("eventId") Long eventId) throws ServiceException_Exception;
+	public EventWithMerch getEventInfo(@Parameter(description = "The ID of the event to fetch the merchandise for.") @PathParam("eventId") Long eventId) throws ServiceException_Exception;
 }
