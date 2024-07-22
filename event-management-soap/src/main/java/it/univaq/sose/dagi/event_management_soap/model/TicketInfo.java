@@ -53,5 +53,10 @@ public class TicketInfo {
 		this.availableTickets = availableTickets;
 	}
 	
-	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null || !(obj instanceof TicketInfo)) return false;
+		TicketInfo casted = (TicketInfo) obj;
+		return this.getId().equals(casted.getId());
+	}
 }

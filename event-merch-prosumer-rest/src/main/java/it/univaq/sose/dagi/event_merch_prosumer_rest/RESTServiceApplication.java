@@ -19,8 +19,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 
-import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
-
 import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.EventSOAPClient;
 import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.MerchandiseRESTClient;
 
@@ -52,7 +50,7 @@ public class RESTServiceApplication {
 		endpoint.setBus(bus);
 		endpoint.setServiceBeans(Arrays.<Object>asList(new EventMerchProsumerApiImpl(merchClient, eventClient)));
 		endpoint.setAddress("/");
-		endpoint.setProvider(new JacksonJsonProvider());
+		endpoint.setProvider(new DateCompatibleJacksonJsonProvider());
 		endpoint.setFeatures(Arrays.asList(createOpenApiFeature(apiVersion)));
 		return endpoint.create();
 	}

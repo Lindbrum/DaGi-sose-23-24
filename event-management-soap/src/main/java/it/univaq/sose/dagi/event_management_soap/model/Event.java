@@ -8,32 +8,39 @@ public class Event implements Comparable<Event>{
 	private Long id;
 	private String name;
 	private String description;
+	private Long organizerId;
 	private String location;
 	private LocalDateTime startDate;
 	private LocalDateTime endDate;
 	private int nrTickets;
-	public Event(Long id, String name, String description, String location, LocalDateTime startDate,
+	
+	
+	public Event(Long id, String name, String description, Long organizerId, String location, LocalDateTime startDate,
 			LocalDateTime endDate, int nrTickets) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.description = description;
+		this.organizerId = organizerId;
 		this.location = location;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.nrTickets = nrTickets;
 	}
 	
-	public Event(String name, String description, String location, LocalDateTime startDate, LocalDateTime endDate,
-			int nrTickets) {
+	public Event(String name, String description, Long organizerId, String location, LocalDateTime startDate,
+			LocalDateTime endDate, int nrTickets) {
 		super();
 		this.name = name;
 		this.description = description;
+		this.organizerId = organizerId;
 		this.location = location;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.nrTickets = nrTickets;
 	}
+
+
 
 	public Event() {
 		super();
@@ -56,6 +63,15 @@ public class Event implements Comparable<Event>{
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	
+	public Long getOrganizerId() {
+		return organizerId;
+	}
+
+	public void setOrganizerId(Long organizerId) {
+		this.organizerId = organizerId;
+	}
+
 	public String getLocation() {
 		return location;
 	}
@@ -100,6 +116,12 @@ public class Event implements Comparable<Event>{
 		return new EventNameDescendingComparator();
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null || !(obj instanceof Event)) return false;
+		Event casted = (Event) obj;
+		return this.getId().equals(casted.getId());
+	}
 }
 
 class EventIdDescendingComparator implements Comparator<Event>{
@@ -128,5 +150,8 @@ class EventNameDescendingComparator implements Comparator<Event>{
 	public int compare(Event o1, Event o2) {
 		return o1.getName().compareTo(o2.getName()) * -1;
 	}
+
+	
+	
 	
 }

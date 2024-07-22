@@ -8,8 +8,17 @@ import it.univaq.sose.dagi.authentication_rest.model.Customer;
 
 public class CustomerServiceDummyImpl implements CustomerService{
 
-	private List<Customer> customerList = new ArrayList<Customer>();
+	private List<Customer> customerList;
 	private static Long nextId = 0L;
+	
+	public CustomerServiceDummyImpl() {
+		Customer c0 = new Customer(nextId++, "lindbrum", "abc123", "Dario", "D'Ercole", 28, "male");
+		Customer c1 = new Customer(nextId++, "giospaz", "def456", "Giovanni", "Spaziani", 25, "male");
+		Customer c2 = new Customer(nextId++, "bacco", "sanguemisto", "Loris", "D'Ercole", 26, "male");
+		Customer c3 = new Customer(nextId++, "londibelodi", "aueguardlu", "Linda", "D'Ercole", 24, "female");
+		Customer c4 = new Customer(nextId++, "smari67", "mammapia", "Marina", "Stefanucci", 57, "female");
+		customerList = List.of(c0,c1,c2,c3,c4);
+	}
 	
 	@Override
 	public Long save(Customer customer) {

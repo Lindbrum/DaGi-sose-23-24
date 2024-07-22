@@ -6,9 +6,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-import it.univaq.sose.dagi.event_merch_prosumer_rest.exception.ExceptionData;
-import it.univaq.sose.dagi.event_merch_prosumer_rest.exception.ParsingException;
-
 @RestControllerAdvice
 public class ControllerExceptionHandler {
 	
