@@ -3,15 +3,18 @@ package it.univaq.sose.dagi.event_merch_prosumer_rest.clients;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.xml.namespace.QName;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import it.univaq.sose.dagi.event_merch_prosumer_rest.Utility;
 import it.univaq.sose.dagi.event_merch_prosumer_rest.model.Event;
-import it.univaq.sose.dagi.wsdltypes.*;
-import jakarta.xml.ws.Service;
+import it.univaq.sose.dagi.wsdltypes.EventData;
+import it.univaq.sose.dagi.wsdltypes.EventManagementImplService;
+import it.univaq.sose.dagi.wsdltypes.EventManagementPort;
+import it.univaq.sose.dagi.wsdltypes.FetchEventInfoRequest;
+import it.univaq.sose.dagi.wsdltypes.FetchEventInfoResponse;
+import it.univaq.sose.dagi.wsdltypes.ObjectFactory;
+import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
 
 @Component
 public class EventSOAPClient {

@@ -14,8 +14,10 @@
 			<!--Complex type for event data-->		
 			<xs:complexType name="eventData">
 				<xs:sequence>
+					<xs:element name="eventId" type="xs:long" minOccurs="0" maxOccurs="1" />
 					<xs:element name="name" type="xs:string" />
 					<xs:element name="description" type="xs:string" />
+					<xs:element name="organizerId" type="xs:long" />
 					<xs:element name="location" type="xs:string" />
 					<xs:element name="startDate" type="xs:dateTime" />
 					<xs:element name="endDate" type="xs:dateTime" />
@@ -25,19 +27,34 @@
 			<!--Complex type for ticket availability data-->		
 			<xs:complexType name="ticketAvailability">
 				<xs:sequence>
+					<xs:element name="ticketInfoId" type="xs:long" />
 					<xs:element name="referenceDate" type="xs:dateTime" />
 					<xs:element name="remainingTickets" type="xs:int" />
 				</xs:sequence>
-			</xs:complexType>			
+			</xs:complexType>
+			<!--Complex type for event feedback-->		
+			<xs:complexType name="feedbackData">
+				<xs:sequence>
+					<xs:element name="feedbackId" type="xs:long" minOccurs="0" maxOccurs="1" />
+					<xs:element name="userId" type="xs:long" />
+					<xs:element name="eventId" type="xs:long" />
+					<xs:element name="rating" type="xs:int" />
+					<xs:element name="body" type="xs:string" />
+				</xs:sequence>
+			</xs:complexType>
+			<!--Complex type for sold ticket info-->
+			<xs:complexType name="soldTicketData">
+				<xs:sequence>
+					<xs:element name="soldTicketId" type="xs:long" minOccurs="0" maxOccurs="1" />
+					<xs:element name="userId" type="xs:long" />
+					<xs:element name="eventId" type="xs:long" />
+					<xs:element name="referenceDate" type="xs:dateTime" />
+				</xs:sequence>
+			</xs:complexType>		
 			<xsd:element name="createEventRequest">
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="name" type="xs:string" />
-						<xs:element name="description" type="xs:string" />
-						<xs:element name="location" type="xs:string" />
-						<xs:element name="startDate" type="xs:dateTime" />
-						<xs:element name="endDate" type="xs:dateTime" />
-						<xs:element name="nrTickets" type="xs:int" />
+						<xs:element name="eventData" type="tns:eventData" />
 					</xs:sequence>
 				</xs:complexType>
 			</xsd:element>
@@ -45,6 +62,34 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="eventId" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="updateEventRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="eventData" type="tns:eventData" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="updateEventResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="eventId" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="deleteEventRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="eventId" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="deleteEventResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="message" type="xs:string" />
 					</xs:sequence>
 				</xs:complexType>
 			</xsd:element>
@@ -83,6 +128,115 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xsd:element>
+			<xsd:element name="createTicketInfoRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="eventId" type="xs:long" />
+						<xs:element name="referenceDate" type="xs:dateTime" />
+						<xs:element name="availableTickets" type="xs:int" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="createTicketInfoResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ticketInfoId" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="updateTicketInfoRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ticketInfoId" type="xs:long" />
+						<xs:element name="eventId" type="xs:long" />
+						<xs:element name="referenceDate" type="xs:dateTime" />
+						<xs:element name="availableTickets" type="xs:int" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="updateTicketInfoResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ticketInfoId" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="deleteTicketInfoRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ticketInfoId" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="deleteTicketInfoResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="message" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="createSoldTicketRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="soldTicketData" type="tns:soldTicketData" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="createSoldTicketResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="soldTicketId" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="updateSoldTicketRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="soldTicketData" type="tns:soldTicketData" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="updateSoldTicketResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="soldTicketId" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="deleteSoldTicketRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="soldTicketId" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="deleteSoldTicketResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="message" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="fetchEventSoldTicketsRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="eventId" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="fetchEventSoldTicketsResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xsd:element name="soldTicketsList">			
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="soldTicketData" type="tns:soldTicketData" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xsd:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
 			<xsd:element name="purchaseMenuRequest">			
 				<xs:complexType>
 					<xs:sequence>
@@ -93,17 +247,20 @@
 			<xsd:element name="purchaseMenuResponse">			
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="ticketAvailability" type="tns:ticketAvailability" minOccurs="0" maxOccurs="unbounded"/>
+						<xsd:element name="availabilitiesList">			
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ticketAvailability" type="tns:ticketAvailability" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xsd:element>
 					</xs:sequence>
 				</xs:complexType>
 			</xsd:element>
 			<xsd:element name="createFeedbackRequest">			
 				<xs:complexType>
 					<xs:sequence>
-						<xs:element name="userId" type="xs:long" />
-						<xs:element name="eventId" type="xs:long" />
-						<xs:element name="rating" type="xs:int" />
-						<xs:element name="body" type="xs:string" />
+						<xs:element name="feedbackData" type="tns:feedbackData" />
 					</xs:sequence>
 				</xs:complexType>
 			</xsd:element>
@@ -111,6 +268,54 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element name="message" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="updateFeedbackRequest">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="feedbackData" type="tns:feedbackData" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="updateFeedbackResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="message" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="deleteFeedbackRequest">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="feedbackId" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="deleteFeedbackResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="message" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="fetchEventFeedbackRequest">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="eventId" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="fetchEventFeedbackResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xsd:element name="feedbackList">			
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="feedbackData" type="tns:feedbackData" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xsd:element>
 					</xs:sequence>
 				</xs:complexType>
 			</xsd:element>
@@ -132,6 +337,22 @@
 		<wsdl:part element="tns:createEventResponse" name="parameters">
 		</wsdl:part>
 	</wsdl:message>
+	<wsdl:message name="updateEventRequest">
+		<wsdl:part element="tns:updateEventRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateEventResponse">
+		<wsdl:part element="tns:updateEventResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteEventRequest">
+		<wsdl:part element="tns:deleteEventRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteEventResponse">
+		<wsdl:part element="tns:deleteEventResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
 	<wsdl:message name="eventCatalogueRequest">
 		<wsdl:part element="tns:eventCatalogueRequest" name="parameters">
 		</wsdl:part>
@@ -148,6 +369,30 @@
 		<wsdl:part element="tns:fetchEventInfoResponse" name="parameters">
 		</wsdl:part>
 	</wsdl:message>
+	<wsdl:message name="createTicketInfoRequest">
+		<wsdl:part element="tns:createTicketInfoRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="createTicketInfoResponse">
+		<wsdl:part element="tns:createTicketInfoResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateTicketInfoRequest">
+		<wsdl:part element="tns:updateTicketInfoRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateTicketInfoResponse">
+		<wsdl:part element="tns:updateTicketInfoResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteTicketInfoRequest">
+		<wsdl:part element="tns:deleteTicketInfoRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteTicketInfoResponse">
+		<wsdl:part element="tns:deleteTicketInfoResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
 	<wsdl:message name="purchaseMenuRequest">
 		<wsdl:part element="tns:purchaseMenuRequest" name="parameters">
 		</wsdl:part>
@@ -156,12 +401,68 @@
 		<wsdl:part element="tns:purchaseMenuResponse" name="parameters">
 		</wsdl:part>
 	</wsdl:message>
+	<wsdl:message name="createSoldTicketRequest">
+		<wsdl:part element="tns:createSoldTicketRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="createSoldTicketResponse">
+		<wsdl:part element="tns:createSoldTicketResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateSoldTicketRequest">
+		<wsdl:part element="tns:updateSoldTicketRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateSoldTicketResponse">
+		<wsdl:part element="tns:updateSoldTicketResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteSoldTicketRequest">
+		<wsdl:part element="tns:deleteSoldTicketRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteSoldTicketResponse">
+		<wsdl:part element="tns:deleteSoldTicketResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="fetchEventSoldTicketsRequest">
+		<wsdl:part element="tns:fetchEventSoldTicketsRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="fetchEventSoldTicketsResponse">
+		<wsdl:part element="tns:fetchEventSoldTicketsResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
 	<wsdl:message name="createFeedbackRequest">
 		<wsdl:part element="tns:createFeedbackRequest" name="parameters">
 		</wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="createFeedbackResponse">
 		<wsdl:part element="tns:createFeedbackResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateFeedbackRequest">
+		<wsdl:part element="tns:updateFeedbackRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="updateFeedbackResponse">
+		<wsdl:part element="tns:updateFeedbackResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteFeedbackRequest">
+		<wsdl:part element="tns:deleteFeedbackRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="deleteFeedbackResponse">
+		<wsdl:part element="tns:deleteFeedbackResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="fetchEventFeedbackRequest">
+		<wsdl:part element="tns:fetchEventFeedbackRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="fetchEventFeedbackResponse">
+		<wsdl:part element="tns:fetchEventFeedbackResponse" name="parameters">
 		</wsdl:part>
 	</wsdl:message>
 	<wsdl:message name="ServiceException">
@@ -174,6 +475,24 @@
 			</wsdl:input>
 			<wsdl:output message="tns:createEventResponse"
 				name="createEventResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="updateEvent">
+			<wsdl:input message="tns:updateEventRequest" name="updateEventRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:updateEventResponse"
+				name="updateEventResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="deleteEvent">
+			<wsdl:input message="tns:deleteEventRequest" name="deleteEventRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:deleteEventResponse"
+				name="deleteEventResponse">
 			</wsdl:output>
 			<wsdl:fault message="tns:ServiceException" name="ServiceException">
 			</wsdl:fault>
@@ -196,6 +515,33 @@
 			<wsdl:fault message="tns:ServiceException" name="ServiceException">
 			</wsdl:fault>
 		</wsdl:operation>
+		<wsdl:operation name="createTicketInfo">
+			<wsdl:input message="tns:createTicketInfoRequest" name="createTicketInfoRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:createTicketInfoResponse"
+				name="createTicketInfoResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="updateTicketInfo">
+			<wsdl:input message="tns:updateTicketInfoRequest" name="updateTicketInfoRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:updateTicketInfoResponse"
+				name="updateTicketInfoResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="deleteTicketInfo">
+			<wsdl:input message="tns:deleteTicketInfoRequest" name="deleteTicketInfoRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:deleteTicketInfoResponse"
+				name="deleteTicketInfoResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
 		<wsdl:operation name="purchaseMenu">
 			<wsdl:input message="tns:purchaseMenuRequest" name="purchaseMenuRequest">
 			</wsdl:input>
@@ -205,11 +551,74 @@
 			<wsdl:fault message="tns:ServiceException" name="ServiceException">
 			</wsdl:fault>
 		</wsdl:operation>
+		<wsdl:operation name="createSoldTicket">
+			<wsdl:input message="tns:createSoldTicketRequest" name="createSoldTicketRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:createSoldTicketResponse"
+				name="createSoldTicketResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="updateSoldTicket">
+			<wsdl:input message="tns:updateSoldTicketRequest" name="updateSoldTicketRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:updateSoldTicketResponse"
+				name="updateSoldTicketResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="deleteSoldTicket">
+			<wsdl:input message="tns:deleteSoldTicketRequest" name="deleteSoldTicketRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:deleteSoldTicketResponse"
+				name="deleteSoldTicketResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="fetchEventSoldTickets">
+			<wsdl:input message="tns:fetchEventSoldTicketsRequest" name="fetchEventSoldTicketsRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:fetchEventSoldTicketsResponse"
+				name="fetchEventSoldTicketsResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
 		<wsdl:operation name="createFeedback">
 			<wsdl:input message="tns:createFeedbackRequest" name="createFeedbackRequest">
 			</wsdl:input>
 			<wsdl:output message="tns:createFeedbackResponse"
 				name="createFeedbackResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="updateFeedback">
+			<wsdl:input message="tns:updateFeedbackRequest" name="updateFeedbackRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:updateFeedbackResponse"
+				name="updateFeedbackResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="deleteFeedback">
+			<wsdl:input message="tns:deleteFeedbackRequest" name="deleteFeedbackRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:deleteFeedbackResponse"
+				name="deleteFeedbackResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="fetchEventFeedback">
+			<wsdl:input message="tns:fetchEventFeedbackRequest" name="fetchEventFeedbackRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:fetchEventFeedbackResponse"
+				name="fetchEventFeedbackResponse">
 			</wsdl:output>
 			<wsdl:fault message="tns:ServiceException" name="ServiceException">
 			</wsdl:fault>
@@ -225,6 +634,30 @@
 				<soap:body use="literal" />
 			</wsdl:input>
 			<wsdl:output name="createEventResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="updateEvent">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="updateEventRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="updateEventResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="deleteEvent">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="deleteEventRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="deleteEventResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="ServiceException">
@@ -255,12 +688,96 @@
 				<soap:fault name="ServiceException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
+		<wsdl:operation name="createTicketInfo">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="createTicketInfoRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="createTicketInfoResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="updateTicketInfo">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="updateTicketInfoRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="updateTicketInfoResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="deleteTicketInfo">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="deleteTicketInfoRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="deleteTicketInfoResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
 		<wsdl:operation name="purchaseMenu">
 			<soap:operation soapAction="" style="document" />
 			<wsdl:input name="purchaseMenuRequest">
 				<soap:body use="literal" />
 			</wsdl:input>
 			<wsdl:output name="purchaseMenuResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="createSoldTicket">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="createSoldTicketRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="createSoldTicketResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="updateSoldTicket">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="updateSoldTicketRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="updateSoldTicketResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="deleteSoldTicket">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="deleteSoldTicketRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="deleteSoldTicketResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="fetchEventSoldTickets">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="fetchEventSoldTicketsRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="fetchEventSoldTicketsResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="ServiceException">
@@ -279,10 +796,48 @@
 				<soap:fault name="ServiceException" use="literal" />
 			</wsdl:fault>
 		</wsdl:operation>
+		<wsdl:operation name="updateFeedback">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="updateFeedbackRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="updateFeedbackResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="deleteFeedback">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="deleteFeedbackRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="deleteFeedbackResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="fetchEventFeedback">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="fetchEventFeedbackRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="fetchEventFeedbackResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
 	</wsdl:binding>
 	<wsdl:service name="EventManagementImplService">
-		<wsdl:port binding="tns:EventManagementImplServiceSoapBinding" name="EventManagementImplPort">
-			<soap:address location="http://localhost:8081/event-management-soap/" />
+		<wsdl:port binding="tns:EventManagementImplServiceSoapBinding"
+			name="EventManagementImplPort">
+			<soap:address
+				location="http://localhost:8081/event-management-soap/" />
 		</wsdl:port>
 	</wsdl:service>
 </wsdl:definitions>
