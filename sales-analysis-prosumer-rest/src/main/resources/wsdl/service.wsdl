@@ -17,6 +17,7 @@
 					<xs:element name="eventId" type="xs:long" minOccurs="0" maxOccurs="1" />
 					<xs:element name="name" type="xs:string" />
 					<xs:element name="description" type="xs:string" />
+					<xs:element name="organizerId" type="xs:long" />
 					<xs:element name="location" type="xs:string" />
 					<xs:element name="startDate" type="xs:dateTime" />
 					<xs:element name="endDate" type="xs:dateTime" />
@@ -26,6 +27,7 @@
 			<!--Complex type for ticket availability data-->		
 			<xs:complexType name="ticketAvailability">
 				<xs:sequence>
+					<xs:element name="ticketInfoId" type="xs:long" />
 					<xs:element name="referenceDate" type="xs:dateTime" />
 					<xs:element name="remainingTickets" type="xs:int" />
 				</xs:sequence>

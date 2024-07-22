@@ -60,5 +60,10 @@ public class Feedback {
 		this.body = body;
 	}
 	
-	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null || !(obj instanceof Feedback)) return false;
+		Feedback casted = (Feedback) obj;
+		return this.getId().equals(casted.getId());
+	}
 }

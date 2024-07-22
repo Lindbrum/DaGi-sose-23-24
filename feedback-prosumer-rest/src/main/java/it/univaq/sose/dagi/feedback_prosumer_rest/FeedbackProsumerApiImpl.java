@@ -18,7 +18,6 @@ import it.univaq.sose.dagi.feedback_prosumer_rest.client.CustomerRESTClient;
 import it.univaq.sose.dagi.feedback_prosumer_rest.client.FeedbackSOAPClient;
 import it.univaq.sose.dagi.feedback_prosumer_rest.model.EventFeedbackReport;
 import it.univaq.sose.dagi.feedback_prosumer_rest.model.Feedback;
-import it.univaq.sose.dagi.wsdltypes.ObjectFactory;
 import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
 
 @Service
@@ -26,14 +25,12 @@ public class FeedbackProsumerApiImpl implements FeedbackProsumerApi {
 
 	private FeedbackSOAPClient feedbackClient;
 	private CustomerRESTClient customerClient;
-	private ObjectFactory factory;
 	
 	
 	public FeedbackProsumerApiImpl(FeedbackSOAPClient feedbackClient, CustomerRESTClient customerClient) {
 		super();
 		this.feedbackClient = feedbackClient;
 		this.customerClient = customerClient;
-		this.factory = new ObjectFactory();
 	}
 
 
@@ -48,7 +45,7 @@ public class FeedbackProsumerApiImpl implements FeedbackProsumerApi {
 			Set<Long> userIdsSet = new HashSet<>();
 			feedbacks.forEach(feedback -> {userIdsSet.add(feedback.getUserId());});
 			Long[] userIds = new Long[userIdsSet.size()];
-			JsonNode userInfos = customerClient.fetchUsersInfo(userIdsSet.toArray(userIds)).findValue("body"); //access the body of ResponseEntity
+			JsonNode userInfos = customerClient.fetchUsersInfo(userIdsSet.toArray(userIds));
 
 			EventFeedbackReport report = new EventFeedbackReport();
 			float averageRating = 0.0f;

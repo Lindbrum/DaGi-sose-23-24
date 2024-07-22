@@ -1,14 +1,21 @@
 package it.univaq.sose.dagi.authentication_rest.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import it.univaq.sose.dagi.authentication_rest.model.Organizer;
 
 public class OrganizerServiceDummyImpl implements OrganizerService {
 
-	private List<Organizer> organizerList = new ArrayList<Organizer>();
+	private List<Organizer> organizerList;
 	private static Long nextId = 0L;
+	
+	public OrganizerServiceDummyImpl() {
+		
+		Organizer o0 = new Organizer(nextId++, "admin", "admin", "Administrator");
+		Organizer o1 = new Organizer(nextId++, "assoret", "amammt", "Hit It Up");
+		Organizer o2 = new Organizer(nextId++, "asso", "ama", "InnTales");
+		organizerList = List.of(o0,o1,o2);
+	}
 	
 	@Override
 	public Long save(Organizer organizer) {

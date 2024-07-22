@@ -19,8 +19,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 
-import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
-
 import it.univaq.sose.dagi.sales_analysis_prosumer_rest.client.CustomerRESTClient;
 import it.univaq.sose.dagi.sales_analysis_prosumer_rest.client.SoldTicketsSOAPClient;
 

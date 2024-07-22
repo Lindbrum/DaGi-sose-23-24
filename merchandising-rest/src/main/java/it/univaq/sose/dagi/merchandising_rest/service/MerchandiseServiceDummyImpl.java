@@ -11,9 +11,20 @@ import it.univaq.sose.dagi.merchandising_rest.model.Merchandise;
 @Service
 public class MerchandiseServiceDummyImpl implements MerchandiseService {
 
-	private List<Merchandise> merchandiseRepository = new ArrayList<>();
+	private static List<Merchandise> merchandiseRepository = new ArrayList<>();
 	private static long nextID = 0;
 	
+	public MerchandiseServiceDummyImpl() {
+		Merchandise m0 = new  Merchandise(nextID++, 0L, 90930312921L, "Lily plush", "A miniature plush one of Kurolily's cats.");
+		Merchandise m1 = new  Merchandise(nextID++, 1L, 90930312921L, "Lily plush", "A miniature plush one of Kurolily's cats.");
+		Merchandise m2 = new  Merchandise(nextID++, 2L, 90930312921L, "Santino di San Celestino", "A postcard with the image of S. Celestino.");
+		Merchandise m3 = new  Merchandise(nextID++, 2L, 90930312921L, "Venditti album", "The latest album from Antonello Venditti.");
+		
+		merchandiseRepository.add(m0);
+		merchandiseRepository.add(m1);
+		merchandiseRepository.add(m2);
+		merchandiseRepository.add(m3);
+	}
 	
 	@Override
 	public List<Merchandise> getAll() {

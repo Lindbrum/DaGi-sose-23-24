@@ -52,5 +52,10 @@ public class SoldTicket {
 		this.referenceDate = referenceDate;
 	}
 	
-	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == null || !(obj instanceof SoldTicket)) return false;
+		SoldTicket casted = (SoldTicket) obj;
+		return this.getId().equals(casted.getId());
+	}
 }

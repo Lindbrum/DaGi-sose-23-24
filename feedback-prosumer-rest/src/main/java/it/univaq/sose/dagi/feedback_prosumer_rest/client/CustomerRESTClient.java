@@ -36,7 +36,8 @@ public class CustomerRESTClient {
 			e.printStackTrace();
 		}
 		RestTemplate restTemplate = new RestTemplate();
-		return restTemplate.getForObject(uri, JsonNode.class);
+		JsonNode responseEntityJson = restTemplate.getForObject(uri, JsonNode.class);
+		return responseEntityJson.findValue("body"); //Access the payload
 	}
 
 }
