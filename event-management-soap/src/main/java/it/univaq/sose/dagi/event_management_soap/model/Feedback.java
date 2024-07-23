@@ -60,6 +60,9 @@ public class Feedback {
 		this.body = body;
 	}
 	
+	//The equals method compares two Feedback objects to determine whether they are equal.
+	//If the object passed is null or is not a Feedback instance, returns false.
+	//If the object is of the correct type, it compares the object IDs and returns true if they are equal, false otherwise.
 	@Override
 	public boolean equals(Object obj) {
 		if(obj == null || !(obj instanceof Feedback)) return false;

@@ -24,19 +24,28 @@ import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 @SpringBootApplication
 public class AuthenticationRestApplication {
 
+	//@Autowired: The bus field is automatically injected from the Spring context. 
+	//Bus is a component of CXF that manages service configuration and integration.
 	@Autowired
 	private Bus bus;
 	
+	//"port" is the port number on which the application listens.
+	//"cxfPath" is the context path for the CXF services.
 	@Value("${server.port}")
 	private String port;
 	
 	@Value("${cxf.path}")
 	private String cxfPath;
 
+	//This method starts the SpringBoot application
 	public static void main(String[] args) {
 		SpringApplication.run(AuthenticationRestApplication.class, args);
 	}
 
+	//This method creates and configures a REST server using Apache CXF's JAXRSServerFactoryBean. 
+	//Sets the CXF bus, defines the service implementation as AuthRestApiImpl, and specifies the base address as "/".
+	//It uses JacksonJsonProvider to handle JSON serialization and deserialization
+	//and adds the OpenAPI features configured in the createOpenApiFeature method.
 	@Bean
 	public Server rsServer(@Value("${swagger.definition.version}") String apiVersion) {
 		JAXRSServerFactoryBean endpoint = new JAXRSServerFactoryBean();
@@ -48,6 +57,9 @@ public class AuthenticationRestApplication {
 		return endpoint.create();
 	}
 
+	//This method configures the OpenApiFeature, which provides the OpenAPI specification for API documentation.
+	//Set various attributes such as title, contact name, description, version, contact email, license and Swagger UI interface support.
+	//This setup allows to view and test the API via an interactive web interface.
 	@Bean
 	public OpenApiFeature createOpenApiFeature(String apiVersion) {
 		final OpenApiFeature openApiFeature = new OpenApiFeature();
@@ -64,12 +76,17 @@ public class AuthenticationRestApplication {
 		return openApiFeature;
 	}
 	
+	//This method listens to the ApplicationReadyEvent, which is emitted when the application is fully started and ready to receive requests.
+	//When the event is captured, print a message to the console (Application started...) and call the browse method to launch the default browser to the service URL.
 	@EventListener({ApplicationReadyEvent.class})
 	void applicationReadyEvent() {
 	    System.out.println("Application started ... launching browser now");
 	    browse(String.format("http://localhost:%s%s/services", port, cxfPath));
 	}
 
+	//This method attempts to open the specified URL in the system's default browser.
+	//Check if the desktop is supported using Desktop.isDesktopSupported(), and if it is, ".browse(new URI(url))" to open the URL.
+	//If the desktop is not supported, use a system command to open the URL.
 	public static void browse(String url) {
 	    if(Desktop.isDesktopSupported()){
 	        Desktop desktop = Desktop.getDesktop();

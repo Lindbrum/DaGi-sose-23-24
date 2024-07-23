@@ -52,6 +52,9 @@ public class SoldTicket {
 		this.referenceDate = referenceDate;
 	}
 	
+	//This method compares whether two SoldTicket objects are equal.
+	//Checks whether the passed object is null or not of type SoldTicket; in that case, it returns false.
+	//If it is of the correct type, it compares the IDs of the two objects and returns true if they are equal, false otherwise.
 	@Override
 	public boolean equals(Object obj) {
 		if(obj == null || !(obj instanceof SoldTicket)) return false;

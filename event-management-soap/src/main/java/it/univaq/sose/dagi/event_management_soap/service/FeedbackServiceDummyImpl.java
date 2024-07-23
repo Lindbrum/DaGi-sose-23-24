@@ -15,6 +15,7 @@ public class FeedbackServiceDummyImpl implements FeedbackService {
 	private static List<Feedback> feedbacks = new ArrayList<>();
 	private static long nextId = 0L;
 	
+	//This constructor initializes the class by creating a series of Feedback objects with predefined data and adds them to the feedbacks list.
 	public FeedbackServiceDummyImpl() {
 		Feedback f0 = new Feedback(nextId++, 0L, 0L, 5, "Ho conosciuto Kurolily, 5/5!");
 		Feedback f1 = new Feedback(nextId++, 2L, 0L, 4, "Li seguo su twitch da tempo, ve li consiglio.");
@@ -33,6 +34,7 @@ public class FeedbackServiceDummyImpl implements FeedbackService {
 		feedbacks.add(f6);
 	}
 	
+	//This method creates a new feedback, assigning it a unique ID and adding it to the feedbacks list. Returns the created feedback.
 	@Override
 	public Feedback create(Feedback newFeedback) {
 		newFeedback.setId(nextId++);
@@ -40,6 +42,8 @@ public class FeedbackServiceDummyImpl implements FeedbackService {
 		return newFeedback;
 	}
 
+	//This method updates existing feedback. If the feedback ID is null, throw an exception.
+	//If the feedback to be updated is not found in the list, throw NoSuchElementException. It returns updated feedback.
 	@Override
 	public Feedback update(Feedback feedback) throws IllegalArgumentException, NoSuchElementException {
 		if(feedback.getId() == null) {
@@ -63,6 +67,8 @@ public class FeedbackServiceDummyImpl implements FeedbackService {
 		return found;
 	}
 
+	//This method removes a feedback from the list. If the feedback ID is null, throw an exception.
+	//If feedback is not found, throw NoSuchElementException.
 	@Override
 	public void delete(Feedback feedback) throws IllegalArgumentException, NoSuchElementException {
 		if(feedback.getId() == null) {
@@ -78,6 +84,7 @@ public class FeedbackServiceDummyImpl implements FeedbackService {
 		throw new NoSuchElementException("Feedback to delete not found.");
 	}
 
+	//This method searches for and returns feedback by ID. If feedback is not found, throw NoSuchElementException.
 	@Override
 	public Feedback findById(long id) throws NoSuchElementException {
 		for(Feedback current : feedbacks) {
@@ -88,11 +95,13 @@ public class FeedbackServiceDummyImpl implements FeedbackService {
 		throw new NoSuchElementException("Feedback not found.");
 	}
 
+	//This method returns a copy of the list of all available feedback.
 	@Override
 	public List<Feedback> getAll() {
 		return List.copyOf(feedbacks);
 	}
 
+	//This method returns a list of feedback associated with a specific event, identified by eventId.
 	@Override
 	public List<Feedback> findByEventId(long eventId) {
 		List<Feedback> result = new ArrayList<>();
