@@ -1,4 +1,4 @@
-package io.swagger.model.event_merch_prosumer;
+package io.swagger.model.soap_proxy;
 
 import java.time.LocalDateTime;
 

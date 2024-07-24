@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import io.swagger.model.soap_proxy.Event;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public class EventWithMerch   {

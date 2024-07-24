@@ -5,31 +5,23 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import io.swagger.model.soap_proxy.CustomerHistory;
+import io.swagger.model.soap_proxy.Event;
+import io.swagger.model.soap_proxy.SoldTicket;
 import it.univaq.sose.dagi.customer_client.CustomerClientApplication;
-import it.univaq.sose.dagi.customer_client.client.FeedbackSOAPClient;
-import it.univaq.sose.dagi.customer_client.client.TicketSOAPClient;
-import it.univaq.sose.dagi.wsdltypes.EventData;
-import it.univaq.sose.dagi.wsdltypes.FetchCustomerBoughtTicketsResponse;
-import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
-import it.univaq.sose.dagi.wsdltypes.SoldTicketData;
+import it.univaq.sose.dagi.customer_client.client.SOAPProxyRESTClient;
 
 public class TicketHistoryCommands {
 	
 	public static void showTicketHistory(Scanner scanner) {
 		//Fetch the data
-		FetchCustomerBoughtTicketsResponse data;
-		try {
-			data = TicketSOAPClient.getInstance().fetchCustomerTicketHistory(CustomerClientApplication.getCustomerId());
-		} catch (ServiceException_Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
-		List<SoldTicketData> tickets = data.getSoldTicketsList().getSoldTicketData();
-		List<EventData> events = data.getEventsList().getEventData();
+		CustomerHistory data;
+		data = SOAPProxyRESTClient.getInstance().fetchCustomerTicketHistory(CustomerClientApplication.getCustomerId());
+		List<SoldTicket> tickets = data.getBoughtTickets();
+		List<Event> events = data.getTicketRelatedEvents();
 		List<String> historyRows = new ArrayList<>(tickets.size()); //used to display in option menù the selected row
-		for(EventData e : events) {
-			System.out.print(e.getEventId()+",");
+		for(Event e : events) {
+			System.out.print(e.getId()+",");
 		}
 		System.out.println();
 		
@@ -39,11 +31,11 @@ public class TicketHistoryCommands {
 			System.out.println("\n\n==============YOUR TICKET HISTORY==============");
 			System.out.println("\nEvent\t\t\tTicket date");
 			int count = 1;
-			for(SoldTicketData currTicket : tickets) {
+			for(SoldTicket currTicket : tickets) {
 				//Fetch event name
-				EventData e = null;
-				for(EventData currEvent : events) {
-					if(currEvent.getEventId() == currTicket.getEventId()) {
+				Event e = null;
+				for(Event currEvent : events) {
+					if(currEvent.getId() == currTicket.getEventId()) {
 						e = currEvent;
 						break;
 					}
@@ -118,14 +110,9 @@ public class TicketHistoryCommands {
 		System.out.println("\nAnything in particular you want to let the organizer know?");
 		String body = scanner.nextLine();
 		System.out.println("\nSubmitting your feedback, please wait...");
-		try {
-			String message = FeedbackSOAPClient.getInstance().submitFeedback(CustomerClientApplication.getCustomerId(), eventId, rating, body);
-			System.out.println("\n=======================================================");
-			System.out.println(message);
-			System.out.println("\n=======================================================");
-		} catch (ServiceException_Exception e) {
-			e.printStackTrace();
-			return;
-		}
+		String message = SOAPProxyRESTClient.getInstance().submitFeedback(CustomerClientApplication.getCustomerId(), eventId, rating, body);
+		System.out.println("\n=======================================================");
+		System.out.println(message);
+		System.out.println("\n=======================================================");
 	}
 }

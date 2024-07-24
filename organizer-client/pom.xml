@@ -166,7 +166,7 @@
         </executions>
       </plugin  -->
 			<!--WSDL to JAVA code generation plugin-->
-			<plugin>
+			<!--<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-codegen-plugin</artifactId>
 				<version>${cxf-version}</version>
@@ -189,7 +189,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>

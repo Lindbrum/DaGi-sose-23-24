@@ -1,6 +1,5 @@
 package it.univaq.sose.dagi.organizer_client.ui;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,12 +8,11 @@ import java.util.Scanner;
 import io.swagger.model.feedback_prosumer.EventFeedbackReport;
 import io.swagger.model.feedback_prosumer.Feedback;
 import io.swagger.model.sales_prosumer.EventSalesReport;
+import io.swagger.model.soap_proxy.Event;
 import it.univaq.sose.dagi.organizer_client.OrganizerClientApplication;
-import it.univaq.sose.dagi.organizer_client.client.EventSOAPClient;
 import it.univaq.sose.dagi.organizer_client.client.ReportAsyncRESTClient;
+import it.univaq.sose.dagi.organizer_client.client.SOAPProxyRESTClient;
 import it.univaq.sose.dagi.organizer_client.model.EventReport;
-import it.univaq.sose.dagi.wsdltypes.EventData;
-import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
 
 public class ReportCommands {
 
@@ -41,7 +39,7 @@ public class ReportCommands {
 	private static boolean isDirty;
 	private static int currentPage;
 	private static SortingMode currentSortBy;
-	private static List<EventData> currentPageEvents;
+	private static List<Event> currentPageEvents;
 
 	public static void organizerEventCatalogue(Scanner scanner) {
 		// initialize state
@@ -154,9 +152,9 @@ public class ReportCommands {
 		
 	}
 	
-	private static void showEventReport(EventData event, String keywords, Scanner scanner) {
+	private static void showEventReport(Event event, String keywords, Scanner scanner) {
 		//Fetch the report data
-		EventReport report = ReportAsyncRESTClient.getInstance().fetchEventReport(event.getEventId(), keywords);
+		EventReport report = ReportAsyncRESTClient.getInstance().fetchEventReport(event.getId(), keywords);
 		EventFeedbackReport feedbacksReport = report.getFeedbackReport();
 		EventSalesReport salesReport = report.getSalesReport();
 		
@@ -210,17 +208,11 @@ public class ReportCommands {
 
 	private static void populateCataloguePage() {
 		if(isDirty) {
-			try {
-				currentPageEvents = EventSOAPClient.getInstance().requestOrganizerEventsPage(OrganizerClientApplication.getOrganizerId(), currentPage, currentSortBy.name());
-			} catch (ServiceException_Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return;
-			}
+			currentPageEvents = SOAPProxyRESTClient.getInstance().requestOrganizerEventsPage(OrganizerClientApplication.getOrganizerId(), currentPage, currentSortBy.name());
 			isDirty = false;
 		}
 		int count = 1;
-		for (EventData event : currentPageEvents) {
+		for (Event event : currentPageEvents) {
 			String runningTime = event.getStartDate().toString() + " - " + event.getEndDate().toString();
 
 			System.out.println("-------------------------------------------------------------------");
