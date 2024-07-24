@@ -35,4 +35,4 @@ public interface FeedbackProsumerApi {
 	//The response will be a ResponseEntity<EventFeedbackReport> that includes a detailed report with all feedbacks, the average rating of the event, and counts of the provided keywords.
 	//This method consumes and produces data in JSON format. If an error occurs while processing the request, a ServiceException_Exception is thrown.
 	public EventFeedbackReport getEventFeedbackReport(@Parameter(description = "The ID of the event to generate the report for.") @PathParam(value = "eventId") long eventId, @QueryParam(value = "keywords") String keywords) throws ServiceException_Exception;
-  
+}
