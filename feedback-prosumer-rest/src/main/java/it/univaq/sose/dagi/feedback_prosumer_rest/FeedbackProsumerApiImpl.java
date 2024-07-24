@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import it.univaq.sose.dagi.feedback_prosumer_rest.client.CustomerRESTClient;
+import it.univaq.sose.dagi.feedback_prosumer_rest.client.CustomerRESTFeignClient;
 import it.univaq.sose.dagi.feedback_prosumer_rest.client.FeedbackSOAPClient;
 import it.univaq.sose.dagi.feedback_prosumer_rest.model.EventFeedbackReport;
 import it.univaq.sose.dagi.feedback_prosumer_rest.model.Feedback;
@@ -24,12 +25,12 @@ import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
 public class FeedbackProsumerApiImpl implements FeedbackProsumerApi {
 
 	private FeedbackSOAPClient feedbackClient;
-	private CustomerRESTClient customerClient;
+	private CustomerRESTFeignClient customerClient;
 	
 	
 	//This class implements the FeedbackProsumerApi interface to generate a detailed report on event feedback.
 	//It utilizes FeedbackSOAPClient to fetch feedback data and CustomerRESTClient to retrieve customer information.
-	public FeedbackProsumerApiImpl(FeedbackSOAPClient feedbackClient, CustomerRESTClient customerClient) {
+	public FeedbackProsumerApiImpl(FeedbackSOAPClient feedbackClient, CustomerRESTFeignClient customerClient) {
 		super();
 		this.feedbackClient = feedbackClient;
 		this.customerClient = customerClient;

@@ -17,12 +17,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 
 import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 
 import it.univaq.sose.dagi.feedback_prosumer_rest.client.CustomerRESTClient;
+import it.univaq.sose.dagi.feedback_prosumer_rest.client.CustomerRESTFeignClient;
 import it.univaq.sose.dagi.feedback_prosumer_rest.client.FeedbackSOAPClient;
 
 
@@ -30,6 +32,7 @@ import it.univaq.sose.dagi.feedback_prosumer_rest.client.FeedbackSOAPClient;
 //RESTful API for generating feedback reports on events. It is configured to run a JAX-RS server with Swagger documentation.
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableFeignClients
 public class FeedbackProsumerRestApplication {
 
 	@Autowired
@@ -39,7 +42,7 @@ public class FeedbackProsumerRestApplication {
 	private FeedbackSOAPClient feedbackClient;
 	
 	@Autowired
-	private CustomerRESTClient customerClient;
+	private CustomerRESTFeignClient customerClient;
 	
 	@Value("${server.port}")
 	private String port;

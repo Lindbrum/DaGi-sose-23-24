@@ -17,14 +17,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 
 import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.EventSOAPClient;
 import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.MerchandiseRESTClient;
+import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.MerchandiseRESTFeignClient;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableFeignClients
 public class RESTServiceApplication {
 
 	@Autowired
@@ -34,7 +37,7 @@ public class RESTServiceApplication {
 	private EventSOAPClient eventClient;
 	
 	@Autowired
-	private MerchandiseRESTClient merchClient;
+	private MerchandiseRESTFeignClient merchClient;
 	
 	@Value("${server.port}")
 	private String port;

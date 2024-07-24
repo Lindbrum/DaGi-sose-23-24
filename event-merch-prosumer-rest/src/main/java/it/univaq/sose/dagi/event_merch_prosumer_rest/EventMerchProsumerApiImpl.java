@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.EventSOAPClient;
 import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.MerchandiseRESTClient;
+import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.MerchandiseRESTFeignClient;
 import it.univaq.sose.dagi.event_merch_prosumer_rest.model.Event;
 import it.univaq.sose.dagi.event_merch_prosumer_rest.model.EventWithMerch;
 import it.univaq.sose.dagi.event_merch_prosumer_rest.model.Merchandise;
@@ -18,12 +19,12 @@ import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
 @Service
 public class EventMerchProsumerApiImpl implements EventMerchProsumerApi {
 
-	private MerchandiseRESTClient merchClient;
+	private MerchandiseRESTFeignClient merchClient;
 	private EventSOAPClient eventClient;
 	
 	//This constructor initializes the class with MerchandiseRESTClient and EventSOAPClient instances.
 	//The @Autowired annotation is inferred by Spring Boot when there is a single public constructor.
-	public EventMerchProsumerApiImpl(MerchandiseRESTClient merchClient, EventSOAPClient eventClient) {
+	public EventMerchProsumerApiImpl(MerchandiseRESTFeignClient merchClient, EventSOAPClient eventClient) {
 		this.merchClient=merchClient;
 		this.eventClient=eventClient;
 	}

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import it.univaq.sose.dagi.sales_analysis_prosumer_rest.client.CustomerRESTClient;
+import it.univaq.sose.dagi.sales_analysis_prosumer_rest.client.CustomerRESTFeignClient;
 import it.univaq.sose.dagi.sales_analysis_prosumer_rest.client.SoldTicketsSOAPClient;
 import it.univaq.sose.dagi.sales_analysis_prosumer_rest.model.Customer;
 import it.univaq.sose.dagi.sales_analysis_prosumer_rest.model.EventSalesReport;
@@ -26,9 +27,9 @@ import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
 public class SalesAnalysisProsumerApiImpl implements SalesAnalysisProsumerApi {
 
 	private SoldTicketsSOAPClient ticketsClient;
-	private CustomerRESTClient customerClient;
+	private CustomerRESTFeignClient customerClient;
 	
-	public SalesAnalysisProsumerApiImpl(SoldTicketsSOAPClient ticketsClient, CustomerRESTClient customerClient) {
+	public SalesAnalysisProsumerApiImpl(SoldTicketsSOAPClient ticketsClient, CustomerRESTFeignClient customerClient) {
 		super();
 		this.ticketsClient = ticketsClient;
 		this.customerClient = customerClient;

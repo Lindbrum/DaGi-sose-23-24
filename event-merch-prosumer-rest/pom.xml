@@ -1,7 +1,8 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.3.2</version>
@@ -24,9 +25,9 @@
 	</properties>
 	<dependencies>
 		<dependency>
-    		<groupId>org.apache.cxf</groupId>
-    		<artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
-    		<version>${cxf.version}</version>
+			<groupId>org.apache.cxf</groupId>
+			<artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
+			<version>${cxf.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -51,6 +52,10 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
@@ -61,16 +66,16 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-    		<groupId>com.sun.xml.ws</groupId>
-    		<artifactId>rt</artifactId>
-    		<version>${xml-api.version}</version>
+			<groupId>com.sun.xml.ws</groupId>
+			<artifactId>rt</artifactId>
+			<version>${xml-api.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-rs-service-description</artifactId>
 			<version>${cxf.version}</version>
 		</dependency>
-	    <dependency>
+		<dependency>
 			<groupId>org.apache.cxf</groupId>
 			<artifactId>cxf-rt-rs-service-description-openapi-v3</artifactId>
 			<version>${cxf.version}</version>
@@ -80,10 +85,10 @@
 			<artifactId>swagger-ui</artifactId>
 			<version>${swagger-ui.version}</version>
 		</dependency>
-	    <dependency>
-		    <groupId>io.swagger.core.v3</groupId>
-		    <artifactId>swagger-annotations</artifactId>
-		    <version>${swagger-annotations.version}</version>
+		<dependency>
+			<groupId>io.swagger.core.v3</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>${swagger-annotations.version}</version>
 		</dependency>
 	</dependencies>
 	<dependencyManagement>
@@ -105,17 +110,19 @@
 			</plugin>
 			<plugin>
 				<groupId>org.apache.cxf</groupId>
-    			<artifactId>cxf-codegen-plugin</artifactId>
-    			<version>${cxf.version}</version>
-    			<executions>
+				<artifactId>cxf-codegen-plugin</artifactId>
+				<version>${cxf.version}</version>
+				<executions>
 					<execution>
 						<id>generate-sources</id>
 						<phase>generate-sources</phase>
 						<configuration>
-							<sourceRoot>${project.build.directory}/generated-sources/cxf</sourceRoot>
+							<sourceRoot>
+								${project.build.directory}/generated-sources/cxf</sourceRoot>
 							<wsdlOptions>
 								<wsdlOption>
-									<wsdl>${basedir}/src/main/resources/wsdl/service.wsdl</wsdl>
+									<wsdl>
+										${basedir}/src/main/resources/wsdl/service.wsdl</wsdl>
 								</wsdlOption>
 							</wsdlOptions>
 						</configuration>
