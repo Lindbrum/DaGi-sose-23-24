@@ -17,6 +17,8 @@ import it.univaq.sose.dagi.wsdltypes.FetchEventFeedbackResponse.FeedbackList;
 import it.univaq.sose.dagi.wsdltypes.ObjectFactory;
 import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
 
+//This class facilitates communication with a SOAP web service to retrieve feedback data for a specified event.
+//It uses an ObjectFactory to construct SOAP request objects and process responses.
 @Component
 public class FeedbackSOAPClient {
 private ObjectFactory factory;
@@ -26,10 +28,13 @@ private ObjectFactory factory;
 		this.factory = new ObjectFactory();
 	}
 
+	//This method retrieves feedback data for a given event ID. It constructs a SOAP request, sends it to the web service, and
+	//processes the response to extract feedback details. It maps the response data into a list of Feedback objects and
+	//returns this list. If the URL is malformed, it catches and prints any MalformedURLException that occurs.
 	public List<Feedback> requestEventFeedbacks(Long eventId) throws ServiceException_Exception {
 		try {
-//			@Value("${service.feedback.soap.wsdl}")
-//			String wsdlUrl;
+			//@Value("${service.feedback.soap.wsdl}")
+			//String wsdlUrl;
 			URL url = new URL("http://localhost:8081/event-management-soap/event-management-soap?wsdl");
 			EventManagementImplService service = new EventManagementImplService(url);
 			EventManagementPort port = service.getEventManagementImplPort();

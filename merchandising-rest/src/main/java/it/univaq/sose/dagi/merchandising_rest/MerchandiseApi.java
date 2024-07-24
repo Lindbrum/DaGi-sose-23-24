@@ -50,6 +50,10 @@ public interface MerchandiseApi {
 //								  )
 //				  }) 
 	})
+	
+	//This method returns the entire list of merchandise available in the database. A successful response (HTTP 200)
+	//contains the list of all merchandise items in JSON format. The response code 400 indicates invalid request parameters were provided.
+	//The response code 500 indicates an unexpected error occurred on the server.
 	@GET
 	@Path("/all")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -83,6 +87,8 @@ public interface MerchandiseApi {
 								  )
 				  }) 
 	})
+	
+	//This method retrieves the list of merchandise associated with a specific event. It requires an event ID as a path parameter. The responses code are the same of the previous method.
 	@GET
 	@Path("/event/{eventId}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -116,6 +122,8 @@ public interface MerchandiseApi {
 								  )
 				  }) 
 	})
+	
+	//This method adds a new merchandise item to the database. It requires a Merchandise object in the request body. The responses code are the same of the previous method.
 	@POST
 	@Path("/create")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -150,6 +158,8 @@ public interface MerchandiseApi {
 								  )
 				  }) 
 	})
+	
+	//This method registers a merchandise item to an event. It requires both the event ID and merchandise ID as path parameters. On success (HTTP 200), it returns the updated merchandise item with the new event ID.
 	@PUT
 	@Path("/addevent/{eventId}/to/{merchId}")
 	@Consumes(MediaType.APPLICATION_JSON)

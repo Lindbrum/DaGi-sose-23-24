@@ -18,10 +18,14 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+//This interface is annotated with the following path. This means that it specifies
+//the default path for all the APIs for the authentication.
 @Path("/auth")
 public interface AuthRestApi {
 
 	// ====================
+	//This method handles a customer's registration. It uses @POST to indicate that it is a POST endpoint and @Path("/customer/signup") to specify the path.
+	//The JSON response contains the created customer ID.
 	@Operation(description = "Sign up a customer", responses = {
 			@ApiResponse(description = "A response entity object containing the id of the created customer.", content = {
 					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Long.class)) }) })
@@ -33,6 +37,8 @@ public interface AuthRestApi {
 					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Customer.class)), }) Customer customer);
 
 	// ====================
+	//This is similar to the previous method.
+	//The JSON response contains the created organized ID.
 	@Operation(description = "Sign up a organizer", responses = {
 			@ApiResponse(description = "A response entity object containing the id of the created organizer.", content = {
 					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Long.class)) }) })
@@ -44,6 +50,8 @@ public interface AuthRestApi {
 					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Organizer.class)), }) Organizer organizer);
 
 	// ====================
+	//This method handles a customer's login. It uses @POST and @Path("/customer/signin") for the path. 
+	//The JSON response contains the ID of the logged in customer.
 	@Operation(description = "Sign in a customer", responses = {
 			@ApiResponse(description = "A response entity object containing the id of the customer who signed in.", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Long.class))) })
 	@POST
@@ -54,6 +62,8 @@ public interface AuthRestApi {
 					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Credentials.class)), }) Credentials credentials);
 
 	// ====================
+	//This is similar to the previous method.
+	//The JSON response contains the ID of the logged in organizer.
 	@Operation(description = "Sign in an organizer", responses = {
 			@ApiResponse(description = "A response entity object containing the id of the organizer who signed in.", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Long.class))) })
 	@POST
@@ -64,6 +74,8 @@ public interface AuthRestApi {
 					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Credentials.class)), }) Credentials credentials);
 
 	// ====================
+	//This method retrieves the information of a specific customer. It uses @GET to indicate that it is a GET endpoint
+	//and @Path("/customer/info/{userId}") to specify the path with a userId parameter.
 	@Operation(description = "Fetch the info of a customer", responses = {
 			@ApiResponse(description = "A response entity object containing the info of the customer (sensitive data is hidden).", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Customer.class))) })
 	@GET
@@ -73,7 +85,9 @@ public interface AuthRestApi {
 			@Parameter(description = "The id of the user we want to fetch.") @PathParam(value = "userId") long userId);
 
 	// ====================
-	@Operation(description = "Fetch the info of a customer", responses = {
+	//This method retrieves information from a customer list. It uses @GET and @Path("/customer/infos/{userIds}") to specify the path
+	//with a userIds parameter that contains a comma-separated list of IDs.
+	@Operation(description = "Fetch the info of a list of customer", responses = {
 			@ApiResponse(description = "A response entity object containing the info of the customer (sensitive data is hidden).", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Customer.class))) })
 	@GET
 	@Path("/customer/infos/{userIds}")
@@ -81,20 +95,17 @@ public interface AuthRestApi {
 	public List<Customer> fetchCustomerInfoList(
 			@Parameter(description = "The list of ids of users we want to fetch.") @PathParam(value = "userIds") String userIds);
 	// ====================
-//	@Operation(description = "The description of the create operation goes here!", responses = {
-//			@ApiResponse(description = "The description of the Response goes here!", content = @Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Boolean.class))) })
-//	@POST
-//	public boolean create(
-//			@RequestBody(description = "The description of the input parameter goes here!", required = true, content = {
-//					@Content(mediaType = MediaType.APPLICATION_XML, schema = @Schema(implementation = Todo.class)),
-//					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Todo.class)), }) Todo todo);
-//
-//	@PUT
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	public boolean update(Todo todo);
-//
-//	@DELETE
-//	@Path("{id}")
-//	public boolean delete(@PathParam("id") String id);
-
+	
+	//API ANNOTATIONS
+	
+	// - @Operation: Describes the endpoint operation and possible responses.
+	// - @ApiResponse: Describes the API response.
+	// - @Content: Specifies the media type and response schema.
+	// - @RequestBody: Describes the body of the request.
+	// - @Parameter: Describes an endpoint parameter.
+	// - @Path: Specifies the path to the endpoint.
+	// - @POST and @GET: Indicate the type of HTTP request.
+	// - @Produces: Specifies the types of media the endpoint can produce.
+	
+	// ====================
 }

@@ -23,11 +23,17 @@ public class EventSOAPClient {
 	@Value("${client.event.wsdl}")
 	private String wsdlUrl;
 	
+	//It initializes the EventSOAPClient with an ObjectFactory instance.
+	//It sets up the necessary configurations to interact with the SOAP service.
 	public EventSOAPClient() {
 		//super();
 		this.factory = new ObjectFactory();
 	}
 
+	//Fetches event information from the SOAP service using the specified eventId.
+	//It constructs a request, sends it to the web service, and processes the response to create an Event object with
+	//details such as name, location, description, start and end dates, and the number of tickets available.
+	//If any error occurs, it logs the issue and returns null.
 	public Event requestEventInfo(Long eventId) throws ServiceException_Exception {
 		try {
 			URL url = new URL(wsdlUrl);

@@ -20,6 +20,8 @@ import it.univaq.sose.dagi.sales_analysis_prosumer_rest.model.EventSalesReport;
 import it.univaq.sose.dagi.sales_analysis_prosumer_rest.model.SoldTicket;
 import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
 
+//This constructor initializes an instance of SalesAnalysisProsumerApiImpl with provided
+//clients (SoldTicketSOAPClient and CustomerRESTClient) for fetching ticket and customer information. 
 @Service
 public class SalesAnalysisProsumerApiImpl implements SalesAnalysisProsumerApi {
 
@@ -32,6 +34,10 @@ public class SalesAnalysisProsumerApiImpl implements SalesAnalysisProsumerApi {
 		this.customerClient = customerClient;
 	}
 
+	//This method generates a sales report for the event identified by eventId, which includes the number of tickets sold, the
+	//average customer age, gender distribution, and ticket sales distribution over time.
+	//The method retrieves ticket information via ticketsClient and customer details via customerClient, processes the
+	//data, and returns the report in a ResponseEntity. In case of errors, a ServiceException_Exception is thrown.
 	@Override
 	public EventSalesReport getEventSalesReport(long eventId) throws ServiceException_Exception {
 		try {

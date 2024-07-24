@@ -17,6 +17,8 @@ public class SoldTicketServiceDummyImpl implements SoldTicketService {
 	private static long nextId = 0L;
 	private static List<SoldTicket> soldTickets = new ArrayList<>();
 	
+	//The constructor initializes a collection of SoldTicket instances, each with a unique ID and specific attributes such as userId, eventId, and referenceDate.
+	//This setup provides a basic dataset for testing or development purposes.
 	public SoldTicketServiceDummyImpl() {
 		SoldTicket t0 = new SoldTicket(nextId++, 0L, 0L, null);
 		t0.setReferenceDate(LocalDateTime.of(2024, Month.JULY, 29, 18, 0));
@@ -42,6 +44,7 @@ public class SoldTicketServiceDummyImpl implements SoldTicketService {
 		soldTickets.add(t6);
 	}
 	
+	//This method creates a new SoldTicket object. It assigns a unique ID to the newSoldTicket, adds it to the collection, and returns the newly created SoldTicket.
 	@Override
 	public SoldTicket create(SoldTicket newSoldTicket) {
 		newSoldTicket.setId(nextId++);
@@ -49,6 +52,8 @@ public class SoldTicketServiceDummyImpl implements SoldTicketService {
 		return newSoldTicket;
 	}
 
+	//This method updates an existing SoldTicket object. It first checks if the soldTicket has a non-null ID; otherwise, it throws an IllegalArgumentException.
+	//It then searches for the SoldTicket in the collection and updates its attributes. If the SoldTicket is found, it returns the updated instance; otherwise, it throws a NoSuchElementException.
 	@Override
 	public SoldTicket update(SoldTicket soldTicket) throws IllegalArgumentException, NoSuchElementException {
 		if(soldTicket.getId() == null) {
@@ -71,6 +76,8 @@ public class SoldTicketServiceDummyImpl implements SoldTicketService {
 		return found;
 	}
 
+	//This method deletes a SoldTicket object from the collection. It requires the soldTicket to have a non-null ID; otherwise, it throws an IllegalArgumentException.
+	//It iterates through the collection to find and remove the SoldTicket. If not found, it throws a NoSuchElementException.
 	@Override
 	public void delete(SoldTicket soldTicket) throws IllegalArgumentException, NoSuchElementException {
 		if(soldTicket.getId() == null) {
@@ -86,6 +93,8 @@ public class SoldTicketServiceDummyImpl implements SoldTicketService {
 		throw new NoSuchElementException("Ticket sale info to delete not found.");
 	}
 
+	//This method retrieves a SoldTicket object by its ID. It iterates through the collection to find a match.
+	//If found, it returns the SoldTicket; otherwise, it throws a NoSuchElementException.
 	@Override
 	public SoldTicket findById(long id) throws NoSuchElementException {
 		for(SoldTicket current : soldTickets) {
@@ -96,11 +105,14 @@ public class SoldTicketServiceDummyImpl implements SoldTicketService {
 		throw new NoSuchElementException("Ticket sale info not found.");
 	}
 
+	//This method returns a list of all SoldTicket objects in the collection.
 	@Override
 	public List<SoldTicket> getAll() {
 		return List.copyOf(soldTickets);
 	}
 
+	//This method returns a list of SoldTicket objects associated with a specific event, identified by eventId.
+	//It filters the soldTickets collection to include only those with the matching event ID.
 	@Override
 	public List<SoldTicket> findByEventId(long eventId) {
 		List<SoldTicket> result = new ArrayList<>();

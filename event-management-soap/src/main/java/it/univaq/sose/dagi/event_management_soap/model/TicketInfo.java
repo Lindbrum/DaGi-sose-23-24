@@ -53,6 +53,10 @@ public class TicketInfo {
 		this.availableTickets = availableTickets;
 	}
 	
+	//This method compares whether two TicketInfo objects are equal. 
+	//First checks whether the passed object is null or not of type TicketInfo; in that case, it returns false.
+	//If the object is of the correct type, compare the IDs of the two objects.
+	//If the IDs are equal, it returns true, otherwise false.
 	@Override
 	public boolean equals(Object obj) {
 		if(obj == null || !(obj instanceof TicketInfo)) return false;

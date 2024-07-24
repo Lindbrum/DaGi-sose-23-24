@@ -27,14 +27,20 @@ public class FeedbackProsumerApiImpl implements FeedbackProsumerApi {
 	private CustomerRESTClient customerClient;
 	
 	
+	//This class implements the FeedbackProsumerApi interface to generate a detailed report on event feedback.
+	//It utilizes FeedbackSOAPClient to fetch feedback data and CustomerRESTClient to retrieve customer information.
 	public FeedbackProsumerApiImpl(FeedbackSOAPClient feedbackClient, CustomerRESTClient customerClient) {
 		super();
 		this.feedbackClient = feedbackClient;
 		this.customerClient = customerClient;
 	}
 
-
-
+	//This method fetches feedback for a specific event identified by eventId and processes it to create a report.
+	//It calculates the average feedback rating, computes the average age of customers who provided feedback, and counts
+	//occurrences of specified keywords in the feedback comments. If the provided keywords parameter is not empty or null, the
+	//method counts how often each keyword appears in the feedback. The method returns a ResponseEntity<EventFeedbackReport>
+	//containing the report. If an error occurs during data retrieval or processing, the method catches and logs the
+	//ServiceException_Exception and then rethrows it.
 	@Override
 	public EventFeedbackReport getEventFeedbackReport(long eventId, String keywords) throws ServiceException_Exception {
 		try {

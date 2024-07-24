@@ -16,6 +16,9 @@ import jakarta.xml.ws.Endpoint;
 @Configuration
 public class WebServiceConfig {
 
+	//Use the @Autowired annotation to automatically inject the necessary components.
+	//These include the Apache CXF bus (bus) and several service implementations (eventService, feedbackService, soldTicketService, ticketInfoService).
+	//These services provide the business logic needed to manage web service operations.
     @Autowired
     private Bus bus;
     @Autowired
@@ -27,7 +30,10 @@ public class WebServiceConfig {
 	@Autowired
 	private TicketInfoServiceDummyImpl ticketInfoService;
     
-
+	//In this method, an EndpointImpl is created, which is a concrete implementation of a SOAP endpoint provided by Apache CXF.
+	//This endpoint is configured with the bus and an instance of EventManagementImpl, which is the class that contains the business
+	//logic and uses the injected service implementations. The endpoint is then published to the URL /event-management-soap, making
+	//it accessible to SOAP clients who wish to invoke service operations.
     @Bean
     public Endpoint endpoint() {
         EndpointImpl endpoint = new EndpointImpl(bus, new EventManagementImpl(eventService, feedbackService, soldTicketService, ticketInfoService));

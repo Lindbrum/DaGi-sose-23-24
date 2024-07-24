@@ -17,6 +17,8 @@ public class TicketInfoServiceDummyImpl implements TicketInfoService {
 	private static Long nextId = 0L;
 	private static List<TicketInfo> ticketInfos = new ArrayList<>();
 	
+	//This is the constructor of the TicketInfoServiceDummyImpl class. Initializes some TicketInfo objects with sample values ​​and adds them to a list of ticketInfos.
+	//Each TicketInfo is created with a unique ID and reference date, then added to the list.
 	public TicketInfoServiceDummyImpl() {
 		TicketInfo t0 = new TicketInfo(nextId++, 0L, null, 50);
 		t0.setReferenceDate(LocalDateTime.of(2024, Month.JULY, 29, 18, 0));
@@ -30,6 +32,8 @@ public class TicketInfoServiceDummyImpl implements TicketInfoService {
 		ticketInfos.add(t2);
 	}
 	
+	//This method takes a TicketInfo object as a parameter, assigns a new ID to the ticket, adds it to the ticketInfos list
+	//and returns the updated object. It is used to create a new ticket and add it to the system.
 	@Override
 	public TicketInfo create(TicketInfo newTicketInfo) {
 		newTicketInfo.setId(nextId++);
@@ -37,6 +41,9 @@ public class TicketInfoServiceDummyImpl implements TicketInfoService {
 		return newTicketInfo;
 	}
 
+	//This method updates an existing ticket. If the ticket ID is null, throw IllegalArgumentException.
+	//It searches for the ticket in the list, updates its details if found, and returns the updated ticket.
+	//If the ticket is not found, throw NoSuchElementException.
 	@Override
 	public TicketInfo update(TicketInfo ticketInfo) throws IllegalArgumentException, NoSuchElementException {
 		if(ticketInfo.getId() == null) {
@@ -59,6 +66,8 @@ public class TicketInfoServiceDummyImpl implements TicketInfoService {
 		return found;
 	}
 
+	//This method deletes a ticket from the list. If the ticket ID is null, throw IllegalArgumentException.
+	//It searches for and removes the ticket from the list, throwing NoSuchElementException if the ticket is not found.
 	@Override
 	public void delete(TicketInfo ticketInfo) throws IllegalArgumentException, NoSuchElementException {
 		if(ticketInfo.getId() == null) {
@@ -74,6 +83,7 @@ public class TicketInfoServiceDummyImpl implements TicketInfoService {
 		throw new NoSuchElementException("Ticket info to delete not found.");
 	}
 
+	//This method searches for a ticket by ID. If the ticket is found, he returns it; otherwise, throw NoSuchElementException.
 	@Override
 	public TicketInfo findById(long id) throws NoSuchElementException {
 		for(TicketInfo current : ticketInfos) {
@@ -84,11 +94,13 @@ public class TicketInfoServiceDummyImpl implements TicketInfoService {
 		throw new NoSuchElementException("Ticket info not found.");
 	}
 
+	//Returns an immutable copy of the list of all available ticketInfos tickets.
 	@Override
 	public List<TicketInfo> getAll() {
 		return List.copyOf(ticketInfos);
 	}
 
+	//This method searches for all tickets associated with a given event, identified by the ID provided. It returns a list of matching tickets.
 	@Override
 	public List<TicketInfo> findByEventId(long eventId) {
 		List<TicketInfo> result = new ArrayList<>();
