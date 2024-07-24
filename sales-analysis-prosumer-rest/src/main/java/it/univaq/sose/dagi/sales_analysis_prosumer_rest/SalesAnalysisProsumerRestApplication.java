@@ -17,16 +17,19 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 
 import it.univaq.sose.dagi.sales_analysis_prosumer_rest.client.CustomerRESTClient;
+import it.univaq.sose.dagi.sales_analysis_prosumer_rest.client.CustomerRESTFeignClient;
 import it.univaq.sose.dagi.sales_analysis_prosumer_rest.client.SoldTicketsSOAPClient;
 
 //This constructor Initializes the Spring Boot application, configures beans for REST
 //server, OpenAPI documentation, and handles application startup events.
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableFeignClients
 public class SalesAnalysisProsumerRestApplication {
 
 	
@@ -37,7 +40,7 @@ public class SalesAnalysisProsumerRestApplication {
 	private SoldTicketsSOAPClient ticketsClient;
 	
 	@Autowired
-	private CustomerRESTClient customerClient;
+	private CustomerRESTFeignClient customerClient;
 	
 	@Value("${server.port}")
 	private String port;
