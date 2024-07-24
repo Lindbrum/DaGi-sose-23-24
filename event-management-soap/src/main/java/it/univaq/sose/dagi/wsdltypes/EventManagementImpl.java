@@ -117,6 +117,7 @@ public class EventManagementImpl implements EventManagementPort {
 
 	@Override
 	public EventCatalogueResponse eventCatalogue(EventCatalogueRequest parameters) throws ServiceException_Exception {
+		System.out.print("=====================eventCatalogue");
 		// Get the catalogue page using the selected sorting method
 		List<Event> pageEvents = eventService.sortAndFindByPage(parameters.getPage(), parameters.getSortBy());
 		// Build the response

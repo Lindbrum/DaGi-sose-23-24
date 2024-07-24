@@ -23,7 +23,6 @@ import org.springframework.context.event.EventListener;
 
 import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 
-import it.univaq.sose.dagi.feedback_prosumer_rest.client.CustomerRESTClient;
 import it.univaq.sose.dagi.feedback_prosumer_rest.client.CustomerRESTFeignClient;
 import it.univaq.sose.dagi.feedback_prosumer_rest.client.FeedbackSOAPClient;
 

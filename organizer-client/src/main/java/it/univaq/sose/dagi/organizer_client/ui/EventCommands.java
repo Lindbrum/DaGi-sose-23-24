@@ -7,9 +7,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 import it.univaq.sose.dagi.organizer_client.OrganizerClientApplication;
-import it.univaq.sose.dagi.organizer_client.client.EventSOAPClient;
-import it.univaq.sose.dagi.organizer_client.client.TicketSOAPClient;
-import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
+import it.univaq.sose.dagi.organizer_client.client.SOAPProxyRESTClient;
 
 public class EventCommands {
 	
@@ -71,7 +69,6 @@ public class EventCommands {
 		
 		
 		//Step 2: Collect tickets info
-		int remainingTickets = nrTickets;
 		int dates = 0;
 		while(true) {			
 			System.out.print("\nHow many separate dates will you sell tickets for? ");
@@ -113,21 +110,10 @@ public class EventCommands {
 		}
 		//Step 3: save everything on the services
 		long eventDbId;
-		try {
-			eventDbId = EventSOAPClient.getInstance().createEvent(name, description, OrganizerClientApplication.getOrganizerId(), location, startDate, endDate, nrTickets);
-		} catch (ServiceException_Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return;
-		}
+		eventDbId = SOAPProxyRESTClient.getInstance().createEvent(name, description, OrganizerClientApplication.getOrganizerId(), location, startDate, endDate, nrTickets);
 		long[] ticketsIds = new long[dates];
 		for(int i = 0; i < dates; i++) {
-			try {
-				ticketsIds[i] = TicketSOAPClient.getInstance().createTicketInfo(eventDbId, referenceDates[i], availabilities[i]);
-			} catch (ServiceException_Exception e) {
-				e.printStackTrace();
-				return;
-			}
+			ticketsIds[i] = SOAPProxyRESTClient.getInstance().createTicketInfo(eventDbId, referenceDates[i], availabilities[i]);
 		}
 		System.out.println("\n=================================================================================");
 		System.out.println("Event has been successfully created, along with all the tickets availabilities");

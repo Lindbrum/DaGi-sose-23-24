@@ -168,7 +168,7 @@
         </executions>
       </plugin  -->
 			<!--WSDL to JAVA code generation plugin-->
-			<plugin>
+			<!--<plugin>
 				<groupId>org.apache.cxf</groupId>
 				<artifactId>cxf-codegen-plugin</artifactId>
 				<version>${cxf-version}</version>
@@ -210,7 +210,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 		</plugins>
 	</build>
 </project>

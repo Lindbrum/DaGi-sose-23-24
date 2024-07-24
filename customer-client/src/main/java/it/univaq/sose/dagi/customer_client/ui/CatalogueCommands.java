@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-import io.swagger.model.event_merch_prosumer.Event;
 import io.swagger.model.event_merch_prosumer.EventWithMerch;
 import io.swagger.model.event_merch_prosumer.Merchandise;
+import io.swagger.model.soap_proxy.Event;
 import it.univaq.sose.dagi.customer_client.client.EventMerchProsumerRESTClient;
-import it.univaq.sose.dagi.customer_client.client.EventSOAPClient;
+import it.univaq.sose.dagi.customer_client.client.SOAPProxyRESTClient;
 
 public class CatalogueCommands {
 
@@ -197,7 +197,7 @@ public class CatalogueCommands {
 
 	private static void populateCataloguePage() {
 		if(isDirty) {
-			currentPageEvents = EventSOAPClient.getInstance().requestEventCataloguePage(currentPage, currentSortBy.name());
+			currentPageEvents = SOAPProxyRESTClient.getInstance().requestEventCataloguePage(currentPage, currentSortBy.name());
 			isDirty = false;
 		}
 		int count = 1;

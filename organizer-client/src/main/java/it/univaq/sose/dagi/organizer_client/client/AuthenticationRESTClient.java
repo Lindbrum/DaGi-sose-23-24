@@ -11,7 +11,6 @@ import org.apache.cxf.jaxrs.client.WebClient;
 
 import io.swagger.api.AuthenticationApi;
 import io.swagger.model.authentication_provider.Credentials;
-import io.swagger.model.authentication_provider.Customer;
 import io.swagger.model.authentication_provider.Organizer;
 import it.univaq.sose.dagi.organizer_client.jackson.DateCompatibleJacksonJsonProvider;
 
