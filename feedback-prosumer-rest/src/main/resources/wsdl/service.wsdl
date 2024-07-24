@@ -114,6 +114,28 @@
 					</xs:sequence>
 				</xs:complexType>
 			</xsd:element>
+			<xsd:element name="organizerCatalogueRequest">			
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="organizerId" type="xs:long"/>
+						<xs:element name="page" type="xs:int" />
+						<xs:element name="sortBy" type="xs:string" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="organizerCatalogueResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xsd:element name="eventList">			
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="eventData" type="tns:eventData" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xsd:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
 			<xsd:element name="fetchEventInfoRequest">			
 				<xs:complexType>
 					<xs:sequence>
@@ -231,6 +253,33 @@
 							<xs:complexType>
 								<xs:sequence>
 									<xs:element name="soldTicketData" type="tns:soldTicketData" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xsd:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="fetchCustomerBoughtTicketsRequest">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="userId" type="xs:long" />
+					</xs:sequence>
+				</xs:complexType>
+			</xsd:element>
+			<xsd:element name="fetchCustomerBoughtTicketsResponse">			
+				<xs:complexType>
+					<xs:sequence>
+						<xsd:element name="soldTicketsList">			
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="soldTicketData" type="tns:soldTicketData" minOccurs="0" maxOccurs="unbounded"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xsd:element>
+						<xsd:element name="eventsList">			
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="eventData" type="tns:eventData" minOccurs="0" maxOccurs="unbounded"/>
 								</xs:sequence>
 							</xs:complexType>
 						</xsd:element>
@@ -361,6 +410,14 @@
 		<wsdl:part element="tns:eventCatalogueResponse" name="parameters">
 		</wsdl:part>
 	</wsdl:message>
+	<wsdl:message name="organizerCatalogueRequest">
+		<wsdl:part element="tns:organizerCatalogueRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="organizerCatalogueResponse">
+		<wsdl:part element="tns:organizerCatalogueResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
 	<wsdl:message name="fetchEventInfoRequest">
 		<wsdl:part element="tns:fetchEventInfoRequest" name="parameters">
 		</wsdl:part>
@@ -433,6 +490,14 @@
 		<wsdl:part element="tns:fetchEventSoldTicketsResponse" name="parameters">
 		</wsdl:part>
 	</wsdl:message>
+	<wsdl:message name="fetchCustomerBoughtTicketsRequest">
+		<wsdl:part element="tns:fetchCustomerBoughtTicketsRequest" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
+	<wsdl:message name="fetchCustomerBoughtTicketsResponse">
+		<wsdl:part element="tns:fetchCustomerBoughtTicketsResponse" name="parameters">
+		</wsdl:part>
+	</wsdl:message>
 	<wsdl:message name="createFeedbackRequest">
 		<wsdl:part element="tns:createFeedbackRequest" name="parameters">
 		</wsdl:part>
@@ -502,6 +567,15 @@
 			</wsdl:input>
 			<wsdl:output message="tns:eventCatalogueResponse"
 				name="eventCatalogueResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="organizerCatalogue">
+			<wsdl:input message="tns:organizerCatalogueRequest" name="organizerCatalogueRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:organizerCatalogueResponse"
+				name="organizerCatalogueResponse">
 			</wsdl:output>
 			<wsdl:fault message="tns:ServiceException" name="ServiceException">
 			</wsdl:fault>
@@ -583,6 +657,15 @@
 			</wsdl:input>
 			<wsdl:output message="tns:fetchEventSoldTicketsResponse"
 				name="fetchEventSoldTicketsResponse">
+			</wsdl:output>
+			<wsdl:fault message="tns:ServiceException" name="ServiceException">
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="fetchCustomerBoughtTickets">
+			<wsdl:input message="tns:fetchCustomerBoughtTicketsRequest" name="fetchCustomerBoughtTicketsRequest">
+			</wsdl:input>
+			<wsdl:output message="tns:fetchCustomerBoughtTicketsResponse"
+				name="fetchCustomerBoughtTicketsResponse">
 			</wsdl:output>
 			<wsdl:fault message="tns:ServiceException" name="ServiceException">
 			</wsdl:fault>
@@ -670,6 +753,18 @@
 				<soap:body use="literal" />
 			</wsdl:input>
 			<wsdl:output name="eventCatalogueResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="organizerCatalogue">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="organizerCatalogueRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="organizerCatalogueResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="ServiceException">
@@ -778,6 +873,18 @@
 				<soap:body use="literal" />
 			</wsdl:input>
 			<wsdl:output name="fetchEventSoldTicketsResponse">
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+		<wsdl:operation name="fetchCustomerBoughtTickets">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input name="fetchCustomerBoughtTicketsRequest">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="fetchCustomerBoughtTicketsResponse">
 				<soap:body use="literal" />
 			</wsdl:output>
 			<wsdl:fault name="ServiceException">

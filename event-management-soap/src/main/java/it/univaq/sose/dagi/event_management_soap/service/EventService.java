@@ -25,4 +25,5 @@ public interface EventService {
 	public List<Event> getAll();
 	//Returns sorted and paginated events. Parameters include the page to display and the sort order.
 	public List<Event> sortAndFindByPage(int page, String sortBy);
+	public List<Event> sortAndFindByPageAndOrganizer(long organizerId, int page, String sortBy);
 }

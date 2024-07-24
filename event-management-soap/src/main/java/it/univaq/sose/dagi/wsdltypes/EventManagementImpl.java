@@ -1,6 +1,9 @@
 package it.univaq.sose.dagi.wsdltypes;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import it.univaq.sose.dagi.event_management_soap.Utility;
 import it.univaq.sose.dagi.event_management_soap.model.Event;
@@ -16,6 +19,7 @@ import it.univaq.sose.dagi.event_management_soap.service.SoldTicketServiceDummyI
 import it.univaq.sose.dagi.event_management_soap.service.TicketInfoService;
 import it.univaq.sose.dagi.event_management_soap.service.TicketInfoServiceDummyImpl;
 import it.univaq.sose.dagi.wsdltypes.EventCatalogueResponse.EventList;
+import it.univaq.sose.dagi.wsdltypes.FetchCustomerBoughtTicketsResponse.EventsList;
 import it.univaq.sose.dagi.wsdltypes.FetchEventFeedbackResponse.FeedbackList;
 import it.univaq.sose.dagi.wsdltypes.FetchEventSoldTicketsResponse.SoldTicketsList;
 import it.univaq.sose.dagi.wsdltypes.PurchaseMenuResponse.AvailabilitiesList;
@@ -126,6 +130,22 @@ public class EventManagementImpl implements EventManagementPort {
 		return response;
 	}
 
+	@Override
+	public OrganizerCatalogueResponse organizerCatalogue(OrganizerCatalogueRequest parameters)
+			throws ServiceException_Exception {
+		// Get the organizer catalogue page using the selected sorting method
+		List<Event> pageEvents = eventService.sortAndFindByPageAndOrganizer(parameters.getOrganizerId(), parameters.getPage(), parameters.getSortBy());
+		// Build the response
+		OrganizerCatalogueResponse response = factory.createOrganizerCatalogueResponse();
+		it.univaq.sose.dagi.wsdltypes.OrganizerCatalogueResponse.EventList eventList = factory.createOrganizerCatalogueResponseEventList();
+		List<EventData> data = eventList.getEventData();
+		for (Event e : pageEvents) {
+			data.add(createEventData(e)); // Build JAXB object for the event data
+		}
+		response.setEventList(eventList);
+		return response;
+	}
+
 	/**
 	 * Create the JAXB marshallable event data object from an event POJO.
 	 * 
@@ -134,6 +154,7 @@ public class EventManagementImpl implements EventManagementPort {
 	 */
 	private EventData createEventData(Event selectedEvent) {
 		EventData data = factory.createEventData();
+		data.setEventId(selectedEvent.getId());
 		data.setName(selectedEvent.getName());
 		data.setDescription(selectedEvent.getDescription());
 		data.setOrganizerId(selectedEvent.getOrganizerId());
@@ -235,6 +256,8 @@ public class EventManagementImpl implements EventManagementPort {
 				Utility.toLocalDateTime(xmlTicket.getReferenceDate()));
 		// Add the ticket sale info to the data source
 		SoldTicket newTicketWithId = soldTicketService.create(newSoldTicket);
+		// Decrease available tickets in event and ticket info
+		decreaseAvailableTickets(newTicketWithId.getEventId(), newTicketWithId.getReferenceDate());
 		// Return the newly generated ticket sale info id in the response
 		CreateSoldTicketResponse response = factory.createCreateSoldTicketResponse();
 		response.setSoldTicketId(newTicketWithId.getId());
@@ -283,15 +306,16 @@ public class EventManagementImpl implements EventManagementPort {
 	@Override
 	public FetchEventSoldTicketsResponse fetchEventSoldTickets(FetchEventSoldTicketsRequest parameters)
 			throws ServiceException_Exception {
-		// Retrieve the feedbacks for this event in the data source
+		// Retrieve the tickets sold for this event in the data source
 		List<SoldTicket> eventSoldTickets = soldTicketService.findByEventId(parameters.getEventId());
-		//Build the response
+		// Build the response
 		FetchEventSoldTicketsResponse response = factory.createFetchEventSoldTicketsResponse();
 		// Access and create the JAXB list object
 		SoldTicketsList ticketsList = response.getSoldTicketsList();
 		ticketsList = factory.createFetchEventSoldTicketsResponseSoldTicketsList();
 		List<SoldTicketData> xmlTickets = ticketsList.getSoldTicketData();
 		// Create the JAXB Marshallable objects from the POJOs
+
 		for (SoldTicket st : eventSoldTickets) {
 			SoldTicketData ticketData = factory.createSoldTicketData();
 			ticketData.setSoldTicketId(st.getId());
@@ -300,7 +324,54 @@ public class EventManagementImpl implements EventManagementPort {
 			ticketData.setReferenceDate(Utility.toXMLCalendar(st.getReferenceDate()));
 			xmlTickets.add(ticketData);
 		}
+
 		response.setSoldTicketsList(ticketsList);
+		return response;
+	}
+
+	@Override
+	public FetchCustomerBoughtTicketsResponse fetchCustomerBoughtTickets(FetchCustomerBoughtTicketsRequest parameters)
+			throws ServiceException_Exception {
+		// Retrieve the tickets bought by this customer in the data source
+		List<SoldTicket> customerTickets = soldTicketService.findByCustomerId(parameters.getUserId());
+		// Build the response
+		FetchCustomerBoughtTicketsResponse response = factory.createFetchCustomerBoughtTicketsResponse();
+		// Access and create the JAXB list object
+		it.univaq.sose.dagi.wsdltypes.FetchCustomerBoughtTicketsResponse.SoldTicketsList ticketsList = response
+				.getSoldTicketsList();
+		ticketsList = factory.createFetchCustomerBoughtTicketsResponseSoldTicketsList();
+		EventsList eventsList = factory.createFetchCustomerBoughtTicketsResponseEventsList();
+		List<SoldTicketData> xmlTickets = ticketsList.getSoldTicketData();
+		List<EventData> xmlEvents = eventsList.getEventData();
+		// Create the JAXB Marshallable objects from the POJOs
+		Set<Long> eventIds = new HashSet<>();
+		for (SoldTicket st : customerTickets) {
+			SoldTicketData ticketData = factory.createSoldTicketData();
+			ticketData.setSoldTicketId(st.getId());
+			ticketData.setUserId(st.getUserId());
+			ticketData.setEventId(st.getEventId());
+			eventIds.add(st.getEventId()); // add to the set of ids to fetch
+			ticketData.setReferenceDate(Utility.toXMLCalendar(st.getReferenceDate()));
+			xmlTickets.add(ticketData);
+		}
+
+		// Fetch events info
+		for (Long id : eventIds) {
+			Event e = eventService.findById(id);
+			EventData event = factory.createEventData();
+			event.setEventId(e.getId());
+			event.setName(e.getName());
+			event.setDescription(e.getDescription());
+			event.setOrganizerId(e.getOrganizerId());
+			event.setLocation(e.getLocation());
+			event.setStartDate(Utility.toXMLCalendar(e.getStartDate()));
+			event.setEndDate(Utility.toXMLCalendar(e.getEndDate()));
+			event.setNrTickets(e.getNrTickets());
+			xmlEvents.add(event);
+		}
+
+		response.setSoldTicketsList(ticketsList);
+		response.setEventsList(eventsList);
 		return response;
 	}
 
@@ -385,5 +456,25 @@ public class EventManagementImpl implements EventManagementPort {
 		}
 		response.setFeedbackList(feedbackList);
 		return response;
+	}
+
+	/**********************************************
+	 * Private methods
+	 ********************************************/
+	private void decreaseAvailableTickets(long eventId, LocalDateTime ticketDate) {
+		// Fetch the event to use in update
+		Event event = eventService.findById(eventId);
+		event.setNrTickets(event.getNrTickets() - 1);
+		eventService.update(event);
+
+		// Fetch the ticket info to use in update
+		List<TicketInfo> eventTickets = ticketInfoService.findByEventId(eventId);
+		for (TicketInfo ticket : eventTickets) {
+			if (ticket.getReferenceDate().equals(ticketDate)) {
+				ticket.setAvailableTickets(ticket.getAvailableTickets() - 1);
+				ticketInfoService.update(ticket);
+				break;
+			}
+		}
 	}
 }

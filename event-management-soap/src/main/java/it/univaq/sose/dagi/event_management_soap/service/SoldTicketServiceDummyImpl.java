@@ -123,5 +123,18 @@ public class SoldTicketServiceDummyImpl implements SoldTicketService {
 		}
 		return result;
 	}
+
+	@Override
+	public List<SoldTicket> findByCustomerId(long customerId) {
+		List<SoldTicket> result = new ArrayList<>();
+		for(SoldTicket current : soldTickets) {
+			if(current.getUserId().equals(customerId)) {
+				result.add(current);
+			}
+		}
+		return result;
+	}
+	
+	
 	
 }

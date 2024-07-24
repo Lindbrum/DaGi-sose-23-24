@@ -20,4 +20,5 @@ public interface SoldTicketService {
 	public List<SoldTicket> getAll();
 	//This method returns a list of tickets sold associated with a specific event, identified by eventId.
 	public List<SoldTicket> findByEventId(long eventId);
+	public List<SoldTicket> findByCustomerId(long customerId);
 }

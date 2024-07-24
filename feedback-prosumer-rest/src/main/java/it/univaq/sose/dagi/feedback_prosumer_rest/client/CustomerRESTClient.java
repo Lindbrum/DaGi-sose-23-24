@@ -43,7 +43,7 @@ public class CustomerRESTClient {
 		}
 		RestTemplate restTemplate = new RestTemplate();
 		JsonNode responseEntityJson = restTemplate.getForObject(uri, JsonNode.class);
-		return responseEntityJson.findValue("body"); //Access the payload
+		return responseEntityJson;
 	}
 
 }

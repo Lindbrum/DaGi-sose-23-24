@@ -27,5 +27,5 @@ public interface SalesAnalysisProsumerApi {
 	@GET
 	@Path("/{eventId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseEntity<EventSalesReport> getEventSalesReport(@Parameter(description = "The ID of the event to generate the report for.") @PathParam(value = "eventId") long eventId) throws ServiceException_Exception;
+	public EventSalesReport getEventSalesReport(@Parameter(description = "The ID of the event to generate the report for.") @PathParam(value = "eventId") long eventId) throws ServiceException_Exception;
 }

@@ -42,7 +42,7 @@ public class FeedbackProsumerApiImpl implements FeedbackProsumerApi {
 	//containing the report. If an error occurs during data retrieval or processing, the method catches and logs the
 	//ServiceException_Exception and then rethrows it.
 	@Override
-	public ResponseEntity<EventFeedbackReport> getEventFeedbackReport(long eventId, String keywords) throws ServiceException_Exception {
+	public EventFeedbackReport getEventFeedbackReport(long eventId, String keywords) throws ServiceException_Exception {
 		try {
 			//Fetch the list of feedbacks
 			List<Feedback> feedbacks = feedbackClient.requestEventFeedbacks(eventId);
@@ -99,7 +99,7 @@ public class FeedbackProsumerApiImpl implements FeedbackProsumerApi {
 			report.setEventFeedbacks(feedbacks);
 			report.setKeywordsCount(keywordCounts);
 			
-			return new ResponseEntity<EventFeedbackReport>(report, HttpStatus.OK);
+			return report;
 			
 		} catch (ServiceException_Exception e) {
 			// TODO Auto-generated catch block

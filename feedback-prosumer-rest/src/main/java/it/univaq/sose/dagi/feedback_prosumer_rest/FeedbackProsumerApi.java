@@ -29,11 +29,10 @@ public interface FeedbackProsumerApi {
 	@Path("/{eventId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	
-	//This method generates a report on the feedback for a specified event. It is needed to provide the event ID as a path parameter.
+  //This method generates a report on the feedback for a specified event. It is needed to provide the event ID as a path parameter.
 	//Additionally, you can include a list of keywords as a query parameter.
 	//The keywords, which can be separated by commas or semi-colons, will be counted in the event's feedback.
 	//The response will be a ResponseEntity<EventFeedbackReport> that includes a detailed report with all feedbacks, the average rating of the event, and counts of the provided keywords.
 	//This method consumes and produces data in JSON format. If an error occurs while processing the request, a ServiceException_Exception is thrown.
-	public ResponseEntity<EventFeedbackReport> getEventFeedbackReport(@Parameter(description = "The ID of the event to generate the report for.") @PathParam(value = "eventId") long eventId, @QueryParam(value = "keywords") String keywords) throws ServiceException_Exception;
-}
+	public EventFeedbackReport getEventFeedbackReport(@Parameter(description = "The ID of the event to generate the report for.") @PathParam(value = "eventId") long eventId, @QueryParam(value = "keywords") String keywords) throws ServiceException_Exception;
+  

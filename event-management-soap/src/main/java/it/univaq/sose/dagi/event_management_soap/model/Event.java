@@ -15,6 +15,7 @@ public class Event implements Comparable<Event>{
 	private int nrTickets;
 	
 	
+	
 	public Event(Long id, String name, String description, Long organizerId, String location, LocalDateTime startDate,
 			LocalDateTime endDate, int nrTickets) {
 		super();
@@ -27,7 +28,7 @@ public class Event implements Comparable<Event>{
 		this.endDate = endDate;
 		this.nrTickets = nrTickets;
 	}
-	
+
 	public Event(String name, String description, Long organizerId, String location, LocalDateTime startDate,
 			LocalDateTime endDate, int nrTickets) {
 		super();
@@ -39,8 +40,6 @@ public class Event implements Comparable<Event>{
 		this.endDate = endDate;
 		this.nrTickets = nrTickets;
 	}
-
-
 
 	public Event() {
 		super();
