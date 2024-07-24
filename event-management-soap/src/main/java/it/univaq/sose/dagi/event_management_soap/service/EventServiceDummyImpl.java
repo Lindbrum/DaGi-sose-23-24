@@ -129,6 +129,40 @@ public class EventServiceDummyImpl implements EventService {
 		}
 		return result;
 	}
+
+	@Override
+	public List<Event> sortAndFindByPageAndOrganizer(long organizerId, int page, String sortBy) {
+		//Sort the list depending on the parameter
+				if (sortBy.equals(SortingMode.ID_DESC.name())) {
+					events.sort(Event.getIdDescComparator());
+				} else if (sortBy.equals(SortingMode.ID_ASC.name())) {
+					events.sort(null); //Ascending ID is natural order
+				} else if (sortBy.equals(SortingMode.ALPHABETICAL_DESC.name())) {
+					events.sort(Event.getNameDescComparator());
+				} else if (sortBy.equals(SortingMode.ALPHABETICAL_ASC.name())){
+					events.sort(Event.getNameAscComparator());
+				}else {
+					System.err.println("\n\n\nWARNING: An invalid sorting method was provided, defaulting to ID_DESC.\n\n\n");
+					events.sort(Event.getIdDescComparator());
+				}
+				
+				//Fetch the sub list corresponding to the organizer catalogue page
+				List<Event> result = new ArrayList<>();
+				for(Event e : events) {
+					if(e.getOrganizerId() == organizerId) {
+						result.add(e);
+					}
+				}
+				int firstIndex = (page - 1) * EVENTS_PER_PAGE;
+				//Return empty if out of bounds otherwise sub list
+				if(firstIndex < events.size()) {			
+					int lastIndex = Math.min(EVENTS_PER_PAGE * page, result.size());
+					result = result.subList(firstIndex, lastIndex);
+				}else {
+					result = new ArrayList<>(0);
+				}
+				return result;
+	}
 	
 	
 

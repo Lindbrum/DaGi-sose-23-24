@@ -33,7 +33,7 @@ public class SalesAnalysisProsumerApiImpl implements SalesAnalysisProsumerApi {
 	}
 
 	@Override
-	public ResponseEntity<EventSalesReport> getEventSalesReport(long eventId) throws ServiceException_Exception {
+	public EventSalesReport getEventSalesReport(long eventId) throws ServiceException_Exception {
 		try {
 			//Fetch the list of tickets
 			List<SoldTicket> tickets = ticketsClient.fetchEventSoldTicketsInfo(eventId);
@@ -42,7 +42,7 @@ public class SalesAnalysisProsumerApiImpl implements SalesAnalysisProsumerApi {
 			Set<Long> userIdsSet = new HashSet<>();
 			tickets.forEach(ticket -> {userIdsSet.add(ticket.getUserId());});
 			Long[] userIds = new Long[userIdsSet.size()];
-			JsonNode userInfos = customerClient.fetchUsersInfo(userIdsSet.toArray(userIds)).findValue("body"); //access the body of ResponseEntity
+			JsonNode userInfos = customerClient.fetchUsersInfo(userIdsSet.toArray(userIds));
 
 			EventSalesReport report = new EventSalesReport();
 			float averageAge = 0.0f;
@@ -100,7 +100,7 @@ public class SalesAnalysisProsumerApiImpl implements SalesAnalysisProsumerApi {
 			report.setEventSoldTickets(tickets);
 			
 			
-			return new ResponseEntity<EventSalesReport>(report, HttpStatus.OK);
+			return report;
 			
 		} catch (ServiceException_Exception e) {
 			// TODO Auto-generated catch block

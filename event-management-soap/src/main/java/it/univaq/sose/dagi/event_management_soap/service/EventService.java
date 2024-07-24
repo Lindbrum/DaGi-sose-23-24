@@ -16,4 +16,5 @@ public interface EventService {
 	public Event findById(long id) throws NoSuchElementException;
 	public List<Event> getAll();
 	public List<Event> sortAndFindByPage(int page, String sortBy);
+	public List<Event> sortAndFindByPageAndOrganizer(long organizerId, int page, String sortBy);
 }

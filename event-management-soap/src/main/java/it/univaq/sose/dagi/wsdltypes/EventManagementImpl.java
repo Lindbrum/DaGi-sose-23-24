@@ -130,6 +130,22 @@ public class EventManagementImpl implements EventManagementPort {
 		return response;
 	}
 
+	@Override
+	public OrganizerCatalogueResponse organizerCatalogue(OrganizerCatalogueRequest parameters)
+			throws ServiceException_Exception {
+		// Get the organizer catalogue page using the selected sorting method
+		List<Event> pageEvents = eventService.sortAndFindByPageAndOrganizer(parameters.getOrganizerId(), parameters.getPage(), parameters.getSortBy());
+		// Build the response
+		OrganizerCatalogueResponse response = factory.createOrganizerCatalogueResponse();
+		it.univaq.sose.dagi.wsdltypes.OrganizerCatalogueResponse.EventList eventList = factory.createOrganizerCatalogueResponseEventList();
+		List<EventData> data = eventList.getEventData();
+		for (Event e : pageEvents) {
+			data.add(createEventData(e)); // Build JAXB object for the event data
+		}
+		response.setEventList(eventList);
+		return response;
+	}
+
 	/**
 	 * Create the JAXB marshallable event data object from an event POJO.
 	 * 
@@ -299,7 +315,7 @@ public class EventManagementImpl implements EventManagementPort {
 		ticketsList = factory.createFetchEventSoldTicketsResponseSoldTicketsList();
 		List<SoldTicketData> xmlTickets = ticketsList.getSoldTicketData();
 		// Create the JAXB Marshallable objects from the POJOs
-		
+
 		for (SoldTicket st : eventSoldTickets) {
 			SoldTicketData ticketData = factory.createSoldTicketData();
 			ticketData.setSoldTicketId(st.getId());

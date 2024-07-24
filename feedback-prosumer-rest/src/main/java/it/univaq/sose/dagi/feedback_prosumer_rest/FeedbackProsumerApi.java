@@ -29,5 +29,5 @@ public interface FeedbackProsumerApi {
 	@Path("/{eventId}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public ResponseEntity<EventFeedbackReport> getEventFeedbackReport(@Parameter(description = "The ID of the event to generate the report for.") @PathParam(value = "eventId") long eventId, @QueryParam(value = "keywords") String keywords) throws ServiceException_Exception;
+	public EventFeedbackReport getEventFeedbackReport(@Parameter(description = "The ID of the event to generate the report for.") @PathParam(value = "eventId") long eventId, @QueryParam(value = "keywords") String keywords) throws ServiceException_Exception;
 }

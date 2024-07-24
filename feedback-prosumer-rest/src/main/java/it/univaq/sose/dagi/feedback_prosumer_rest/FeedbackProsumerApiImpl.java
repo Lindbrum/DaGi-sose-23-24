@@ -36,7 +36,7 @@ public class FeedbackProsumerApiImpl implements FeedbackProsumerApi {
 
 
 	@Override
-	public ResponseEntity<EventFeedbackReport> getEventFeedbackReport(long eventId, String keywords) throws ServiceException_Exception {
+	public EventFeedbackReport getEventFeedbackReport(long eventId, String keywords) throws ServiceException_Exception {
 		try {
 			//Fetch the list of feedbacks
 			List<Feedback> feedbacks = feedbackClient.requestEventFeedbacks(eventId);
@@ -93,7 +93,7 @@ public class FeedbackProsumerApiImpl implements FeedbackProsumerApi {
 			report.setEventFeedbacks(feedbacks);
 			report.setKeywordsCount(keywordCounts);
 			
-			return new ResponseEntity<EventFeedbackReport>(report, HttpStatus.OK);
+			return report;
 			
 		} catch (ServiceException_Exception e) {
 			// TODO Auto-generated catch block
