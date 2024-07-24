@@ -1,0 +1,105 @@
+services:
+  config-server:
+    build: ./config-server
+    ports:
+      - "8888:8888"
+  
+  discovery-server:
+    build: ./discovery-server
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config-server
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+
+  api-gateway:
+    build: ./api-gateway
+    ports:
+      - "8080:8080"
+    depends_on:
+      - config-server
+      - discovery-server
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+      EUREKA_SERVER: http://discovery-server:8761/eureka/
+  
+  authentication-rest:
+    build: ./authentication-rest
+    ports:
+      - "9086-9089:8086"
+    depends_on:
+      - config-server
+      - discovery-server
+      - api-gateway
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+      EUREKA_SERVER: http://discovery-server:8761/eureka/
+
+  event-management-soap:
+    build: ./event-management-soap
+    ports:
+      - "9071-9074:8081"
+    depends_on:
+      - config-server
+      - discovery-server
+      - api-gateway
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+      EUREKA_SERVER: http://discovery-server:8761/eureka/
+
+  event-merch-prosumer-rest:
+    build: ./event-merch-prosumer-rest
+    ports:
+      - "9063-9066:8083"
+    depends_on:
+      - config-server
+      - discovery-server
+      - api-gateway
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+      EUREKA_SERVER: http://discovery-server:8761/eureka/
+
+  feedback-prosumer-rest:
+    build: ./feedback-prosumer-rest
+    ports:
+      - "9052-9055:8082"
+    depends_on:
+      - config-server
+      - discovery-server
+      - api-gateway
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+      EUREKA_SERVER: http://discovery-server:8761/eureka/
+
+  merchandising-rest:
+    build: ./merchandising-rest
+    ports:
+      - "9045-9048:8085"
+    depends_on:
+      - config-server
+      - discovery-server
+      - api-gateway
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+      EUREKA_SERVER: http://discovery-server:8761/eureka/
+
+  sales-analysis-prosumer-rest:
+    build: ./sales-analysis-prosumer-rest
+    ports:
+      - "9034-9037:8084"
+    depends_on:
+      - config-server
+      - discovery-server
+      - api-gateway
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+      EUREKA_SERVER: http://discovery-server:8761/eureka/
