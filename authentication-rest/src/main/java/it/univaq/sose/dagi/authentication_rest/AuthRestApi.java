@@ -2,8 +2,6 @@ package it.univaq.sose.dagi.authentication_rest;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,7 +28,7 @@ public interface AuthRestApi {
 	@POST
 	@Path("/customer/signup")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ResponseEntity<Long> signUpCustomer(
+	public Long signUpCustomer(
 			@RequestBody(description = "Data of the Customer that is signing up", required = true, content = {
 					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Customer.class)), }) Customer customer);
 
@@ -41,7 +39,7 @@ public interface AuthRestApi {
 	@POST
 	@Path("/organizer/signup")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ResponseEntity<Long> signUpOrganizer(
+	public Long signUpOrganizer(
 			@RequestBody(description = "Data of the Organizer that is signing up", required = true, content = {
 					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Organizer.class)), }) Organizer organizer);
 
@@ -51,7 +49,7 @@ public interface AuthRestApi {
 	@POST
 	@Path("/customer/signin")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ResponseEntity<Long> signInCustomer(
+	public Long signInCustomer(
 			@RequestBody(description = "Data of the Customer that is signing in", required = true, content = {
 					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Credentials.class)), }) Credentials credentials);
 
@@ -61,7 +59,7 @@ public interface AuthRestApi {
 	@POST
 	@Path("/organizer/signin")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ResponseEntity<Long> signInOrganizer(
+	public Long signInOrganizer(
 			@RequestBody(description = "Data of the Organizer that is signing in", required = true, content = {
 					@Content(mediaType = MediaType.APPLICATION_JSON, schema = @Schema(implementation = Credentials.class)), }) Credentials credentials);
 
@@ -71,7 +69,7 @@ public interface AuthRestApi {
 	@GET
 	@Path("/customer/info/{userId}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ResponseEntity<?> fetchCustomerInfo(
+	public Customer fetchCustomerInfo(
 			@Parameter(description = "The id of the user we want to fetch.") @PathParam(value = "userId") long userId);
 
 	// ====================
@@ -80,7 +78,7 @@ public interface AuthRestApi {
 	@GET
 	@Path("/customer/infos/{userIds}")
 	@Produces({ MediaType.APPLICATION_JSON })
-	public ResponseEntity<List<Customer>> fetchCustomerInfoList(
+	public List<Customer> fetchCustomerInfoList(
 			@Parameter(description = "The list of ids of users we want to fetch.") @PathParam(value = "userIds") String userIds);
 	// ====================
 //	@Operation(description = "The description of the create operation goes here!", responses = {

@@ -113,8 +113,8 @@ public class EventServiceDummyImpl implements EventService {
 		} else if (sortBy.equals(SortingMode.ALPHABETICAL_ASC.name())){
 			events.sort(Event.getNameAscComparator());
 		}else {
-			System.err.println("\n\n\nWARNING: An invalid sorting method was provided, defaulting to ALPHABETICAL_ASC.\n\n\n");
-			events.sort(Event.getNameAscComparator());
+			System.err.println("\n\n\nWARNING: An invalid sorting method was provided, defaulting to ID_DESC.\n\n\n");
+			events.sort(Event.getIdDescComparator());
 		}
 		
 		//Fetch the sub list corresponding to the catalogue page

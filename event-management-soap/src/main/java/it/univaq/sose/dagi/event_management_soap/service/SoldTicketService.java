@@ -12,4 +12,5 @@ public interface SoldTicketService {
 	public SoldTicket findById(long id) throws NoSuchElementException;
 	public List<SoldTicket> getAll();
 	public List<SoldTicket> findByEventId(long eventId);
+	public List<SoldTicket> findByCustomerId(long customerId);
 }

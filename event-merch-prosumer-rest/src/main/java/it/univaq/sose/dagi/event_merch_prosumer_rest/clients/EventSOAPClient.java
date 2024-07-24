@@ -18,7 +18,7 @@ import it.univaq.sose.dagi.wsdltypes.ServiceException_Exception;
 
 @Component
 public class EventSOAPClient {
-
+	
 	private ObjectFactory factory;
 	@Value("${client.event.wsdl}")
 	private String wsdlUrl;
@@ -43,6 +43,7 @@ public class EventSOAPClient {
 			eventInfo.setId(eventId);
 			eventInfo.setName(eventData.getName());
 			eventInfo.setLocation(eventData.getLocation());
+			eventInfo.setOrganizerId(eventData.getOrganizerId());
 			eventInfo.setDescription(eventData.getDescription());
 			eventInfo.setStartDate(Utility.toLocalDateTime(eventData.getStartDate()));
 			eventInfo.setEndDate(Utility.toLocalDateTime(eventData.getEndDate()));
