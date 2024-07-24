@@ -62,6 +62,9 @@ public class Merchandise {
 		this.description = description;
 	}
 
+	//This method The toString() method provides a detailed string representation of a Merchandise object.
+	//It constructs a multi-line string with the prefix "Merchandise object:" and includes the values of id, eventId, barCode, name, and description fields, each on a new line.
+	//This method helps in debugging and logging by giving a clear view of the object's attributes in a readable format.
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Merchandise object:\n\n");

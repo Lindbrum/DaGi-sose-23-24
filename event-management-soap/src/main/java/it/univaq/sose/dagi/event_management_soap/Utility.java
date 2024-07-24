@@ -9,7 +9,7 @@ import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
 public class Utility {
-  //is designed to convert an XMLGregorianCalendar object to a LocalDateTime object. 
+  //It is designed to convert an XMLGregorianCalendar object to a LocalDateTime object. 
   //If the supplied XMLGregorianCalendar object is not null, the method transforms it into a GregorianCalendar,
   //which is then converted to ZonedDateTime. Next, the ZonedDateTime is transformed into a LocalDateTime using the system time zone.
   //If the XMLGregorianCalendar object is null, the method returns null.

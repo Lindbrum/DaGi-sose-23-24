@@ -14,6 +14,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
+//The EventMerchProsumerApi interface is designed to provide information about events and their associated merchandise.
 @Path("/")
 public interface EventMerchProsumerApi {
 
@@ -45,6 +46,12 @@ public interface EventMerchProsumerApi {
 								  )
 				  }) 
 	})
+	
+	//The getEventInfo method retrieves details for a specific event and its merchandise.
+	//It uses the HTTP GET method and is accessed via the path /event/{eventId}. This method expects an eventId as a path parameter and produces a response in JSON format.
+	//The response will include detailed information about the event and its merchandise if the request is successful (HTTP 200).
+	//If the provided event ID is invalid, it will return a HTTP 400 response, and if there is a server-side issue, it will result in a HTTP 500 response.
+	//The method may throw a ServiceException_Exception in case of operational issues.
 	@GET
 	@Path("event/{eventId}")
 	@Produces(MediaType.APPLICATION_JSON)

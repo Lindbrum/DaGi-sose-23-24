@@ -24,6 +24,9 @@ import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 import it.univaq.sose.dagi.feedback_prosumer_rest.client.CustomerRESTClient;
 import it.univaq.sose.dagi.feedback_prosumer_rest.client.FeedbackSOAPClient;
 
+
+//The FeedbackProsumerRestApplication class is the main entry point for a Spring Boot application that provides a
+//RESTful API for generating feedback reports on events. It is configured to run a JAX-RS server with Swagger documentation.
 @SpringBootApplication
 public class FeedbackProsumerRestApplication {
 
@@ -42,10 +45,14 @@ public class FeedbackProsumerRestApplication {
 	@Value("${cxf.path}")
 	private String cxfPath;
 
+	//The main method obviously starts the Spring Boot application, initializing the Spring context and running the application.
 	public static void main(String[] args) {
 		SpringApplication.run(FeedbackProsumerRestApplication.class, args);
 	}
 
+	//This method creates and configures a JAX-RS server using JAXRSServerFactoryBean. It sets up the server with a Bus instance, an implementation
+	//of the FeedbackProsumerApi interface, and a JSON provider. The method also configures the OpenAPI feature to enable
+	//Swagger documentation, including setting its title, description, and other metadata.
 	@Bean
 	public Server rsServer(@Value("${swagger.definition.version}") String apiVersion) {
 		JAXRSServerFactoryBean endpoint = new JAXRSServerFactoryBean();
@@ -57,6 +64,8 @@ public class FeedbackProsumerRestApplication {
 		return endpoint.create();
 	}
 
+	//This method sets up the OpenAPI feature for the server. It configures the Swagger UI, sets the title
+	//and description of the API, specifies contact information, and provides licensing details.
 	@Bean
 	public OpenApiFeature createOpenApiFeature(String apiVersion) {
 		final OpenApiFeature openApiFeature = new OpenApiFeature();
@@ -73,12 +82,15 @@ public class FeedbackProsumerRestApplication {
 		return openApiFeature;
 	}
 	
+	//The applicationReadyEvent method is triggered when the application is fully started.
+	//It prints a message to the console and attempts to open the application's Swagger UI in the default web browser.
 	@EventListener({ApplicationReadyEvent.class})
 	void applicationReadyEvent() {
 	    System.out.println("Application started ... launching browser now");
 	    browse(String.format("http://localhost:%s%s/services", port, cxfPath));
 	}
 
+	//This method attempts to open a web browser to a specified URL. It uses the Desktop class if supported, or falls back to a runtime command for older systems.
 	public static void browse(String url) {
 	    if(Desktop.isDesktopSupported()){
 	        Desktop desktop = Desktop.getDesktop();

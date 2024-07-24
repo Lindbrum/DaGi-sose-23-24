@@ -20,13 +20,19 @@ public class EventMerchProsumerApiImpl implements EventMerchProsumerApi {
 
 	private MerchandiseRESTClient merchClient;
 	private EventSOAPClient eventClient;
-	//@Autowired is inferred by Spring Boot when there is a single public constructor
-	//@Autowired
+	
+	//This constructor initializes the class with MerchandiseRESTClient and EventSOAPClient instances.
+	//The @Autowired annotation is inferred by Spring Boot when there is a single public constructor.
 	public EventMerchProsumerApiImpl(MerchandiseRESTClient merchClient, EventSOAPClient eventClient) {
 		this.merchClient=merchClient;
 		this.eventClient=eventClient;
 	}
 	
+	//This method fetches merchandise and event information for a given eventId.
+	//It first attempts to retrieve merchandise data from the MerchandiseRESTClient.
+	//If successful, it maps the JSON response to a list of Merchandise objects.
+	//Next, it retrieves the event details from EventSOAPClient and combines both into an EventWithMerch object.
+	//If any errors occur during these operations, they are caught and handled, with relevant exceptions thrown if needed.
 	@Override
 	public EventWithMerch getEventInfo(Long eventId) throws ServiceException_Exception {
 		JsonNode jsonMerchandise;
