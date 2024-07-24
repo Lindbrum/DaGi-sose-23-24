@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.event.EventListener;
 
 @SpringBootApplication
+@EnableDiscoveryClient
 public class EventManagementSoapApplication {
 	
 	//@Value("${server.port}"): Injects the value of the server.port property into the port variable. This represents the port on which the Spring Boot application is listening.

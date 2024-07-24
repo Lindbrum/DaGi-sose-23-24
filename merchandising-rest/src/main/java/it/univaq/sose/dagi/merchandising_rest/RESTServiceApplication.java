@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 
@@ -28,6 +29,7 @@ import it.univaq.sose.dagi.merchandising_rest.service.MerchandiseServiceDummyImp
 //it as the entry point for the Spring Boot application and enables component
 //scanning, auto-configuration, and property support.
 @SpringBootApplication
+@EnableDiscoveryClient
 public class RESTServiceApplication {
 
 	//The class injects dependencies such as Bus and MerchandiseServiceDummyImpl using the @Autowired annotation.

@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 
@@ -28,6 +29,7 @@ import it.univaq.sose.dagi.feedback_prosumer_rest.client.FeedbackSOAPClient;
 //The FeedbackProsumerRestApplication class is the main entry point for a Spring Boot application that provides a
 //RESTful API for generating feedback reports on events. It is configured to run a JAX-RS server with Swagger documentation.
 @SpringBootApplication
+@EnableDiscoveryClient
 public class FeedbackProsumerRestApplication {
 
 	@Autowired

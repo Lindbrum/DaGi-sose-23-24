@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 
@@ -23,6 +24,7 @@ import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.EventSOAPClient;
 import it.univaq.sose.dagi.event_merch_prosumer_rest.clients.MerchandiseRESTClient;
 
 @SpringBootApplication
+@EnableDiscoveryClient
 public class RESTServiceApplication {
 
 	@Autowired
