@@ -22,6 +22,8 @@ import org.springframework.context.event.EventListener;
 import it.univaq.sose.dagi.sales_analysis_prosumer_rest.client.CustomerRESTClient;
 import it.univaq.sose.dagi.sales_analysis_prosumer_rest.client.SoldTicketsSOAPClient;
 
+//This constructor Initializes the Spring Boot application, configures beans for REST
+//server, OpenAPI documentation, and handles application startup events.
 @SpringBootApplication
 public class SalesAnalysisProsumerRestApplication {
 
@@ -41,10 +43,13 @@ public class SalesAnalysisProsumerRestApplication {
 	@Value("${cxf.path}")
 	private String cxfPath;
 
+	//Starts the Spring Boot application by invoking SpringApplication.run() with the class and command-line arguments.
 	public static void main(String[] args) {
 		SpringApplication.run(SalesAnalysisProsumerRestApplication.class, args);
 	}
 
+	//This method Sets up a JAXRSServerFactoryBean with the application bus, service beans, JSON provider,
+	//and OpenAPI features, then creates and returns the server instance.
 	@Bean
 	public Server rsServer(@Value("${swagger.definition.version}") String apiVersion) {
 		JAXRSServerFactoryBean endpoint = new JAXRSServerFactoryBean();
@@ -56,6 +61,8 @@ public class SalesAnalysisProsumerRestApplication {
 		return endpoint.create();
 	}
 
+	//This method sets up and returns an OpenApiFeature with some prints, like API title, contact
+	//details, description, version, license information, and Swagger UI configuration.
 	@Bean
 	public OpenApiFeature createOpenApiFeature(String apiVersion) {
 		final OpenApiFeature openApiFeature = new OpenApiFeature();
@@ -72,12 +79,17 @@ public class SalesAnalysisProsumerRestApplication {
 		return openApiFeature;
 	}
 	
+	//This method prints a message indicating the application has started and launches the default web browser to display the services URL.
 	@EventListener({ApplicationReadyEvent.class})
 	void applicationReadyEvent() {
 	    System.out.println("Application started ... launching browser now");
 	    browse(String.format("http://localhost:%s%s/services", port, cxfPath));
 	}
 
+	//This method first checks if the Desktop class is supported by the current environment. If supported, it uses the .browse(new URI(url)) method to open
+	//the specified URL in the default web browser. If the Desktop API is not available, it falls back to using the Runtime.exec() method with
+	//a platform-specific command (rundll32 on Windows) to open the URL. In both cases, it catches and prints any
+	//IOException or URISyntaxException that may occur during the operation.
 	public static void browse(String url) {
 	    if(Desktop.isDesktopSupported()){
 	        Desktop desktop = Desktop.getDesktop();

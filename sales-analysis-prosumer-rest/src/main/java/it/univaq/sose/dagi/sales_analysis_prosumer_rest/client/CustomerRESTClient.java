@@ -9,6 +9,9 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+
+//This class is designed to interact with a RESTful service to fetch user information.
+//It uses Spring's dependency injection to get the base URI for the service and constructs requests to retrieve user details.
 @Component
 //@RefreshScope
 public class CustomerRESTClient {
@@ -20,6 +23,9 @@ public class CustomerRESTClient {
 	@Value("${client.authentication.customer.uri}")
 	private String baseUri;
 
+	//This method constructs a URI to fetch user details for a given list of user IDs. It starts by concatenating the IDs into
+	//a comma-separated string, appends this to the base URI, and then creates a URI object. The method then uses RestTemplate
+	//to send a GET request to this URI and returns the response as a JsonNode object. If URI creation fails, it prints the stack trace.
 	public JsonNode fetchUsersInfo(Long[] userIds){
 		URI uri = null;
 		StringBuilder urlArray = new StringBuilder();

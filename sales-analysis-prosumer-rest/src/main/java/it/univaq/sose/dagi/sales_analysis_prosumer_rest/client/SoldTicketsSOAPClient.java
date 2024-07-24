@@ -30,6 +30,11 @@ public class SoldTicketsSOAPClient {
 		this.factory = new ObjectFactory();
 	}
 
+	//This method in the SoldTicketsSOAPClient class retrieves sold ticket details for a specified event.
+	//It takes an eventId as input, constructs a SOAP request using this ID, and communicates with a web service to
+	//fetch the ticket data. The response is parsed to create a list of SoldTicket objects, which includes details such
+	//as ticket ID, event ID, reference date, and user ID. This list is then returned. If an error occurs in creating the URL
+	//for the web service, the method catches the exception and prints the stack trace, returning null if the process fails.
 	public List<SoldTicket> fetchEventSoldTicketsInfo(Long eventId) throws ServiceException_Exception {
 		try {
 			URL url = new URL(wsdlUrl);

@@ -81,6 +81,11 @@ public class Merchandise {
 		this.description = description;
 	}
 
+	//This method uses a StringBuilder to construct a string that includes the values of the object's fields, each prefixed
+	//with its field name and separated by newline characters for clarity. This method starts
+	//by initializing the StringBuilder with a header indicating that the string represents a Merchandise object.
+	//It then appends the id, eventId, barCode, name, and description fields, each followed by a newline.
+	//Finally, it converts the StringBuilder content to a string and returns it.
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Merchandise object:\n\n");
