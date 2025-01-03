@@ -48,7 +48,7 @@ public class EventMerchProsumerApiImpl implements EventMerchProsumerApi {
 		Optional.ofNullable(jsonMerchandise).orElseThrow();
 		EventWithMerch eventWithMerch = new EventWithMerch();
 		List<Merchandise> merchandise = new ArrayList<>();
-		if (jsonMerchandise.isArray()) {	 
+		if (jsonMerchandise.isArray()) {
 			for (JsonNode merch : jsonMerchandise) {
 				Merchandise current = new Merchandise();
 				current.setId(merch.findValue(MerchandiseRESTClient.FIELD_ID).asLong());

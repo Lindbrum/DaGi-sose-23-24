@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import it.univaq.sose.dagi.organizer_client.ui.AuthCommands;
 import it.univaq.sose.dagi.organizer_client.ui.EventCommands;
+import it.univaq.sose.dagi.organizer_client.ui.MerchCommands;
 import it.univaq.sose.dagi.organizer_client.ui.ReportCommands;
 
 public class OrganizerClientApplication {
@@ -69,8 +70,10 @@ public class OrganizerClientApplication {
 			System.out.println("\n\n===========HOME PAGE===========");
 			System.out.println("What do you want to do?");
 			System.out.println("1) Create an event");
-			System.out.println("2) View reports");
-			System.out.println("3) Log out");
+			System.out.println("2) List a new merchandise article");
+			System.out.println("3) Manage merchandise");
+			System.out.println("4) View reports");
+			System.out.println("5) Log out");
 			boolean ok = false;
 			while (!ok) {
 				System.out.print("Your answer: ");
@@ -81,12 +84,19 @@ public class OrganizerClientApplication {
 					case 1:
 						EventCommands.createEvent(scanner);
 						break;
-
 					case 2:
+						MerchCommands.createMerch(scanner);
+						break;
+					
+					case 3:
+						MerchCommands.merchCatalogue(scanner);
+						break;
+
+					case 4:
 						ReportCommands.organizerEventCatalogue(scanner);
 						break;
 
-					case 3:
+					case 5:
 						System.out.println("\n\nSuccessfully logged out.\n\n");
 						return; //Return to welcome page
 

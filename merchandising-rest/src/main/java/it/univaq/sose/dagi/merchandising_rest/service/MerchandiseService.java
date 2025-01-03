@@ -6,11 +6,23 @@ import java.util.NoSuchElementException;
 import it.univaq.sose.dagi.merchandising_rest.model.Merchandise;
 
 public interface MerchandiseService {
+	
+	enum SortingMode {
+		ID_DESC, ID_ASC, ALPHABETICAL_ASC, ALPHABETICAL_DESC
+	}
+	
 	/**
 	 * return all merchandise in database
 	 * @return a list of merchandise
 	 */
 	List<Merchandise> getAll();
+	/**
+	 * return a page of merchandise, sorted using the provided method
+	 * @param page the page number
+	 * @param sortBy the sorting method (ID_ASC, ID_DESC, ALPHABETICAL_ASC, ALPHABETICAL_DESC)
+	 * @return a list of merchandise
+	 */
+	List<Merchandise> getPage(int page, String sortBy);
 	/**
 	 * return the merchandise for an event.
 	 * @param eventId the event ID.

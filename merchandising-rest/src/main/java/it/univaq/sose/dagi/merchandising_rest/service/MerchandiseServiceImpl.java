@@ -48,6 +48,12 @@ public class MerchandiseServiceImpl implements MerchandiseService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<Merchandise> getPage(int page, String sortBy) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }
