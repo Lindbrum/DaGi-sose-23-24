@@ -44,7 +44,7 @@ public class ReportAsyncRESTClient {
 			FeedbackCallback feedbackCallback = new FeedbackCallback();
 			SalesCallback salesCallback = new SalesCallback();
 			
-			System.out.print("\nRequesting feedback and sales reports, please wait");
+			System.out.print("\nRequesting feedback and sales reports, please wait...");
 			
 			//Build future objects and make the async requests
 			String feedbackUrl = endpointFeedback + eventId;

@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
 
+import de.vandermeer.asciitable.AsciiTable;
+import de.vandermeer.asciitable.CWC_FixedWidth;
+import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 import io.swagger.model.feedback_prosumer.EventFeedbackReport;
 import io.swagger.model.feedback_prosumer.Feedback;
 import io.swagger.model.sales_prosumer.EventSalesReport;
@@ -55,12 +58,11 @@ public class ReportCommands {
 	}
 
 	private static void loadNewPage(Scanner scanner) {
-		System.out.println(String.format("\n\n===Your events page %s, sort method '%s'===", currentPage,
+		System.out.println(String.format("\n\n=========Your events page %s, sort method '%s'=========", currentPage,
 				currentSortBy.toString()));
-		System.out.println("Event title\t\t\t\tRunning time");
 		// Load the catalogue page content
 		populateCataloguePage();
-		System.out.println("======================================================");
+		System.out.println("==========================================================");
 		
 		// Check if to allow page navigation
 		if (currentPage > 1) {
@@ -159,51 +161,96 @@ public class ReportCommands {
 		EventSalesReport salesReport = report.getSalesReport();
 		
 		//Format the document
-		System.out.println("===================================================================");
-		System.out.println(String.format("\n\n==========Report for '%s'==========", event.getName()));
-		System.out.println("===================================================================");
+		System.out.println("==========================================================");
+		System.out.println(String.format("==============Report for '%s'==============", event.getName()));
+		System.out.println("==========================================================");
 		//Feedback report
-		System.out.println("\n==========Feedbacks==========");
-		for(Feedback feedback : feedbacksReport.getEventFeedbacks()) {
-			System.out.println(String.format("ID: %d", feedback.getId()));
-			System.out.println(String.format("User ID: %d", feedback.getUserId()));
-			System.out.println(String.format("Rating: %d", feedback.getRating()));
-			System.out.println(String.format("Body:\n%s", feedback.getBody()));
-			System.out.println("------------------------------------------------------");
+		System.out.println("\n=========================Feedbacks========================");
+		AsciiTable at = new AsciiTable();
+		CWC_FixedWidth cwc = new CWC_FixedWidth().add(10).add(45);
+		for (Feedback feedback : feedbacksReport.getEventFeedbacks()) {
+		    at.addRule();
+		    at.addRow("ID", feedback.getId());
+		    at.addRule();
+		    at.addRow("User ID", feedback.getUserId());
+		    at.addRule();
+		    at.addRow("Rating", feedback.getRating());
+		    at.addRule();
+		    at.addRow("Body", feedback.getBody());
+		    at.addRule();
 		}
+		at.getRenderer().setCWC(cwc);
+		at.setTextAlignment(TextAlignment.CENTER);
+		String rend = at.render();
+		System.out.println(rend);
+		//System.out.println("");
+		
 		System.out.println(String.format("Average rating: %f", feedbacksReport.getAverageRating()));
 		System.out.println(String.format("Average customer age: %f", feedbacksReport.getAverageCustomerAge()));
+		at = new AsciiTable();
+		cwc = new CWC_FixedWidth().add(20).add(9);
 		if(feedbacksReport.getKeywordsCount() != null) {
 			Map<String,Integer> counts = feedbacksReport.getKeywordsCount();
 			System.out.println("\nKeyword counts:");
 			int count = 1;
 			for(Entry<String,Integer> current : counts.entrySet()) {
-				System.out.println(String.format("%d) %s:\t%d", count++, current.getKey(), current.getValue()));
+				at.addRule();
+			    at.addRow(current.getKey(), current.getValue());
 			}
+			at.addRule();
+			at.getRenderer().setCWC(cwc);
+			at.setTextAlignment(TextAlignment.CENTER);
+			rend = at.render();
+			System.out.println(rend);
 		}
 		System.out.println("\n==========Ticket Sales==========");
 		System.out.println(String.format("Average customer age: %f", salesReport.getAverageCustomerAge()));
 		Map<String,Integer> ageCounts = salesReport.getAgeCounts();
 		System.out.println("\nAge counts:");
 		int count = 1;
+		at = new AsciiTable();
+		cwc = new CWC_FixedWidth().add(14).add(9);
 		for(Entry<String,Integer> current : ageCounts.entrySet()) {
-			System.out.println(String.format("%d) %s:\t%d", count++, current.getKey(), current.getValue()));
+			at.addRule();
+		    at.addRow(current.getKey(), current.getValue());
 		}
+		at.getRenderer().setCWC(cwc);
+		at.setTextAlignment(TextAlignment.CENTER);
+		at.addRule();
+		rend = at.render();
+		System.out.println(rend);
+		//System.out.println("");
 		Map<String,Integer> genderCounts = salesReport.getGenderCounts();
 		System.out.println("\nGender counts:");
 		count = 1;
+		at = new AsciiTable();
+		cwc = new CWC_FixedWidth().add(14).add(9);
 		for(Entry<String,Integer> current : genderCounts.entrySet()) {
-			System.out.println(String.format("%d) %s:\t%d", count++, current.getKey(), current.getValue()));
+			at.addRule();
+		    at.addRow(current.getKey(), current.getValue());
 		}
+		at.getRenderer().setCWC(cwc);
+		at.setTextAlignment(TextAlignment.CENTER);
+		at.addRule();
+		rend = at.render();
+		System.out.println(rend);
 		Map<String,Integer> dateCounts = salesReport.getDateCounts();
 		System.out.println("\nDate counts:");
 		count = 1;
+		at = new AsciiTable();
+		cwc = new CWC_FixedWidth().add(25).add(9);
 		for(Entry<String,Integer> current : dateCounts.entrySet()) {
-			System.out.println(String.format("%d) %s:\t%d", count++, current.getKey(), current.getValue()));
+			at.addRule();
+		    at.addRow(current.getKey(), current.getValue());
 		}
-		System.out.println("===================================================================");
-		System.out.println("===========================End of report===========================");
-		System.out.println("===================================================================");
+		at.getRenderer().setCWC(cwc);
+		at.setTextAlignment(TextAlignment.CENTER);
+		at.addRule();
+		rend = at.render();
+		System.out.println(rend);
+		System.out.println("==========================================================");
+		System.out.println("=======================End of report======================");
+		System.out.println("==========================================================");
 	}
 
 	private static void populateCataloguePage() {
@@ -212,12 +259,20 @@ public class ReportCommands {
 			isDirty = false;
 		}
 		int count = 1;
+        AsciiTable at = new AsciiTable();
+		CWC_FixedWidth cwc = new CWC_FixedWidth().add(25).add(40);
+		at.addRule();
+	    at.addRow("Event title", "Running time");
 		for (Event event : currentPageEvents) {
+			String eventName = String.format("%d) %s", count++, event.getName());
 			String runningTime = event.getStartDate().toString() + " - " + event.getEndDate().toString();
-
-			System.out.println("-------------------------------------------------------------------");
-			System.out.println(String.format("%d) %s\t\t%s", count++, event.getName(), runningTime));
+			at.addRule();
+		    at.addRow(eventName, runningTime);
 		}
-		System.out.println("-------------------------------------------------------------------");
+		at.getRenderer().setCWC(cwc);
+		at.setTextAlignment(TextAlignment.CENTER);
+		at.addRule();
+		String rend = at.render();
+		System.out.println(rend);
 	}
 }
