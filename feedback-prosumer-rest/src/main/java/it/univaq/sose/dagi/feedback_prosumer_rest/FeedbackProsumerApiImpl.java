@@ -46,57 +46,60 @@ public class FeedbackProsumerApiImpl implements FeedbackProsumerApi {
 			//Fetch the list of feedbacks
 			List<Feedback> feedbacks = feedbackClient.requestEventFeedbacks(eventId);
 			
-			//Fetch the ages of customers that left the feedbacks
-			Set<Long> userIdsSet = new HashSet<>();
-			feedbacks.forEach(feedback -> {userIdsSet.add(feedback.getUserId());});
-			Long[] userIds = new Long[userIdsSet.size()];
-			JsonNode userInfos = customerClient.fetchUsersInfo(userIdsSet.toArray(userIds));
-
 			EventFeedbackReport report = new EventFeedbackReport();
-			float averageRating = 0.0f;
-			float averageAge = 0.0f;
-			Map<String, Integer> keywordCounts = null;
-			
-			//Compute the average age of feedback users
-			if(userInfos.isArray()) {
-				for(JsonNode user : userInfos) {
-					averageAge += user.findValue(CustomerRESTClient.FIELD_AGE).asInt();
+			if(!feedbacks.isEmpty()) {	
+				//Fetch the ages of customers that left the feedbacks
+				Set<Long> userIdsSet = new HashSet<>();
+				feedbacks.forEach(feedback -> {userIdsSet.add(feedback.getUserId());});
+				Long[] userIds = new Long[userIdsSet.size()];
+				JsonNode userInfos = customerClient.fetchUsersInfo(userIdsSet.toArray(userIds));
+				
+				float averageRating = 0.0f;
+				float averageAge = 0.0f;
+				Map<String, Integer> keywordCounts = null;
+				
+				//Compute the average age of feedback users
+				if(userInfos.isArray()) {
+					for(JsonNode user : userInfos) {
+						averageAge += user.findValue(CustomerRESTClient.FIELD_AGE).asInt();
+					}
+					
+					averageAge /= userIds.length;
 				}
 				
-				averageAge /= userIds.length;
-			}
-			
-			//If keywords are provided, initialize the map
-			if(keywords != null && !keywords.isBlank()) {
-				keywordCounts = new HashMap<>();
-				for(String keyword : keywords.split("[,;]")) {
-					keywordCounts.put(keyword, 0);
-				}
-			}
-			
-			for(Feedback feedback : feedbacks) {
-				//Average feedback rating
-				averageRating += feedback.getRating();
-				//Count keywords if any was provided in the request
-				if(keywordCounts != null) {
-					for(String keyword : keywordCounts.keySet()) {
-						Pattern pattern = Pattern.compile(keyword, Pattern.CASE_INSENSITIVE);
-				        Matcher matcher = pattern.matcher(feedback.getBody());
-				        int count = 0;
-				        while (matcher.find()) {
-				            System.out.println(matcher.group());  // Output: Ciao, cIAo
-				            count++;
-				        }
-						int previousKeywordCount = keywordCounts.get(keyword);
-						keywordCounts.put(keyword, previousKeywordCount + count);
+				//If keywords are provided, initialize the map
+				if(keywords != null && !keywords.isBlank()) {
+					keywordCounts = new HashMap<>();
+					for(String keyword : keywords.split("[,;]")) {
+						keywordCounts.put(keyword, 0);
 					}
 				}
+				
+				for(Feedback feedback : feedbacks) {
+					//Average feedback rating
+					averageRating += feedback.getRating();
+					//Count keywords if any was provided in the request
+					if(keywordCounts != null) {
+						for(String keyword : keywordCounts.keySet()) {
+							Pattern pattern = Pattern.compile(keyword, Pattern.CASE_INSENSITIVE);
+							Matcher matcher = pattern.matcher(feedback.getBody());
+							int count = 0;
+							while (matcher.find()) {
+								System.out.println(matcher.group());  // Output: Ciao, cIAo
+								count++;
+							}
+							int previousKeywordCount = keywordCounts.get(keyword);
+							keywordCounts.put(keyword, previousKeywordCount + count);
+						}
+					}
+				}
+				averageRating /= feedbacks.size();
+				report.setAverageCustomerAge(averageAge);
+				report.setAverageRating(averageRating);
+				report.setEventFeedbacks(feedbacks);
+				report.setKeywordsCount(keywordCounts);
 			}
-			averageRating /= feedbacks.size();
-			report.setAverageCustomerAge(averageAge);
-			report.setAverageRating(averageRating);
-			report.setEventFeedbacks(feedbacks);
-			report.setKeywordsCount(keywordCounts);
+			
 			
 			return report;
 			

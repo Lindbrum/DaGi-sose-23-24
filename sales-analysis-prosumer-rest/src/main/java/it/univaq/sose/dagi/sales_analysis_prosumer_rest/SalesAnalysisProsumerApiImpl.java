@@ -43,66 +43,69 @@ public class SalesAnalysisProsumerApiImpl implements SalesAnalysisProsumerApi {
 			//Fetch the list of tickets
 			List<SoldTicket> tickets = ticketsClient.fetchEventSoldTicketsInfo(eventId);
 			
-			//Fetch the ages and genders of customers that bought the tickets
-			Set<Long> userIdsSet = new HashSet<>();
-			tickets.forEach(ticket -> {userIdsSet.add(ticket.getUserId());});
-			Long[] userIds = new Long[userIdsSet.size()];
-			JsonNode userInfos = customerClient.fetchUsersInfo(userIdsSet.toArray(userIds));
-
+			
 			EventSalesReport report = new EventSalesReport();
-			float averageAge = 0.0f;
-			Map<String, Integer> genderCounts = new HashMap<>();
-			Map<Integer, Integer> ageCounts = new HashMap<>();
-			Map<LocalDateTime, Integer> dateCounts = new HashMap<>();
-			
-			for(SoldTicket currentTicket : tickets) {
-				//date count 
-				if (dateCounts.containsKey(currentTicket.getReferenceDate())) {
-					int curValue = dateCounts.get(currentTicket.getReferenceDate());
-					dateCounts.put(currentTicket.getReferenceDate(), curValue +1);
-				}
-				else {
-					dateCounts.put(currentTicket.getReferenceDate(), 1);
-				}
-				//retrieve customer info
-				Customer customerInfo = new Customer();
-				if(userInfos.isArray()) {
-					for(JsonNode user : userInfos) {
-						if (user.findValue(CustomerRESTClient.FIELD_ID).asInt() == currentTicket.getUserId()) {
-							customerInfo.setId(currentTicket.getUserId());
-							customerInfo.setAge(user.findValue(CustomerRESTClient.FIELD_AGE).asInt());
-							customerInfo.setGender(user.findValue(CustomerRESTClient.FIELD_GENDER).asText());
-							break;
-						}
+			if(!tickets.isEmpty()) {
+				//Fetch the ages and genders of customers that bought the tickets
+				Set<Long> userIdsSet = new HashSet<>();
+				tickets.forEach(ticket -> {userIdsSet.add(ticket.getUserId());});
+				Long[] userIds = new Long[userIdsSet.size()];
+				JsonNode userInfos = customerClient.fetchUsersInfo(userIdsSet.toArray(userIds));
+				
+				float averageAge = 0.0f;
+				Map<String, Integer> genderCounts = new HashMap<>();
+				Map<Integer, Integer> ageCounts = new HashMap<>();
+				Map<LocalDateTime, Integer> dateCounts = new HashMap<>();
+				
+				for(SoldTicket currentTicket : tickets) {
+					//date count 
+					if (dateCounts.containsKey(currentTicket.getReferenceDate())) {
+						int curValue = dateCounts.get(currentTicket.getReferenceDate());
+						dateCounts.put(currentTicket.getReferenceDate(), curValue +1);
 					}
-
+					else {
+						dateCounts.put(currentTicket.getReferenceDate(), 1);
+					}
+					//retrieve customer info
+					Customer customerInfo = new Customer();
+					if(userInfos.isArray()) {
+						for(JsonNode user : userInfos) {
+							if (user.findValue(CustomerRESTClient.FIELD_ID).asInt() == currentTicket.getUserId()) {
+								customerInfo.setId(currentTicket.getUserId());
+								customerInfo.setAge(user.findValue(CustomerRESTClient.FIELD_AGE).asInt());
+								customerInfo.setGender(user.findValue(CustomerRESTClient.FIELD_GENDER).asText());
+								break;
+							}
+						}
+						
+					}
+					//gender count
+					if (genderCounts.containsKey(customerInfo.getGender())) {
+						int curValue = genderCounts.get(customerInfo.getGender());
+						genderCounts.put(customerInfo.getGender(), curValue +1);
+					}
+					else {
+						genderCounts.put(customerInfo.getGender(), 1);
+					}
+					//age count
+					if (ageCounts.containsKey(customerInfo.getAge())) {
+						int curValue = ageCounts.get(customerInfo.getAge());
+						ageCounts.put(customerInfo.getAge(), curValue +1);
+					}
+					else {
+						ageCounts.put(customerInfo.getAge(), 1);
+					}
+					//increment average age
+					averageAge += customerInfo.getAge();
 				}
-				//gender count
-				if (genderCounts.containsKey(customerInfo.getGender())) {
-					int curValue = genderCounts.get(customerInfo.getGender());
-					genderCounts.put(customerInfo.getGender(), curValue +1);
-				}
-				else {
-					genderCounts.put(customerInfo.getGender(), 1);
-				}
-				//age count
-				if (ageCounts.containsKey(customerInfo.getAge())) {
-					int curValue = ageCounts.get(customerInfo.getAge());
-					ageCounts.put(customerInfo.getAge(), curValue +1);
-				}
-				else {
-					ageCounts.put(customerInfo.getAge(), 1);
-				}
-				//increment average age
-				averageAge += customerInfo.getAge();
+				
+				averageAge /= tickets.size();
+				report.setAverageCustomerAge(averageAge);
+				report.setAgeCounts(ageCounts);
+				report.setGenderCounts(genderCounts);
+				report.setDateCounts(dateCounts);
+				report.setEventSoldTickets(tickets);
 			}
-			
-			averageAge /= tickets.size();
-			report.setAverageCustomerAge(averageAge);
-			report.setAgeCounts(ageCounts);
-			report.setGenderCounts(genderCounts);
-			report.setDateCounts(dateCounts);
-			report.setEventSoldTickets(tickets);
 			
 			
 			return report;

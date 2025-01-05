@@ -3,13 +3,10 @@ package it.univaq.sose.dagi.organizer_client.client;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.cxf.interceptor.LoggingInInterceptor;
-import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxrs.client.ClientConfiguration;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.WebClient;
 
-import io.swagger.api.AuthenticationApi;
 import io.swagger.api.MerchandiseApi;
 import io.swagger.model.merchandise_provider.Merchandise;
 import it.univaq.sose.dagi.organizer_client.jackson.DateCompatibleJacksonJsonProvider;

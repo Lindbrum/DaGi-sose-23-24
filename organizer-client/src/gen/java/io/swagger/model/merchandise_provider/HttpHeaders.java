@@ -1,29 +1,12 @@
 package io.swagger.model.merchandise_provider;
 
-import io.swagger.model.merchandise_provider.ContentDisposition;
-import io.swagger.model.merchandise_provider.ContentDispositionCharset;
-import io.swagger.model.merchandise_provider.HttpHeadersAcceptLanguage;
-import io.swagger.model.merchandise_provider.HttpHeadersAcceptLanguageAsLocales;
-import io.swagger.model.merchandise_provider.HttpHeadersHost;
-import io.swagger.model.merchandise_provider.HttpMethod;
-import io.swagger.model.merchandise_provider.HttpRange;
-import io.swagger.model.merchandise_provider.MediaType;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlEnum;
-import javax.xml.bind.annotation.XmlEnumValue;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import com.fasterxml.jackson.annotation.JsonCreator;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 
 public class HttpHeaders extends HashMap<String, List>  {
   
