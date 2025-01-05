@@ -3,8 +3,11 @@ package it.univaq.sose.dagi.organizer_client.ui;
 import java.util.List;
 import java.util.Scanner;
 
+import de.vandermeer.asciitable.AsciiTable;
+import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 import io.swagger.model.merchandise_provider.Merchandise;
 import io.swagger.model.soap_proxy.Event;
+import it.univaq.sose.dagi.organizer_client.Utility;
 import it.univaq.sose.dagi.organizer_client.client.MerchandiseRESTClient;
 import it.univaq.sose.dagi.organizer_client.client.SOAPProxyRESTClient;
 import it.univaq.sose.dagi.organizer_client.model.SortingMode;
@@ -33,17 +36,16 @@ public class MerchEditCommands {
 			loadNewPage(scanner);
 		}
 		
-		return merchModified; //this is used to check wether the user is exiting using the menù or automatically after completing the modification
+		return merchModified; //this is used to check whether the user is exiting using the menù or automatically after completing the modification
 	}
 
 	private static void loadNewPage(Scanner scanner) {
-		System.out.println(String.format("===Event catalogue page %s, sort method '%s'===", currentPage,
+		System.out.println(String.format("=================Event catalogue page %s, sort method '%s'=================", currentPage,
 				currentSortBy.toString()));
-		System.out.println("Event title\t\t\t\tRunning time");
 		// Load the catalogue page content
 		populateCataloguePage();
 		
-		System.out.println("Select the new event to associate using its list number or digit \"R\" to disassociate the merchandise article from the event currently set");
+		System.out.println("Select the new event to associate using its list number or digit \"R\" to disassociate the merchandise article from the event currently set.");
 		// Check if to allow page navigation
 		if (currentPage > 1) {
 			System.out.println("B) Previous page");
@@ -160,12 +162,20 @@ public class MerchEditCommands {
 			isDirty = false;
 		}
 		int count = 1;
+		AsciiTable at = Utility.createAsciiTable(35, 41);
+        at.addRule();
+	    at.addRow("Event title", "Running time");
 		for (Event event : currentPageEvents) {
-			String runningTime = event.getStartDate().toString() + " - " + event.getEndDate().toString();
 
-			System.out.println("-------------------------------------------------------------------");
-			System.out.println(String.format("%d) %s\t\t%s", count++, event.getName(), runningTime));
+			String eventName = String.format("%d) %s", count++, event.getName());
+			String runningTime = event.getStartDate().toString() + " - " + event.getEndDate().toString();
+			at.addRule();
+		    at.addRow(eventName, runningTime);
+
 		}
-		System.out.println("-------------------------------------------------------------------");
+		at.addRule();
+		at.setTextAlignment(TextAlignment.CENTER);
+		String rend = at.render();
+		System.out.println(rend);
 	}
 }

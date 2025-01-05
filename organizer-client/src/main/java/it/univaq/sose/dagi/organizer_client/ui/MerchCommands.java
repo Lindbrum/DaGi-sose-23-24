@@ -4,8 +4,11 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import de.vandermeer.asciitable.AsciiTable;
+import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 import io.swagger.model.merchandise_provider.Merchandise;
 import io.swagger.model.soap_proxy.Event;
+import it.univaq.sose.dagi.organizer_client.Utility;
 import it.univaq.sose.dagi.organizer_client.client.MerchandiseRESTClient;
 import it.univaq.sose.dagi.organizer_client.client.SOAPProxyRESTClient;
 import it.univaq.sose.dagi.organizer_client.model.SortingMode;
@@ -91,9 +94,9 @@ public class MerchCommands {
 	}
 
 	private static void loadNewPage(Scanner scanner) {
-		System.out.println(String.format("===Merchandise catalogue page %s, sort method '%s'===", currentPage,
+		System.out.println(String.format("==================================Merchandise catalogue page %s, sort method '%s'==================================", currentPage,
 				currentSortBy.toString()));
-		System.out.println("Name\t\t\t\tDescription\t\t\t\tAssociated event\t\t\t\tBarcode");
+		
 		// Load the catalogue page content
 		populateCataloguePage();
 		
@@ -232,11 +235,18 @@ public class MerchCommands {
 		}
 		int count = 1;
 		//N) NAME - DESCRIPTION - EVENT - BARCODE
+		AsciiTable at = Utility.createAsciiTable(30, 45, 21, 17);
+		at.addRule();
+		at.addRow("Name", "Description", "Associated event", "Barcode");
 		for (Merchandise merch : currentPageMerchs) {
-			System.out.println("-------------------------------------------------------------------");
-			System.out.println(String.format("%d) %s\t\t%s\t\t%s\t\t%s", count++, merch.getName(), merch.getDescription(), merch.getEventId(), merch.getBarCode()));
+			String merchName = String.format("%d) %s", count++, merch.getName());
+			at.addRule();
+			at.addRow(merchName, merch.getDescription(), merch.getEventId(), merch.getBarCode());
 		}
-		System.out.println("-------------------------------------------------------------------");
+		at.addRule();
+		at.setTextAlignment(TextAlignment.CENTER);
+		String rend = at.render();
+		System.out.println(rend);
 	}
 	
 	private static void printMerchDetailsAndMenu(Merchandise merch) {
@@ -247,14 +257,25 @@ public class MerchCommands {
 		}
 		
 		//Print the info
-		System.out.println("\n=============MERCHANDISE DETAILS=============");
-		System.out.println(String.format("Name:\t %s", merch.getName()));
-		System.out.println(String.format("Description:\n\n%s", merch.getDescription()));
-		System.out.println(String.format("Associated event:\t %s", associatedEvent != null ? associatedEvent.getName() : "None"));
-		System.out.println(String.format("Barcode:\t %s", merch.getBarCode()));
+		System.out.println("");
+		System.out.println("========================MERCHANDISE DETAILS========================");
+		AsciiTable at = Utility.createAsciiTable(19, 45);
+		at.addRule();
+		at.addRow("ID", merch.getId());
+		at.addRule();
+		at.addRow("Name", merch.getName());
+		at.addRule();
+		at.addRow("Description", merch.getDescription());
+		at.addRule();
+		at.addRow("Associated event", associatedEvent != null ? associatedEvent.getName() : "None");
+		at.addRule();
+		at.addRow("Barcode", merch.getBarCode());
+		at.addRule();
+		at.setTextAlignment(TextAlignment.CENTER);
+		String rend = at.render();
+		System.out.println(rend);
 		
 		//Print the menù
-		System.out.println("=========================================");
 		System.out.println("1) Change the associated event");
 		System.out.println("2) Return to the catalogue");
 	}

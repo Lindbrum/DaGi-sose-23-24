@@ -67,7 +67,7 @@ public class OrganizerClientApplication {
 	
 	private static void homePage() {
 		while (true) {
-			System.out.println("\n\n===========HOME PAGE===========");
+			System.out.println("\n\n============HOME PAGE============");
 			System.out.println("What do you want to do?");
 			System.out.println("1) Create an event");
 			System.out.println("2) List a new merchandise article");
