@@ -21,7 +21,8 @@ public class AuthCommands {
 		Long id = AuthenticationRESTClient.getInstance().signupOrganizer(organizer);
 		// If null is returned, the username was already taken
 		if (id == null) {
-			System.out.print("\n\nERROR: The username is already taken. Please try with a new username.\n\n");
+			System.out.print("");
+			System.out.print("ERROR: The username is already taken. Please try with a new username.");
 		}
 		return id;
 	}
@@ -37,7 +38,8 @@ public class AuthCommands {
 		Long id = AuthenticationRESTClient.getInstance().signinOrganizer(credentials);
 		// If null is returned, credentials were incorrect
 		if (id == null) {
-			System.out.print("\n\nERROR: The credentials were incorrect.\n\n");
+			System.out.print("");
+			System.out.print("ERROR: The credentials were incorrect.");
 		}
 		return id;
 

@@ -27,12 +27,15 @@ public class OrganizerClientApplication {
 
 	private static void welcomeAndAuthentication() {
 		System.out.println(LocalDateTime.now().toString());
-		System.out.println("\n\nWelcome, organizer, to the event exploration and ticket reservation platform!");
+		System.out.println("");
+		System.out.println("Welcome, organizer, to the event exploration and ticket reservation platform!");
 		while (true) {
+			System.out.println("");
 			System.out.println("What do you want to do?");
 			System.out.println("1) Sign-in");
 			System.out.println("2) Sign-up");
 			System.out.println("3) Exit the application");
+			System.out.println("");
 			System.out.print("Your answer: ");
 			try {
 				int command = scanner.nextInt();
@@ -67,7 +70,8 @@ public class OrganizerClientApplication {
 	
 	private static void homePage() {
 		while (true) {
-			System.out.println("\n\n============HOME PAGE============");
+			System.out.println("");
+			System.out.println("============HOME PAGE============");
 			System.out.println("What do you want to do?");
 			System.out.println("1) Create an event");
 			System.out.println("2) List a new merchandise article");
@@ -76,6 +80,7 @@ public class OrganizerClientApplication {
 			System.out.println("5) Log out");
 			boolean ok = false;
 			while (!ok) {
+				System.out.println("");
 				System.out.print("Your answer: ");
 				try {
 					int command = scanner.nextInt();
@@ -97,7 +102,8 @@ public class OrganizerClientApplication {
 						break;
 
 					case 5:
-						System.out.println("\n\nSuccessfully logged out.\n\n");
+						System.out.println("");
+						System.out.println("Successfully logged out.");
 						return; //Return to welcome page
 
 					default:

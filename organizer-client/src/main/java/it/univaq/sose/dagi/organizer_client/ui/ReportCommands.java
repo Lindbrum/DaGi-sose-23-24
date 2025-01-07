@@ -40,11 +40,12 @@ public class ReportCommands {
 	}
 
 	private static void loadNewPage(Scanner scanner) {
-		System.out.println(String.format("\n\n=========Your events page %s, sort method '%s'=========", currentPage,
+		System.out.println("");
+		System.out.println(String.format("==============Your events page %s, sort method '%s'=============", currentPage,
 				currentSortBy.toString()));
 		// Load the catalogue page content
 		populateCataloguePage();
-		System.out.println("==========================================================");
+		System.out.println("===================================================================");
 		
 		// Check if to allow page navigation
 		if (currentPage > 1) {
@@ -58,6 +59,7 @@ public class ReportCommands {
 		boolean ok = false;
 		// Keep asking until the input makes sense
 		while (!ok) {
+			System.out.print("");
 			System.out.print("Select an event to generate a report for or use the navigation commands: ");
 			String selection = scanner.nextLine();
 			switch (selection) {
@@ -120,8 +122,10 @@ public class ReportCommands {
 					int parsedSelection = Integer.parseInt(selection);
 					if (parsedSelection > 0 && parsedSelection <= currentPageEvents.size()) {
 						// We are selecting an event in the page
-						System.out.println("\n=======Selected event " + parsedSelection + "========");
-						System.out.print("\nSpecify keywords to count in feedbacks (eventually empty): ");
+						System.out.println("");
+						System.out.println("=======Selected event " + parsedSelection + "========");
+						System.out.println("");
+						System.out.print("Specify keywords to count in feedbacks (eventually empty): ");
 						String keywords = scanner.nextLine();
 						showEventReport(currentPageEvents.get(parsedSelection - 1), keywords, scanner);
 						ok = true;
@@ -154,7 +158,8 @@ public class ReportCommands {
 		System.out.println("==========================================================");
 		
 		//Feedback report
-		System.out.println("\n=========================Feedbacks========================");
+		System.out.println("");
+		System.out.println("=========================Feedbacks========================");
 		
 		if(feedbacksReport.getEventFeedbacks() == null){
 			System.out.println("");
@@ -187,7 +192,8 @@ public class ReportCommands {
 			if(feedbacksReport.getKeywordsCount() != null) {
 				at = Utility.createAsciiTable(20, 9);
 				Map<String,Integer> counts = feedbacksReport.getKeywordsCount();
-				System.out.println("\nKeyword counts:");
+				System.out.println("");
+				System.out.println("Keyword counts:");
 				for(Entry<String,Integer> current : counts.entrySet()) {
 					at.addRule();
 					at.addRow(current.getKey(), current.getValue());
@@ -201,7 +207,8 @@ public class ReportCommands {
 		}
 		
 		//Report on ticket sales
-		System.out.println("\n==========Ticket Sales==========");
+		System.out.println("");
+		System.out.println("==========Ticket Sales==========");
 		
 		if(salesReport.getEventSoldTickets() == null || salesReport.getEventSoldTickets().isEmpty()) {
 			System.out.println("");
@@ -213,7 +220,8 @@ public class ReportCommands {
 			
 			//Age counts
 			Map<String,Integer> ageCounts = salesReport.getAgeCounts();
-			System.out.println("\nAge counts:");
+			System.out.println("");
+			System.out.println("Age counts:");
 			
 			//Create a tabular view of each age count
 			at = Utility.createAsciiTable(14, 9);
@@ -229,7 +237,8 @@ public class ReportCommands {
 			
 			//Gender counts
 			Map<String,Integer> genderCounts = salesReport.getGenderCounts();
-			System.out.println("\nGender counts:");
+			System.out.println("");
+			System.out.println("Gender counts:");
 			
 			//Create a tabular view of each gender count
 			at = Utility.createAsciiTable(14, 9);
@@ -245,7 +254,8 @@ public class ReportCommands {
 			
 			//Date counts
 			Map<String,Integer> dateCounts = salesReport.getDateCounts();
-			System.out.println("\nDate counts:");
+			System.out.println("");
+			System.out.println("Date counts:");
 			
 			//Create a tabular view of each age count
 			at = Utility.createAsciiTable(25, 9);

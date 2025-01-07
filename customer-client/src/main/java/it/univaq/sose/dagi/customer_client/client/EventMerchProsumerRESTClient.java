@@ -40,8 +40,8 @@ public class EventMerchProsumerRESTClient {
         org.apache.cxf.jaxrs.client.Client client = WebClient.client(api);
         
         ClientConfiguration config = WebClient.getConfig(client);
-        config.getOutInterceptors().add(new LoggingOutInterceptor());
-        config.getInInterceptors().add(new LoggingInInterceptor());
+        //config.getOutInterceptors().add(new LoggingOutInterceptor());
+        //config.getInInterceptors().add(new LoggingInInterceptor());
     }
 	
 	public EventWithMerch fetchEventInfoAndMerchandise(Long eventId) {

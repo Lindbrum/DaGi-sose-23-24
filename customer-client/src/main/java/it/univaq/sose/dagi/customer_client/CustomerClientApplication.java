@@ -25,7 +25,8 @@ public class CustomerClientApplication {
 
 	private static void welcomeAndAuthentication() {
 
-		System.out.println("\n\nWelcome to the event exploration and ticket reservation platform!");
+		System.out.println("");
+		System.out.println("Welcome to the event exploration and ticket reservation platform!");
 		while (true) {
 			System.out.println("What do you want to do?");
 			System.out.println("1) Sign-in");
@@ -65,7 +66,8 @@ public class CustomerClientApplication {
 
 	private static void homePage() {
 		while (true) {
-			System.out.println("\n\n===Home page===");
+			System.out.println("");
+			System.out.println("===========HOME PAGE==========");
 			System.out.println("What do you want to do?");
 			System.out.println("1) Explore the event catalogue");
 			System.out.println("2) Check your tickets");
@@ -73,6 +75,7 @@ public class CustomerClientApplication {
 			boolean ok = false;
 			while (!ok) {
 				System.out.print("Your answer: ");
+				
 				try {
 					int command = scanner.nextInt();
 					scanner.nextLine();
@@ -86,7 +89,8 @@ public class CustomerClientApplication {
 						break;
 
 					case 3:
-						System.out.println("\n\nSuccessfully logged out.\n\n");
+						System.out.println("");
+						System.out.println("Successfully logged out.");
 						return; //Return to welcome page
 
 					default:

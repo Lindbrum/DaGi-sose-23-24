@@ -5,11 +5,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import de.vandermeer.asciitable.AsciiTable;
+import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 import io.swagger.model.soap_proxy.CustomerHistory;
 import io.swagger.model.soap_proxy.Event;
 import io.swagger.model.soap_proxy.SoldTicket;
 import it.univaq.sose.dagi.customer_client.CustomerClientApplication;
 import it.univaq.sose.dagi.customer_client.client.SOAPProxyRESTClient;
+import it.univaq.sose.dagi.customer_client.Utility;
 
 public class TicketHistoryCommands {
 	
@@ -20,17 +23,16 @@ public class TicketHistoryCommands {
 		List<SoldTicket> tickets = data.getBoughtTickets();
 		List<Event> events = data.getTicketRelatedEvents();
 		List<String> historyRows = new ArrayList<>(tickets.size()); //used to display in option menù the selected row
-		for(Event e : events) {
-			System.out.print(e.getId()+",");
-		}
-		System.out.println();
 		
 		//Print the menù
 		while(true) {
 			//Print the data
-			System.out.println("\n\n==============YOUR TICKET HISTORY==============");
-			System.out.println("\nEvent\t\t\tTicket date");
+			System.out.println("");
+			System.out.println("=================YOUR TICKET HISTORY=================");
 			int count = 1;
+			AsciiTable at = Utility.createAsciiTable(29, 20);
+			at.addRule();
+			at.addRow("Name", "Reference date");
 			for(SoldTicket currTicket : tickets) {
 				//Fetch event name
 				Event e = null;
@@ -40,11 +42,16 @@ public class TicketHistoryCommands {
 						break;
 					}
 				}
-				String row = String.format("%d) %s\t\t\t%s", count++, e.getName(), currTicket.getReferenceDate());
-				historyRows.add(row);
-				System.out.println(row);
-				System.out.println("---------------------------------------------------------");
+				String eventHistory = String.format("%d) %s", count++, e.getName());
+				historyRows.add(eventHistory);
+				at.addRule();
+				at.addRow(eventHistory, currTicket.getReferenceDate());
 			}
+			at.addRule();
+			at.setTextAlignment(TextAlignment.CENTER);
+			String rend = at.render();
+			System.out.println(rend);
+			System.out.println("");
 			System.out.print("Select any ticket for options or press Q to return to home page: ");
 			String selection = scanner.nextLine();
 			
@@ -59,7 +66,8 @@ public class TicketHistoryCommands {
 					if (parsedSelection > 0 && parsedSelection <= tickets.size()) {
 						// We are selecting a ticket
 						System.out.println(String.format("\nSelected '%s'", historyRows.get(parsedSelection - 1)));
-						System.out.println("\nWhat do you wish to do?");
+						System.out.println("");
+						System.out.println("What do you wish to do?");
 						System.out.println("1) Write a feedback on this event");
 						System.out.println("2) Back to history");
 						boolean exitLoop = false;
@@ -92,10 +100,12 @@ public class TicketHistoryCommands {
 	}
 	
 	private static void writeFeedback(Scanner scanner, long eventId) {
-		System.out.println("\n\n==============SUBMIT FEEDBACK==============");
+		System.out.println("");
+		System.out.println("==============SUBMIT FEEDBACK==============");
 		int rating = -1;
-		while(true) {			
-			System.out.print("\nFrom 1 to 5, how much would you rate this event? ");
+		while(true) {
+			System.out.println("");
+			System.out.print("From 1 to 5, how much would you rate this event? ");
 			try{
 				rating = scanner.nextInt();
 				scanner.nextLine();
@@ -107,12 +117,16 @@ public class TicketHistoryCommands {
 				continue;
 			}
 		}
-		System.out.println("\nAnything in particular you want to let the organizer know?");
+		System.out.println("");
+		System.out.println("Anything in particular you want to let the organizer know?");
 		String body = scanner.nextLine();
-		System.out.println("\nSubmitting your feedback, please wait...");
+		System.out.println("");
+		System.out.println("Submitting your feedback, please wait...");
 		String message = SOAPProxyRESTClient.getInstance().submitFeedback(CustomerClientApplication.getCustomerId(), eventId, rating, body);
-		System.out.println("\n=======================================================");
+		System.out.println("");
+		System.out.println("=======================================================");
 		System.out.println(message);
-		System.out.println("\n=======================================================");
+		System.out.println("");
+		System.out.println("=======================================================");
 	}
 }

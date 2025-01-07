@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import de.vandermeer.asciitable.AsciiTable;
+import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 import io.swagger.model.event_merch_prosumer.EventWithMerch;
 import io.swagger.model.event_merch_prosumer.Merchandise;
 import io.swagger.model.soap_proxy.Event;
 import it.univaq.sose.dagi.customer_client.client.EventMerchProsumerRESTClient;
 import it.univaq.sose.dagi.customer_client.client.SOAPProxyRESTClient;
+import it.univaq.sose.dagi.customer_client.Utility;
 
 public class CatalogueCommands {
 
@@ -51,9 +54,8 @@ public class CatalogueCommands {
 	}
 
 	private static void loadNewPage(Scanner scanner) {
-		System.out.println(String.format("===Event catalogue page %s, sort method '%s'===", currentPage,
+		System.out.println(String.format("=================Event catalogue page %s, sort method '%s'================", currentPage,
 				currentSortBy.toString()));
-		System.out.println("Event title\t\t\t\tRunning time");
 		// Load the catalogue page content
 		populateCataloguePage();
 		
@@ -191,34 +193,57 @@ public class CatalogueCommands {
 			isDirty = false;
 		}
 		int count = 1;
+		AsciiTable at = Utility.createAsciiTable(32, 42);
+		at.addRule();
+		at.addRow("Event title", "Running time");
 		for (Event event : currentPageEvents) {
+			String eventTitle= String.format("%d) %s", count++, event.getName());
 			String runningTime = event.getStartDate().toString() + " - " + event.getEndDate().toString();
-
-			System.out.println("-------------------------------------------------------------------");
-			System.out.println(String.format("%d) %s\t\t%s", count++, event.getName(), runningTime));
+			at.addRule();
+			at.addRow(eventTitle, runningTime);
 		}
-		System.out.println("-------------------------------------------------------------------");
+		at.addRule();
+		at.setTextAlignment(TextAlignment.CENTER);
+		String rend = at.render();
+		System.out.println(rend);
 	}
 	
 	private static void printEventInfo(EventWithMerch eventWithMerch) {
 		//Print the info
-		System.out.println("\n=============EVENT DETAILS=============");
-		System.out.println(String.format("Name:\t %s", eventWithMerch.getEvent().getName()));
-		System.out.println(String.format("Organizer:\t %s", eventWithMerch.getEvent().getOrganizerId()));
-		System.out.println(String.format("Description of the event:\n\n%s", eventWithMerch.getEvent().getDescription()));
-		System.out.println(String.format("Start:\t %s", eventWithMerch.getEvent().getStartDate()));
-		System.out.println(String.format("End:\t %s", eventWithMerch.getEvent().getEndDate()));
-		System.out.println(String.format("Tickets remaining:\t %d", eventWithMerch.getEvent().getNrTickets()));
-		System.out.println("\n=============Merchandise list=============");
-		System.out.println("article\t\t\t\t\tbarcode\t\t\t\t\t\tdescription");
+		System.out.println("\n======================================EVENT DETAILS=====================================");
+		AsciiTable at = Utility.createAsciiTable(30, 55);
+		at.addRule();
+	    at.addRow("Name", eventWithMerch.getEvent().getName());
+	    at.addRule();
+	    at.addRow("Organizer", eventWithMerch.getEvent().getOrganizerId());
+	    at.addRule();
+	    at.addRow("Description of the event", eventWithMerch.getEvent().getDescription());
+	    at.addRule();
+	    at.addRow("Start", eventWithMerch.getEvent().getStartDate());
+	    at.addRule();
+	    at.addRow("End", eventWithMerch.getEvent().getEndDate());
+	    at.addRule();
+	    at.addRow("Tickets remaining", eventWithMerch.getEvent().getNrTickets());
+	    at.addRule();
+		at.setTextAlignment(TextAlignment.CENTER);
+		String rend = at.render();
+		System.out.println(rend);
+	    System.out.println("");
+		System.out.println("=======================================Merchandise list========================================");
 		int count = 1;
+		at = Utility.createAsciiTable(30, 17, 45);
+		at.addRule();
+	    at.addRow("Article", "Barcode", "Description");
 		for(Merchandise merch : eventWithMerch.getMerchandise()) {
-			System.out.println(String.format("%d) %s\t\t\t%d\t\t%s", count++, merch.getName(), merch.getBarCode(), merch.getDescription()));
-			System.out.println("------------------------------------------");
+			at.addRule();
+		    at.addRow(merch.getName(), merch.getBarCode(), merch.getDescription());
 		}
-		
+		at.addRule();
+		at.setTextAlignment(TextAlignment.CENTER);
+		rend = at.render();
+		System.out.println(rend);
 		//Print the menù
-		System.out.println("=========================================");
+		System.out.println("===============================================================================================");
 		System.out.println("1) Buy a ticket");
 		System.out.println("2) Return to the catalogue");
 	}

@@ -3,9 +3,12 @@ package it.univaq.sose.dagi.customer_client.ui;
 import java.util.List;
 import java.util.Scanner;
 
+import de.vandermeer.asciitable.AsciiTable;
+import de.vandermeer.skb.interfaces.transformers.textformat.TextAlignment;
 import io.swagger.model.soap_proxy.Event;
 import io.swagger.model.soap_proxy.TicketInfo;
 import it.univaq.sose.dagi.customer_client.CustomerClientApplication;
+import it.univaq.sose.dagi.customer_client.Utility;
 import it.univaq.sose.dagi.customer_client.client.SOAPProxyRESTClient;
 
 public class TicketPurchaseCommands {
@@ -14,16 +17,22 @@ public class TicketPurchaseCommands {
 	public static boolean openTicketPurchase(Scanner scanner, Event event) {
 		
 		// Print the available tickets
-		System.out.println("============AVAILABLE TICKETS============");
+		System.out.println("====================AVAILABLE TICKETS====================");
 		List<TicketInfo> tickets;
 		tickets = SOAPProxyRESTClient.getInstance().fetchEventAvailableTickets(event.getId());
 		int count = 1;
-		System.out.println("Ticket date/time\t\t\tRemaining");
+		AsciiTable at = Utility.createAsciiTable(30, 25);
+		at.addRule();
+	    at.addRow("Ticket date/time", "Remaining tickets");
 		for (TicketInfo current : tickets) {
-			System.out.println(String.format("%d) %s\t\t\t %d", count++,
-					current.getReferenceDate().toString(), current.getAvailableTickets()));
-			System.out.println("-----------------------------------------");
+			String refDate = String.format("%d) %s", count++, current.getReferenceDate().toString());
+			at.addRule();
+		    at.addRow(refDate, current.getAvailableTickets());
 		}
+		at.addRule();
+		at.setTextAlignment(TextAlignment.CENTER);
+		String rend = at.render();
+		System.out.println(rend);
 		// Print the menù
 		System.out.println("Select the ticket to purchase or press Q to go back to the event info.");
 		while (true) {
@@ -40,7 +49,8 @@ public class TicketPurchaseCommands {
 					int parsedSelection = Integer.parseInt(selection);
 					if (parsedSelection > 0 && parsedSelection <= tickets.size()) {
 						// We are selecting a ticket
-						System.out.println("\nSelected ticket " + parsedSelection);
+						System.out.println("");
+						System.out.println("Selected ticket: " + parsedSelection);
 						TicketInfo ticket = tickets.get(parsedSelection - 1);
 						SOAPProxyRESTClient.getInstance().purchaseTicket(event.getId(), CustomerClientApplication.getCustomerId(), ticket.getReferenceDate());
 						System.out.println("===============================================================================================================");

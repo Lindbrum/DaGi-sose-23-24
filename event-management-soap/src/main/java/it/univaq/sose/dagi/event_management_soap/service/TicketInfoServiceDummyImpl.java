@@ -21,14 +21,17 @@ public class TicketInfoServiceDummyImpl implements TicketInfoService {
 	//Each TicketInfo is created with a unique ID and reference date, then added to the list.
 	public TicketInfoServiceDummyImpl() {
 		TicketInfo t0 = new TicketInfo(nextId++, 0L, null, 50);
-		t0.setReferenceDate(LocalDateTime.of(2024, Month.JULY, 29, 18, 0));
+		t0.setReferenceDate(LocalDateTime.of(2025, Month.JULY, 29, 18, 0));
 		TicketInfo t1 = new TicketInfo(nextId++, 1L, null, 10);
-		t1.setReferenceDate(LocalDateTime.of(2024, Month.JULY, 30, 20, 0));
+		t1.setReferenceDate(LocalDateTime.of(2025, Month.JULY, 30, 20, 0));
 		TicketInfo t2 = new TicketInfo(nextId++, 2L, null, 400);
-		t2.setReferenceDate(LocalDateTime.of(2024, Month.AUGUST, 12, 17, 0));
+		t2.setReferenceDate(LocalDateTime.of(2025, Month.AUGUST, 12, 17, 0));
+		TicketInfo t3 = new TicketInfo(nextId++, 3L, null, 400);
+		t3.setReferenceDate(LocalDateTime.of(2025, Month.JUNE, 24, 17, 0));
 		
 		ticketInfos.add(t0);
 		ticketInfos.add(t1);
+		ticketInfos.add(t2);
 		ticketInfos.add(t2);
 	}
 	

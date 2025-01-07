@@ -22,22 +22,26 @@ public class MerchCommands {
 	private static List<Merchandise> currentPageMerchs;
 
 	public static void createMerch(Scanner scanner) {
-		System.out.println("\n\n===========LIST NEW MERCHANDISE===========");
+		System.out.println("");
+		System.out.println("===========LIST NEW MERCHANDISE===========");
 		
 		String name = null;
 		String description = null;
 		Long associatedEventId = null;
 		Long barcode = null;
 		
-		System.out.print("\nName of the article: ");
+		System.out.println("");
+		System.out.print("Name of the article: ");
 		name = scanner.nextLine().trim();
 
-		System.out.println("\nA description of the article:");
+		System.out.println("");
+		System.out.println("A description of the article:");
 		description = scanner.nextLine().trim();
 		
 		boolean ok = false;
-		while(!ok) {			
-			System.out.print("\nID of the event to associated with this article (leave blank if you intend to set this later): ");
+		while(!ok) {
+			System.out.println("");
+			System.out.print("ID of the event to associated with this article (leave blank if you intend to set this later): ");
 			String eventId = scanner.nextLine().trim(); //remove whitespaces
 			if(eventId != null && !eventId.isEmpty()) {			
 				try{
@@ -45,7 +49,8 @@ public class MerchCommands {
 					ok = true;
 				}catch (NumberFormatException e) {
 					ok = false;
-					System.out.println("==========\nPlease input a valid event ID or leave blank if you don't have one yet.\n=========");
+					System.out.println("");
+					System.out.println("==========Please input a valid event ID or leave blank if you don't have one yet.=========");
 				}
 			}else { //we are leaving the input blank
 				ok = true;
@@ -54,7 +59,8 @@ public class MerchCommands {
 		
 		ok = false;
 		while(!ok) {
-			System.out.println("\nProvide the article barcode:");
+			System.out.println("");
+			System.out.println("Provide the article barcode:");
 			String barcodeInput = scanner.nextLine().trim(); //remove whitespaces
 			if(barcodeInput != null && !barcodeInput.isEmpty()) {			
 				try{
@@ -62,7 +68,8 @@ public class MerchCommands {
 					ok = true;
 				}catch (NumberFormatException e) {
 					ok = false;
-					System.out.println("==========\nPlease input a valid barcode (only numbers allowed).\n=========");
+					System.out.println("");
+					System.out.println("==========Please input a valid barcode (only numbers allowed).=========");
 				}
 			}
 		}			
@@ -75,7 +82,8 @@ public class MerchCommands {
 		newMerch.setBarCode(barcode);
 		MerchandiseRESTClient.getInstance().createMerchandise(newMerch);
 		
-		System.out.println("\n==========================================");
+		System.out.println("");
+		System.out.println("==========================================");
 		System.out.println("The merchandise article has been registered");
 		System.out.println("============================================");
 	}
@@ -112,6 +120,7 @@ public class MerchCommands {
 		boolean ok = false;
 		//Keep asking until the input makes sense
 		while (!ok) {
+			System.out.println("");
 			System.out.print("Your answer: ");
 			String selection = scanner.nextLine();
 			switch (selection) {

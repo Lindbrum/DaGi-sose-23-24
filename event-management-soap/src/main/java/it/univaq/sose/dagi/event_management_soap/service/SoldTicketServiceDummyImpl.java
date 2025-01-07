@@ -34,6 +34,8 @@ public class SoldTicketServiceDummyImpl implements SoldTicketService {
 		t5.setReferenceDate(LocalDateTime.of(2024, Month.JULY, 30, 23, 0));
 		SoldTicket t6 = new SoldTicket(nextId++, 3L, 2L, null);
 		t6.setReferenceDate(LocalDateTime.of(2024, Month.AUGUST, 12, 21, 0));
+		SoldTicket t7 = new SoldTicket(nextId++, 1L, 3L, null);
+		t6.setReferenceDate(LocalDateTime.of(2025, Month.JUNE, 24, 17, 0));
 		
 		soldTickets.add(t0);
 		soldTickets.add(t1);
@@ -42,6 +44,8 @@ public class SoldTicketServiceDummyImpl implements SoldTicketService {
 		soldTickets.add(t4);
 		soldTickets.add(t5);
 		soldTickets.add(t6);
+		soldTickets.add(t7);
+		
 	}
 	
 	//This method creates a new SoldTicket object. It assigns a unique ID to the newSoldTicket, adds it to the collection, and returns the newly created SoldTicket.

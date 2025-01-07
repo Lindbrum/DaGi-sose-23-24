@@ -41,8 +41,8 @@ public class AuthenticationRESTClient {
         org.apache.cxf.jaxrs.client.Client client = WebClient.client(api);
         
         ClientConfiguration config = WebClient.getConfig(client);
-        config.getOutInterceptors().add(new LoggingOutInterceptor());
-        config.getInInterceptors().add(new LoggingInInterceptor());
+        //config.getOutInterceptors().add(new LoggingOutInterceptor());
+        //config.getInInterceptors().add(new LoggingInInterceptor());
     }
 	
 	public Long signupCustomer(Customer customer) {

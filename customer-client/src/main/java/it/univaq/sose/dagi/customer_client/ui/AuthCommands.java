@@ -81,7 +81,8 @@ public class AuthCommands {
 		Long id = AuthenticationRESTClient.getInstance().signupCustomer(customer);
 		// If null is returned, the username was already taken
 		if (id == null) {
-			System.out.print("\n\nERROR: The username is already taken. Please try with a new username.\n\n");
+			System.out.println("");
+			System.out.print("ERROR: The username is already taken. Please try with a new username.");
 		}
 		return id;
 	}
@@ -97,7 +98,8 @@ public class AuthCommands {
 		Long id = AuthenticationRESTClient.getInstance().signinCustomer(credentials);
 		// If null is returned, credentials were incorrect
 		if (id == null) {
-			System.out.print("\n\nERROR: The credentials were incorrect.\n\n");
+			System.out.println("");
+			System.out.print("ERROR: The credentials were incorrect.");
 		}
 		return id;
 

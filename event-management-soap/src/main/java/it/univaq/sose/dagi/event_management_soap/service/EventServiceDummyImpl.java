@@ -28,14 +28,14 @@ public class EventServiceDummyImpl implements EventService {
 		EVENTS_PER_PAGE = eventsPerPage;
 		
 		Event e0 = new Event(nextId++, "Evening with fans", "InnTale has organized an evening with fans.", 2L, "Lucca", null, null, 50);
-		e0.setStartDate(LocalDateTime.of(2025, Month.JULY, 29, 18, 0));
-		e0.setEndDate(LocalDateTime.of(2025, Month.JULY, 29, 22, 0));
+		e0.setStartDate(LocalDateTime.of(2024, Month.JULY, 29, 18, 0));
+		e0.setEndDate(LocalDateTime.of(2024, Month.JULY, 29, 22, 0));
 		Event e1 = new Event(nextId++, "D&D ESO campaign", "InnTale D&D campaign based on Elder Scrolls Online.", 1L, "Lucca", null, null, 10);
-		e1.setStartDate(LocalDateTime.of(2025, Month.JULY, 30, 20, 0));
-		e1.setEndDate(LocalDateTime.of(2025, Month.JULY, 30, 23, 0));
+		e1.setStartDate(LocalDateTime.of(2024, Month.JULY, 30, 20, 0));
+		e1.setEndDate(LocalDateTime.of(2024, Month.JULY, 30, 23, 0));
 		Event e2 = new Event(nextId++, "Antonello Venditti live", "Canta Antonello Venditti in live per la perdonanza.", 1L, "L'Aquila", null, null, 400);
-		e2.setStartDate(LocalDateTime.of(2025, Month.AUGUST, 12, 17, 0));
-		e2.setEndDate(LocalDateTime.of(2025, Month.AUGUST, 12, 21, 0));
+		e2.setStartDate(LocalDateTime.of(2024, Month.AUGUST, 12, 17, 0));
+		e2.setEndDate(LocalDateTime.of(2024, Month.AUGUST, 12, 21, 0));
 		Event e3 = new Event(nextId++, "Linkin Park live", "I linkin Park tornano a Milano (Ippodromo SNAI la Maura) 7 anni dopo l'ultima volta!.", 2L, "Milano", null, null, 400);
 		e3.setStartDate(LocalDateTime.of(2025, Month.JUNE, 12, 17, 0));
 		e3.setEndDate(LocalDateTime.of(2025, Month.JUNE, 12, 21, 0));
