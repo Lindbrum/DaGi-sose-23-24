@@ -66,7 +66,7 @@ public class EventSOAPClient {
 					.ofNullable(eurekaClient.getInstancesByVipAddress("event-management-soap", false))
 					.filter(list -> !list.isEmpty()).orElseGet(() -> {
 
-						log.warn("Using cached copy of the event management SOAP service");
+						log.warn("Using cached copy of the Event Management SOAP service");
 						log.warn("lastInstancesCache {}", lastInstancesCache);
 						synchronized (lastInstancesCache) {
 							return new ArrayList<>(lastInstancesCache); // Return a copy of the cached instances
@@ -108,7 +108,7 @@ public class EventSOAPClient {
 			String eurekaUrl = instance.getHomePageUrl() + wsdlUri;
 			URL url = new URL(eurekaUrl);
 			service = new EventManagementImplService(url);
-			log.info("New Retrieved BancomatService URL: {}", url);
+			log.info("New Retrieved Event Management SOAP URL: {}", url);
 			lastUrl = url;
 
 			return service.getEventManagementImplPort();
@@ -116,8 +116,8 @@ public class EventSOAPClient {
 			log.error("Malformed URL: {}", e.getMessage(), e);
 			throw new ServiceUnavailableException("Malformed URL: " + e.getMessage());
 		} catch (Exception e) {
-			log.error("Failed to retrieve BancomatService URL: {}", e.getMessage(), e);
-			throw new ServiceUnavailableException("Failed to retrieve BancomatService URL: " + e.getMessage());
+			log.error("Failed to retrieve Event Management SOAP URL: {}", e.getMessage(), e);
+			throw new ServiceUnavailableException("Failed to retrieve Event Management SOAP URL: " + e.getMessage());
 		}
 	}
 
