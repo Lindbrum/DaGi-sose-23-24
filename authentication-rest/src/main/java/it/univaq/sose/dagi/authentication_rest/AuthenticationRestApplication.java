@@ -22,6 +22,10 @@ import org.springframework.context.event.EventListener;
 
 import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 
+import it.univaq.sose.dagi.authentication_rest.service.CustomerServiceImpl;
+import it.univaq.sose.dagi.authentication_rest.service.OrganizerServiceDummyImpl;
+import it.univaq.sose.dagi.authentication_rest.service.OrganizerServiceImpl;
+
 @SpringBootApplication
 @EnableDiscoveryClient
 public class AuthenticationRestApplication {
@@ -30,6 +34,12 @@ public class AuthenticationRestApplication {
 	//Bus is a component of CXF that manages service configuration and integration.
 	@Autowired
 	private Bus bus;
+	
+	@Autowired
+	private CustomerServiceImpl customerService;
+	
+	@Autowired
+	private OrganizerServiceImpl organizerService;
 	
 	//"port" is the port number on which the application listens.
 	//"cxfPath" is the context path for the CXF services.
@@ -52,7 +62,7 @@ public class AuthenticationRestApplication {
 	public Server rsServer(@Value("${swagger.definition.version}") String apiVersion) {
 		JAXRSServerFactoryBean endpoint = new JAXRSServerFactoryBean();
 		endpoint.setBus(bus);
-		endpoint.setServiceBeans(Arrays.<Object>asList(new AuthRestApiImpl()));
+		endpoint.setServiceBeans(Arrays.<Object>asList(new AuthRestApiImpl(customerService, organizerService)));
 		endpoint.setAddress("/");
 		endpoint.setProvider(new JacksonJsonProvider());
 		endpoint.setFeatures(Arrays.asList(createOpenApiFeature(apiVersion)));

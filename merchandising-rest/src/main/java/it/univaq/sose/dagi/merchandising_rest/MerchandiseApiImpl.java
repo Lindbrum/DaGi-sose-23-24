@@ -4,7 +4,7 @@ import java.util.List;
 
 import it.univaq.sose.dagi.merchandising_rest.model.Merchandise;
 import it.univaq.sose.dagi.merchandising_rest.service.MerchandiseService;
-import it.univaq.sose.dagi.merchandising_rest.service.MerchandiseServiceDummyImpl;
+import it.univaq.sose.dagi.merchandising_rest.service.MerchandiseServiceImpl;
 
 public class MerchandiseApiImpl implements MerchandiseApi {
 
@@ -14,7 +14,7 @@ public class MerchandiseApiImpl implements MerchandiseApi {
 	// @Autowired is inferred by Spring Boot when there is a single public
 	// constructor
 	//@Autowired
-	public MerchandiseApiImpl(MerchandiseServiceDummyImpl merchandiseServiceImpl) {
+	public MerchandiseApiImpl(MerchandiseServiceImpl merchandiseServiceImpl) {
 			this.merchandiseService = merchandiseServiceImpl;
 		}
 

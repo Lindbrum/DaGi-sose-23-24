@@ -250,7 +250,8 @@ public class MerchCommands {
 		for (Merchandise merch : currentPageMerchs) {
 			String merchName = String.format("%d) %s", count++, merch.getName());
 			at.addRule();
-			at.addRow(merchName, merch.getDescription(), merch.getEventId(), merch.getBarCode());
+			String eventId = merch.getEventId() != null ? merch.getEventId().toString() : "None";
+			at.addRow(merchName, merch.getDescription(), eventId, merch.getBarCode());
 		}
 		at.addRule();
 		at.setTextAlignment(TextAlignment.CENTER);

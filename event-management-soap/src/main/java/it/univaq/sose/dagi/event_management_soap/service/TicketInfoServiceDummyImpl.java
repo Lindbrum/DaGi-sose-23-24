@@ -32,7 +32,7 @@ public class TicketInfoServiceDummyImpl implements TicketInfoService {
 		ticketInfos.add(t0);
 		ticketInfos.add(t1);
 		ticketInfos.add(t2);
-		ticketInfos.add(t2);
+		ticketInfos.add(t3);
 	}
 	
 	//This method takes a TicketInfo object as a parameter, assigns a new ID to the ticket, adds it to the ticketInfos list

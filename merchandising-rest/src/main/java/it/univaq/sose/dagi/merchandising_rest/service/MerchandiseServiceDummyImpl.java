@@ -28,10 +28,10 @@ public class MerchandiseServiceDummyImpl implements MerchandiseService {
 		
 		MERCHS_PER_PAGE = merchssPerPage;
 		
-		Merchandise m0 = new  Merchandise(nextID++, 0L, 90930312921L, "Lily plush", "A miniature plush one of Kurolily's cats.");
-		Merchandise m1 = new  Merchandise(nextID++, 1L, 90930312921L, "Lily plush", "A miniature plush one of Kurolily's cats.");
+		Merchandise m0 = new  Merchandise(nextID++, 0L, 90930312919L, "Lily plush", "A miniature plush one of Kurolily's cats.");
+		Merchandise m1 = new  Merchandise(nextID++, 1L, 90930312920L, "Lily plush", "A miniature plush one of Kurolily's cats.");
 		Merchandise m2 = new  Merchandise(nextID++, 2L, 90930312921L, "Santino di San Celestino", "A postcard with the image of S. Celestino.");
-		Merchandise m3 = new  Merchandise(nextID++, 2L, 90930312921L, "Venditti album", "The latest album from Antonello Venditti.");
+		Merchandise m3 = new  Merchandise(nextID++, 2L, 90930312922L, "Venditti's album", "The latest album from Antonello Venditti.");
 		
 		merchandiseRepository.add(m0);
 		merchandiseRepository.add(m1);

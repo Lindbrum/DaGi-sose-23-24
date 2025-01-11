@@ -3,15 +3,33 @@ package it.univaq.sose.dagi.event_management_soap.model;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "event")
 public class Event implements Comparable<Event>{
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(nullable = false)
 	private String name;
+	@Column(nullable = false)
 	private String description;
+	@Column(nullable = false)
 	private Long organizerId;
+	@Column(nullable = false)
 	private String location;
+	@Column(nullable = false)
 	private LocalDateTime startDate;
+	@Column(nullable = false)
 	private LocalDateTime endDate;
+	@Column(nullable = false)
 	private int nrTickets;
 	
 	

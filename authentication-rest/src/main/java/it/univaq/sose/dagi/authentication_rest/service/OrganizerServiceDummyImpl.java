@@ -3,8 +3,11 @@ package it.univaq.sose.dagi.authentication_rest.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import it.univaq.sose.dagi.authentication_rest.model.Organizer;
 
+@Service
 public class OrganizerServiceDummyImpl implements OrganizerService {
 
 	private List<Organizer> organizerList = new ArrayList<>();

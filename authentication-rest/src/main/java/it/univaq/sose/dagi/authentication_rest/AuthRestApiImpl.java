@@ -8,9 +8,9 @@ import it.univaq.sose.dagi.authentication_rest.model.Credentials;
 import it.univaq.sose.dagi.authentication_rest.model.Customer;
 import it.univaq.sose.dagi.authentication_rest.model.Organizer;
 import it.univaq.sose.dagi.authentication_rest.service.CustomerService;
-import it.univaq.sose.dagi.authentication_rest.service.CustomerServiceDummyImpl;
+import it.univaq.sose.dagi.authentication_rest.service.CustomerServiceImpl;
 import it.univaq.sose.dagi.authentication_rest.service.OrganizerService;
-import it.univaq.sose.dagi.authentication_rest.service.OrganizerServiceDummyImpl;
+import it.univaq.sose.dagi.authentication_rest.service.OrganizerServiceImpl;
 
 public class AuthRestApiImpl implements AuthRestApi {
 
@@ -19,9 +19,9 @@ public class AuthRestApiImpl implements AuthRestApi {
 
 	//The AuthRestApiImpl implementation constructor initializes the customerService and organizerService services with dummy implementations
 	//(CustomerServiceDummyImpl and OrganizerServiceDummyImpl). These services are responsible for managing customer and organizer data.
-	public AuthRestApiImpl() {
-		this.customerService = new CustomerServiceDummyImpl();
-		this.organizerService = new OrganizerServiceDummyImpl();
+	public AuthRestApiImpl(CustomerServiceImpl customerService, OrganizerServiceImpl organizerService) {
+		this.customerService = customerService;
+		this.organizerService = organizerService;
 	}
 
 	//This method handles a customer's registration. It calls the save method of the customerService service to save the customer

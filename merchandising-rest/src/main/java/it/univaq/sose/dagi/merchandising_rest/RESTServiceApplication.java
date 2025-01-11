@@ -23,6 +23,7 @@ import org.springframework.context.event.EventListener;
 import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
 
 import it.univaq.sose.dagi.merchandising_rest.service.MerchandiseServiceDummyImpl;
+import it.univaq.sose.dagi.merchandising_rest.service.MerchandiseServiceImpl;
 
 //This is the main application class for the Spring Boot RESTful service that provides access and management
 //of event merchandise data. It is annotated with @SpringBootApplication, which marks
@@ -38,7 +39,7 @@ public class RESTServiceApplication {
 	private Bus bus;
 	
 	@Autowired
-	private MerchandiseServiceDummyImpl merchService;
+	private MerchandiseServiceImpl merchService;
 	
 	@Value("${server.port}")
 	private String port;
