@@ -1,21 +1,4 @@
 services:
-  config-server:
-    build: ./config-server
-    ports:
-      - "8888:8888"
-    restart: always
-  
-  discovery-server:
-    build: ./discovery-server
-    ports:
-      - "8761:8761"
-    depends_on:
-      - config-server
-    environment:
-      CONFIG_SERVER_HOST: config-server
-      CONFIG_SERVER_PORT: 8888
-    restart: always
-
   api-gateway:
     build: ./api-gateway
     ports:
@@ -28,13 +11,32 @@ services:
       CONFIG_SERVER_PORT: 8888
       EUREKA_SERVER: http://discovery-server:8761/eureka/
     restart: always
-  
+
+  config-server:
+    build: ./config-server
+    ports:
+      - "8888:8888"
+    restart: always
+
+  discovery-server:
+    build: ./discovery-server
+    ports:
+      - "8761:8761"
+    depends_on:
+      - config-server
+    environment:
+      CONFIG_SERVER_HOST: config-server
+      CONFIG_SERVER_PORT: 8888
+    restart: always
+
+### SERVICES ###
+
+### AUTHENTICATION REST ###
+
   authentication-rest:
     build: ./authentication-rest
-    deploy:
-      replicas: 3
-    ports:
-      - "8001-8003:8086"
+    expose:
+      - "8086"
     depends_on:
       - config-server
       - discovery-server
@@ -43,14 +45,13 @@ services:
       CONFIG_SERVER_HOST: config-server
       CONFIG_SERVER_PORT: 8888
       EUREKA_SERVER: http://discovery-server:8761/eureka/
-    restart: always
+
+### EVENT MANAGEMENT SOAP ###
 
   event-management-soap:
     build: ./event-management-soap
-    deploy:
-      replicas: 3
-    ports:
-      - "8004-8006:8081"
+    expose:
+      - "8081"
     depends_on:
       - config-server
       - discovery-server
@@ -59,14 +60,15 @@ services:
       CONFIG_SERVER_HOST: config-server
       CONFIG_SERVER_PORT: 8888
       EUREKA_SERVER: http://discovery-server:8761/eureka/
-    restart: always
+
+### EVENT MERCH PROSUMER REST ###
 
   event-merch-prosumer-rest:
     build: ./event-merch-prosumer-rest
     deploy:
-      replicas: 3
-    ports:
-      - "8007-8009:8083"
+      replicas: 2
+    expose:
+      - "8083"
     depends_on:
       - config-server
       - discovery-server
@@ -75,14 +77,17 @@ services:
       CONFIG_SERVER_HOST: config-server
       CONFIG_SERVER_PORT: 8888
       EUREKA_SERVER: http://discovery-server:8761/eureka/
-    restart: always
+      MERCHANDISE_SERVICE_CONTAINER: merchandising-rest
+      MERCHANDISE_SERVICE_PORT: 8085
+
+### FEEDBACK PROSUMER REST ###
 
   feedback-prosumer-rest:
     build: ./feedback-prosumer-rest
     deploy:
-      replicas: 3
-    ports:
-      - "8010-8012:8082"
+      replicas: 2
+    expose:
+      - "8082"
     depends_on:
       - config-server
       - discovery-server
@@ -91,14 +96,17 @@ services:
       CONFIG_SERVER_HOST: config-server
       CONFIG_SERVER_PORT: 8888
       EUREKA_SERVER: http://discovery-server:8761/eureka/
-    restart: always
+      AUTH_SERVICE_CONTAINER: authentication-rest
+      AUTH_SERVICE_PORT: 8086
+
+### MERCHANDISING REST ###
 
   merchandising-rest:
     build: ./merchandising-rest
     deploy:
-      replicas: 3
-    ports:
-      - "8013-8015:8085"
+      replicas: 2
+    expose:
+      - "8085"
     depends_on:
       - config-server
       - discovery-server
@@ -107,14 +115,15 @@ services:
       CONFIG_SERVER_HOST: config-server
       CONFIG_SERVER_PORT: 8888
       EUREKA_SERVER: http://discovery-server:8761/eureka/
-    restart: always
+
+### SALES ANALYSIS PROSUMER REST ###
 
   sales-analysis-prosumer-rest:
     build: ./sales-analysis-prosumer-rest
     deploy:
-      replicas: 3
-    ports:
-      - "8016-8018:8084"
+      replicas: 2
+    expose:
+      - "8084"
     depends_on:
       - config-server
       - discovery-server
@@ -123,14 +132,17 @@ services:
       CONFIG_SERVER_HOST: config-server
       CONFIG_SERVER_PORT: 8888
       EUREKA_SERVER: http://discovery-server:8761/eureka/
-    restart: always
+      AUTH_SERVICE_CONTAINER: authentication-rest
+      AUTH_SERVICE_PORT: 8086
+
+### SOAP PROXY PROSUMER REST ###
 
   soap-proxy-prosumer-rest:
     build: ./soap-proxy-prosumer-rest
     deploy:
-      replicas: 3
-    ports:
-      - "8019-8021:8087"
+      replicas: 2
+    expose:
+      - "8087"
     depends_on:
       - config-server
       - discovery-server
@@ -140,4 +152,3 @@ services:
       CONFIG_SERVER_HOST: config-server
       CONFIG_SERVER_PORT: 8888
       EUREKA_SERVER: http://discovery-server:8761/eureka/
-    restart: always

@@ -4,4 +4,8 @@ WORKDIR /authentication-rest
 COPY  . .
 
 RUN mvn clean install -DskipTests
+
+# Expose ports
+#EXPOSE 8086
+
 CMD mvn spring-boot:run

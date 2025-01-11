@@ -83,8 +83,8 @@ public class MerchCommands {
 		MerchandiseRESTClient.getInstance().createMerchandise(newMerch);
 		
 		System.out.println("");
-		System.out.println("==========================================");
-		System.out.println("The merchandise article has been registered");
+		System.out.println("============================================");
+		System.out.println("The merchandise article has been registered.");
 		System.out.println("============================================");
 	}
 	

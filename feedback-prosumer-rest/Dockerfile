@@ -4,4 +4,8 @@ WORKDIR /feedback-prosumer-rest
 COPY  . .
 
 RUN mvn clean install -DskipTests
+
+# Expose ports
+#EXPOSE 8082
+
 CMD mvn spring-boot:run

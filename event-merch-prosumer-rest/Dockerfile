@@ -4,4 +4,8 @@ WORKDIR /event-merch-prosumer-rest
 COPY  . .
 
 RUN mvn clean install -DskipTests
+
+# Expose ports
+#EXPOSE 8083
+
 CMD mvn spring-boot:run

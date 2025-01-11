@@ -63,10 +63,8 @@ public class AuthRestApiImpl implements AuthRestApi {
 	public Long signInOrganizer(Credentials credentials) {
 		Organizer organizer = organizerService.lookup(credentials.getUsername());
 		if (organizer != null && organizer.getPassword().equals(credentials.getPassword())) {
-			System.out.print("DENTRO");
 			return organizer.getId();
 		}
-		System.err.print("FUUUUUUUUUUUUUUUUUUUUUUUUUORI");
 		return null;
 	}
 

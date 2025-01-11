@@ -4,4 +4,8 @@ WORKDIR /discovery-server
 COPY  . .
 
 RUN mvn clean install -DskipTests
+
+# Expose ports
+#EXPOSE 8761
+
 CMD mvn spring-boot:run

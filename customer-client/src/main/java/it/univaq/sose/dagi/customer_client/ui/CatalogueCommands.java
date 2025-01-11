@@ -54,6 +54,7 @@ public class CatalogueCommands {
 	}
 
 	private static void loadNewPage(Scanner scanner) {
+		System.out.println("");
 		System.out.println(String.format("=================Event catalogue page %s, sort method '%s'================", currentPage,
 				currentSortBy.toString()));
 		// Load the catalogue page content

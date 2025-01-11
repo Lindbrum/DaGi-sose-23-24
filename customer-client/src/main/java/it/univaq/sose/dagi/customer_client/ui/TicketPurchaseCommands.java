@@ -53,9 +53,9 @@ public class TicketPurchaseCommands {
 						System.out.println("Selected ticket: " + parsedSelection);
 						TicketInfo ticket = tickets.get(parsedSelection - 1);
 						SOAPProxyRESTClient.getInstance().purchaseTicket(event.getId(), CustomerClientApplication.getCustomerId(), ticket.getReferenceDate());
-						System.out.println("===============================================================================================================");
+						System.out.println("================================================================================================================");
 						System.out.println("Ticket purchased successfully! You can review the information in the ticket purchase history section of the app.");
-						System.out.println("===============================================================================================================");
+						System.out.println("================================================================================================================");
 						return true;
 					}
 					continue;

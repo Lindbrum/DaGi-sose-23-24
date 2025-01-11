@@ -61,7 +61,6 @@ public class ReportAsyncRESTClient {
 			}
 			System.out.println("");
 			System.out.println("Completed.");
-			System.out.println("DEBUG (AsyncRESTClient): Feedback: " + feedbackCallback.getResponse() + ", sales: "+ salesCallback.getResponse());
 			EventReport report = new EventReport(feedbackCallback.getResponse(), salesCallback.getResponse());
 			return report;
 		}

@@ -150,7 +150,6 @@ public class ReportCommands {
 		EventReport report = ReportAsyncRESTClient.getInstance().fetchEventReport(event.getId(), keywords);
 		EventFeedbackReport feedbacksReport = report.getFeedbackReport();
 		EventSalesReport salesReport = report.getSalesReport();
-		//System.out.println("DEBUG: " +feedbacksReport.toString());
 		
 		//Format the document
 		System.out.println("==========================================================");

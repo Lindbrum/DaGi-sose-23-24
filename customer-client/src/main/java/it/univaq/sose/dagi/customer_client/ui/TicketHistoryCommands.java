@@ -28,7 +28,7 @@ public class TicketHistoryCommands {
 		while(true) {
 			//Print the data
 			System.out.println("");
-			System.out.println("=================YOUR TICKET HISTORY=================");
+			System.out.println("=================YOUR TICKET HISTORY================");
 			int count = 1;
 			AsciiTable at = Utility.createAsciiTable(29, 20);
 			at.addRule();
@@ -101,7 +101,7 @@ public class TicketHistoryCommands {
 	
 	private static void writeFeedback(Scanner scanner, long eventId) {
 		System.out.println("");
-		System.out.println("==============SUBMIT FEEDBACK==============");
+		System.out.println("=====================SUBMIT FEEDBACK======================");
 		int rating = -1;
 		while(true) {
 			System.out.println("");
@@ -124,9 +124,8 @@ public class TicketHistoryCommands {
 		System.out.println("Submitting your feedback, please wait...");
 		String message = SOAPProxyRESTClient.getInstance().submitFeedback(CustomerClientApplication.getCustomerId(), eventId, rating, body);
 		System.out.println("");
-		System.out.println("=======================================================");
+		System.out.println("=====================================");
 		System.out.println(message);
-		System.out.println("");
-		System.out.println("=======================================================");
+		System.out.println("=====================================");
 	}
 }

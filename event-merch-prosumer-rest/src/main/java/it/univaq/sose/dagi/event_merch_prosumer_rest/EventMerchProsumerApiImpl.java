@@ -36,7 +36,6 @@ public class EventMerchProsumerApiImpl implements EventMerchProsumerApi {
 	//If any errors occur during these operations, they are caught and handled, with relevant exceptions thrown if needed.
 	@Override
 	public EventWithMerch getEventInfo(Long eventId) throws ServiceException_Exception {
-		System.out.println("DEBUG: eventId="+eventId);
 		JsonNode jsonMerchandise;
 		try {
 			jsonMerchandise = merchClient.findEventMerch(eventId);

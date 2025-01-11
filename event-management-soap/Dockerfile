@@ -4,4 +4,8 @@ WORKDIR /event-management-soap
 COPY  . .
 
 RUN mvn clean install -DskipTests
+
+# Expose port
+#EXPOSE 8081
+
 CMD mvn spring-boot:run
