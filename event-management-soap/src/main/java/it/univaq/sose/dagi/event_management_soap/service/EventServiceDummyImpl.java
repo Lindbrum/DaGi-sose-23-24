@@ -37,8 +37,8 @@ public class EventServiceDummyImpl implements EventService {
 		e2.setStartDate(LocalDateTime.of(2024, Month.AUGUST, 12, 17, 0));
 		e2.setEndDate(LocalDateTime.of(2024, Month.AUGUST, 12, 21, 0));
 		Event e3 = new Event(nextId++, "Linkin Park live", "I linkin Park tornano a Milano (Ippodromo SNAI la Maura) 7 anni dopo l'ultima volta!.", 2L, "Milano", null, null, 400);
-		e3.setStartDate(LocalDateTime.of(2025, Month.JUNE, 12, 17, 0));
-		e3.setEndDate(LocalDateTime.of(2025, Month.JUNE, 12, 21, 0));
+		e3.setStartDate(LocalDateTime.of(2025, Month.JUNE, 24, 17, 0));
+		e3.setEndDate(LocalDateTime.of(2025, Month.JUNE, 24, 21, 0));
 
 		events.add(e0);
 		events.add(e1);

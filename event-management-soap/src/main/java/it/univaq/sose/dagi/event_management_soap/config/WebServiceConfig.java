@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import it.univaq.sose.dagi.event_management_soap.service.EventServiceDummyImpl;
-import it.univaq.sose.dagi.event_management_soap.service.FeedbackServiceDummyImpl;
-import it.univaq.sose.dagi.event_management_soap.service.SoldTicketServiceDummyImpl;
-import it.univaq.sose.dagi.event_management_soap.service.TicketInfoServiceDummyImpl;
+import it.univaq.sose.dagi.event_management_soap.service.EventServiceImpl;
+import it.univaq.sose.dagi.event_management_soap.service.FeedbackServiceImpl;
+import it.univaq.sose.dagi.event_management_soap.service.SoldTicketServiceImpl;
+import it.univaq.sose.dagi.event_management_soap.service.TicketInfoServiceImpl;
 import it.univaq.sose.dagi.wsdltypes.EventManagementImpl;
 import jakarta.xml.ws.Endpoint;
 
@@ -22,13 +22,13 @@ public class WebServiceConfig {
     @Autowired
     private Bus bus;
     @Autowired
-    private EventServiceDummyImpl eventService;
+    private EventServiceImpl eventService;
     @Autowired
-	private FeedbackServiceDummyImpl feedbackService;
+	private FeedbackServiceImpl feedbackService;
 	@Autowired
-	private SoldTicketServiceDummyImpl soldTicketService;
+	private SoldTicketServiceImpl soldTicketService;
 	@Autowired
-	private TicketInfoServiceDummyImpl ticketInfoService;
+	private TicketInfoServiceImpl ticketInfoService;
     
 	//In this method, an EndpointImpl is created, which is a concrete implementation of a SOAP endpoint provided by Apache CXF.
 	//This endpoint is configured with the bus and an instance of EventManagementImpl, which is the class that contains the business

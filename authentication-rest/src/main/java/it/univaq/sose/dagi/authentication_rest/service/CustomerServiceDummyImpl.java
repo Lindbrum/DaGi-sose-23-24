@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.springframework.stereotype.Service;
+
 import it.univaq.sose.dagi.authentication_rest.model.Customer;
 
+@Service
 public class CustomerServiceDummyImpl implements CustomerService{
 
 	private List<Customer> customerList = new ArrayList<>();

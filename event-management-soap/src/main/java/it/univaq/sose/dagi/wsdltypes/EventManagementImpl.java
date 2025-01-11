@@ -11,13 +11,13 @@ import it.univaq.sose.dagi.event_management_soap.model.Feedback;
 import it.univaq.sose.dagi.event_management_soap.model.SoldTicket;
 import it.univaq.sose.dagi.event_management_soap.model.TicketInfo;
 import it.univaq.sose.dagi.event_management_soap.service.EventService;
-import it.univaq.sose.dagi.event_management_soap.service.EventServiceDummyImpl;
+import it.univaq.sose.dagi.event_management_soap.service.EventServiceImpl;
 import it.univaq.sose.dagi.event_management_soap.service.FeedbackService;
-import it.univaq.sose.dagi.event_management_soap.service.FeedbackServiceDummyImpl;
+import it.univaq.sose.dagi.event_management_soap.service.FeedbackServiceImpl;
 import it.univaq.sose.dagi.event_management_soap.service.SoldTicketService;
-import it.univaq.sose.dagi.event_management_soap.service.SoldTicketServiceDummyImpl;
+import it.univaq.sose.dagi.event_management_soap.service.SoldTicketServiceImpl;
 import it.univaq.sose.dagi.event_management_soap.service.TicketInfoService;
-import it.univaq.sose.dagi.event_management_soap.service.TicketInfoServiceDummyImpl;
+import it.univaq.sose.dagi.event_management_soap.service.TicketInfoServiceImpl;
 import it.univaq.sose.dagi.wsdltypes.EventCatalogueResponse.EventList;
 import it.univaq.sose.dagi.wsdltypes.FetchCustomerBoughtTicketsResponse.EventsList;
 import it.univaq.sose.dagi.wsdltypes.FetchEventFeedbackResponse.FeedbackList;
@@ -34,8 +34,8 @@ public class EventManagementImpl implements EventManagementPort {
 
 	private ObjectFactory factory;
 
-	public EventManagementImpl(EventServiceDummyImpl eventService, FeedbackServiceDummyImpl feedbackService,
-			SoldTicketServiceDummyImpl soldTicketService, TicketInfoServiceDummyImpl ticketInfoService) {
+	public EventManagementImpl(EventServiceImpl eventService, FeedbackServiceImpl feedbackService,
+			SoldTicketServiceImpl soldTicketService, TicketInfoServiceImpl ticketInfoService) {
 		factory = new ObjectFactory();
 		this.eventService = eventService;
 		this.feedbackService = feedbackService;

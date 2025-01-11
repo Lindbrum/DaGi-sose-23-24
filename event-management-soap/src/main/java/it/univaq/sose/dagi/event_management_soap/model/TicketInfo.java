@@ -2,11 +2,25 @@ package it.univaq.sose.dagi.event_management_soap.model;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "ticket_info")
 public class TicketInfo {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	@Column(nullable = false)
 	private Long eventId;
+	@Column(nullable = false)
 	private LocalDateTime referenceDate;
+	@Column(nullable = false)
 	private int availableTickets;
 	
 	public TicketInfo(Long id, Long eventId, LocalDateTime referenceDate, int availableTickets) {

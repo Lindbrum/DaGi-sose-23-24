@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 public class Merchandise implements Comparable<Merchandise>{
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(nullable = true)
@@ -26,7 +26,7 @@ public class Merchandise implements Comparable<Merchandise>{
 	@Column(nullable = false)
 	private String name;
 
-	@Column()
+	@Column(nullable = true)
 	private String description;
 
 	public Merchandise() {
