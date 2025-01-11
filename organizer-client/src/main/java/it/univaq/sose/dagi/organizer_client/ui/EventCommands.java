@@ -82,7 +82,7 @@ public class EventCommands {
 				isDone = true;
 			} else {
 				System.out.println("");
-				System.out.println("An error has occured: the starting date has to be before the ending date");
+				System.out.println("An error has occured: the starting date has to be before the ending date.");
 			}
 		}
 
@@ -148,8 +148,8 @@ public class EventCommands {
 					availabilities[i]);
 		}
 		System.out.println("");
-		System.out.println("=================================================================================");
-		System.out.println("Event has been successfully created, along with all the tickets availabilities");
-		System.out.println("=================================================================================");
+		System.out.println("===============================================================================");
+		System.out.println("Event has been successfully created, along with all the tickets availabilities.");
+		System.out.println("===============================================================================");
 	}
 }

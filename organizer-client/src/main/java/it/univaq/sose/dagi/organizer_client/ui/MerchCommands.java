@@ -41,7 +41,7 @@ public class MerchCommands {
 		boolean ok = false;
 		while(!ok) {
 			System.out.println("");
-			System.out.print("ID of the event to associated with this article (leave blank if you intend to set this later): ");
+			System.out.print("ID of the event to associated with this article (leave blank if you intend to set this later.): ");
 			String eventId = scanner.nextLine().trim(); //remove whitespaces
 			if(eventId != null && !eventId.isEmpty()) {			
 				try{
