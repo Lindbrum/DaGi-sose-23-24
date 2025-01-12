@@ -5,7 +5,4 @@ COPY  . .
 
 RUN mvn clean install -DskipTests
 
-# Expose ports
-#EXPOSE 8087
-
 CMD mvn spring-boot:run
