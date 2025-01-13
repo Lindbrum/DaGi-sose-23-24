@@ -71,15 +71,15 @@ public class SalesAnalysisProsumerRestApplication {
 	public OpenApiFeature createOpenApiFeature(String apiVersion) {
 		final OpenApiFeature openApiFeature = new OpenApiFeature();
 		openApiFeature.setPrettyPrint(true);
-		openApiFeature.setTitle("Feedback report Prosumer");
+		openApiFeature.setTitle("Sales Analysis Prosumer");
 		openApiFeature.setContactName("DaGi team");
-		openApiFeature.setDescription("This is a RESTful API that collects the feedbacks left for an event and generates a report.");
+		openApiFeature.setDescription("This is a RESTful API that collects the data on ticket sales for an event.");
 		openApiFeature.setVersion(apiVersion);
 		openApiFeature.setContactEmail("dario.dercole@student.univaq.it");
 		openApiFeature.setLicense("Apache 2.0");
 		openApiFeature.setLicenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html");
 		openApiFeature.setSupportSwaggerUi(true);
-		openApiFeature.setSwaggerUiConfig(new SwaggerUiConfig().url("/feedback-prosumer/openapi.json").queryConfigEnabled(true));
+		openApiFeature.setSwaggerUiConfig(new SwaggerUiConfig().url("/sales-analysis-prosumer/openapi.json").queryConfigEnabled(true));
 		return openApiFeature;
 	}
 	
