@@ -38,16 +38,9 @@
 3) #### Open "Docker Desktop".
 4) #### Run the command "docker-compose up" in a terminal pointing to the folder where is the cloned repository. You have to wait about 15 minutes to download all dependencies.
 
-5) Services pages can be visited with the following URLs:
+5) #### After the docker containers are all running, by clicking the following URL, you can see all the instances available:
 
    - ##### discovery-server: http://localhost:8761
-   - ##### event-management-soap: http://localhost:8081/event-management-soap/
-   - ##### feedback-prosumer-rest: http://localhost:8082/api/feedback-prosumer/services
-   - ##### event-merch-prosumer-rest: http://localhost:8083/api/event-merch-prosumer-rest/services
-   - ##### sales-analysis-prosumer-rest: http://localhost:8084/api/sales-analysis-prosumer-rest/services
-   - ##### merchandising-rest: http://localhost:8085/api/merchandise-rest/services
-   - ##### authentication-rest: http://localhost:8086/api/authentication-rest/services
-   - ##### soap-proxy-prosumer-rest: http://localhost:8087/api/soap-proxy/services
 
 6) #### Open SwaggerUI by clicking the link given in the service page.
 7) #### To test the APIs, you have to copy-and paste the path given in the URL query parameter in the search bar of SwaggerUI to open our Swagger definition.
