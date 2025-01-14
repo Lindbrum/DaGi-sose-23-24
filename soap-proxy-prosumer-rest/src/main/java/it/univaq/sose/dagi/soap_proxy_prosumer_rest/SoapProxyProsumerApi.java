@@ -31,7 +31,7 @@ public interface SoapProxyProsumerApi {
 	// Event endpoints
 	@Operation(summary = "Request event info.")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "a", content = {
+			@ApiResponse(responseCode = "200", description = "Ok", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = Event.class)) }),
 			@ApiResponse(responseCode = "400", description = "Invalid event id was provided", content = {
 					@Content(mediaType = "application/json") }),
@@ -44,7 +44,7 @@ public interface SoapProxyProsumerApi {
 
 	// Event endpoints
 	@Operation(summary = "Request event catalogue.")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "a", content = {
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Ok", content = {
 			@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Event.class)))
 
 	}), @ApiResponse(responseCode = "400", description = "Invalid event id was provided", content = {
@@ -59,7 +59,7 @@ public interface SoapProxyProsumerApi {
 
 	@Operation(summary = "Create an event.")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "a", content = {
+			@ApiResponse(responseCode = "200", description = "Ok", content = {
 					@Content(mediaType = "application/json", schema = @Schema(implementation = Long.class)) }),
 			@ApiResponse(responseCode = "400", description = "Invalid event id was provided", content = {
 					@Content(mediaType = "application/json") }),
@@ -72,7 +72,7 @@ public interface SoapProxyProsumerApi {
 	public Long createEvent(@RequestBody Event newEvent);
 
 	@Operation(summary = "Request organizer event catalogue.")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "a", content = {
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Ok", content = {
 			@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Event.class)))
 
 	}), @ApiResponse(responseCode = "400", description = "Invalid event id was provided", content = {
@@ -91,7 +91,7 @@ public interface SoapProxyProsumerApi {
 	@ApiResponses(value = { 
 		  @ApiResponse(
 				  responseCode = "200",
-						  description = "a",
+						  description = "Ok",
 				  content = { 
 						  @Content(
 								  mediaType = "application/json", 
@@ -123,7 +123,7 @@ public interface SoapProxyProsumerApi {
 
 	// Ticket endpoints
 	@Operation(summary = "Request event ticket availabilities.")
-	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "a", content = {
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Ok", content = {
 			@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = TicketInfo.class)))
 
 	}), @ApiResponse(responseCode = "400", description = "Invalid event id was provided", content = {
@@ -140,7 +140,7 @@ public interface SoapProxyProsumerApi {
 	@ApiResponses(value = { 
 		  @ApiResponse(
 				  responseCode = "200", 
-						  description = "a",
+						  description = "Ok",
 				  content = { 
 						  @Content(
 								  mediaType = "application/json", 
@@ -174,7 +174,7 @@ public interface SoapProxyProsumerApi {
 	@ApiResponses(value = { 
 		  @ApiResponse(
 				  responseCode = "200", 
-						  description = "a",
+						  description = "Ok",
 				  content = { 
 						  @Content(
 								  mediaType = "application/json", 
@@ -208,7 +208,7 @@ public interface SoapProxyProsumerApi {
 	@ApiResponses(value = { 
 		  @ApiResponse(
 				  responseCode = "200",
-						  description = "a",
+						  description = "Ok",
 				  content = { 
 						  @Content(
 								  mediaType = "application/json", 
